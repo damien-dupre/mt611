@@ -1,0 +1,1414 @@
+<!DOCTYPE html>
+<html lang="" xml:lang="">
+  <head>
+    <title>MT611 - Quantitative Research Methods</title>
+    <meta charset="utf-8" />
+    <meta name="author" content="Damien Dupré" />
+    <script src="libs/header-attrs-2.3/header-attrs.js"></script>
+    <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
+    <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
+    <script src="libs/htmlwidgets-1.5.1/htmlwidgets.js"></script>
+    <script src="libs/dagre-0.8.4/dagre.min.js"></script>
+    <script src="libs/lodash-4.17.15/lodash.js"></script>
+    <script src="libs/nomnoml-0.7.2/nomnoml.js"></script>
+    <script src="libs/nomnoml-binding-0.2.0/nomnoml.js"></script>
+    <script src="libs/viz-1.8.2/viz.js"></script>
+    <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
+    <link rel="stylesheet" href="css\custom_design.css" type="text/css" />
+  </head>
+  <body>
+    <textarea id="source">
+class: center, middle, inverse, title-slide
+
+# MT611 - Quantitative Research Methods
+## Lecture 1: Variables, Models, Hypotheses and Equations
+### Damien Dupré
+### Dublin City University
+
+---
+
+
+
+
+# Why Statistics?
+
+Ask to yourself: *"Why do you do statistics? Why don't scientists just use common sense?"*
+
+The best answer is a really simple one: **we don't trust ourselves enough**
+ - Much of statistics is basically a safeguard
+
+Scientific reasoning  requires to engage in **induction**, making wise guesses and going beyond the immediate evidence of the senses to make generalisations about the world.
+
+Scientists can't solve **deductive** problems (ones where no guessing is required) without being influenced by pre-existing biases.
+
+---
+
+# Deductive vs. Inductive Research
+
+**Deductive research** is 
+- the process of deduce explanations from the results without formulating hypotheses before their analysis
+- also called HARKing (hypothesizing after the results are known)
+
+**Inductive research** is
+- the process of formulating hypotheses a priori from theories and to test them against the data
+
+Every hypothesis has to state a difference (between groups or according values) also called `\(H_a\)` (for alternative hypothesis) or `\(H_1\)`
+
+Every hypothesis has a null hypothesis counterpart (no difference between groups or according values) also called `\(H_0\)` (pronounce H naught or H zero)
+  
+**Testing hypotheses consists in evaluating the chance of having "the difference obtained in my sample" knowing that the null hypothesis is true in the real life.**
+
+---
+
+# Concept Relationships
+
+<div id="htmlwidget-9eceb20dc2a931752ae4" style="width:864px;height:216px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-9eceb20dc2a931752ae4">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#direction: right\n#align: center\n[Variables]->[Model]\n[Model]->[Hypotheses]\n[Hypotheses]->[Equation]","svg":false},"evals":[],"jsHooks":[]}</script>
+
+---
+class: inverse, mline, center, middle
+
+# 1. Variables
+
+---
+
+# What is a Variable?
+
+A variable itself is a subtle concept, but basically it comes down to finding some way of **assigning numbers or characters to labels**.
+
+- **My age is** *36 years*.
+- *I do* **like anchovies**.
+- My **chromosomal gender is** *male*.
+- My **self-identified gender is** *male*.
+
+The bold part is "the thing that varies", and the italicised part is "the value of the variable".
+
+---
+
+# What is a variable?
+
+- My **age** (in years) could have been *0, 1, 2, 3 ... *, etc. 
+
+- When asked if I **like anchovies**, I might have said that *I do*, or *I do not*, or *I have no opinion*, or *I sometimes do*.
+
+- My **chromosomal gender** is almost certainly going to be *male* or *female*.
+
+- My **self-identified gender** is also very likely to be male or female, but it doesn't have to agree with my chromosomal gender.
+
+---
+
+# Operationalisation
+
+Operationalisation is the process of selecting a vague concept and turn it into a variable
+
+**Be precise about what you are trying to measure/compare**
+- For instance, does "age" mean "time since birth" or "time since conception" in the context of your research?
+
+**Determine what method you will use to measure/compare it**
+- Will you use self-report to measure age, ask a parent, or look up an official record? If you're using self-report, how will you phrase the question?
+
+**Define the set of allowable values that the variable can take**
+- These values don't always have to be numerical, though they often are.
+
+---
+
+# Categories of Variable
+
+Variables can have different types:
+
+- **Categorical**: If the variable's possibilities are words or sentences (character string)
+  - if the possibilities cannot be ordered: Categorical Nominal (*e.g.*, gender)
+  - if the possibilities can be ordered: Categorical Ordinal (*e.g.*, opinion from disagree to agree)
+- **Continuous**: If the variable's possibilities are numbers
+  - if it starts from 0: Continuous Ratio (*e.g.*, age)
+  - if it it goes below 0: Continuous Interval (*e.g.*, temperature) 
+
+Variables can be converted to either Categorical and Continuous but it is always better to keep them in their correct scale.
+- Example, Likert item (Opinion question from disagree to agree) are Categorical Ordinal but are analysed as Continuous.
+
+---
+# Latent Variables
+
+Questionnaires/survey are made of multiple questions (also called items)
+
+Some questions are related the the measurement of a same theoretical construct called Latent Variable. In this case all the items are making the scale measuring the Latent Variable.
+
+To be analysed a scale has some requirements:
+
+1. all the items must have the same range of possibilities/modalities
+2. all the items must correlate together (scale reliability)
+3. a unique theoretical construct score has to be calculated from all the items even if it contains subscales.
+
+There are two way to obtain the Latent Variable: Average of all items (reversed if necessary) or Factor/Component analysis
+
+---
+
+# Latent Variables
+
+Example:
+
+"Perceived Ease-of-use" of Microsoft Excel scale:
+- Q1/ I think learning to use Microsoft Excel is easy
+- Q2/ I think finding what I want via Microsoft Excel is easy
+- Q3/ I think becoming skilful at using Microsoft Excel is easy
+- Q4/ I think using Microsoft Excel is easy
+
+<div id="htmlwidget-f30d7598595affc4f25a" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f30d7598595affc4f25a">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = RL]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"\n  \n  node [shape = box]\n  Q1; Q2; Q3; Q4\n  \n  \"Perceived Ease-of-use\"-> {Q1 Q2 Q3 Q4}   \n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+# Validity and Reliability
+
+**Validity = is my variable measuring the construct that I think I am measuring?**
+- Face validity. Does the measurement make sense on its face? 
+- Construct validity. Is the measurement related to other measurements in an appropriate way?
+- Predictive validity. Is the measurement predicting related constructs?
+
+Validity assessment is only performed when a measurement is created (no need for existing scales)
+
+**Reliability = consistency of items inside a measurement**
+- Test-retest reliability
+- Inter-rater reliability
+- Correlation inter-item (Cronbach's alpha)
+
+Reliability assessment is performed every time a scale is used (Cronbach's alpha)
+
+---
+
+# Validity and Reliability
+
+&lt;img src="https://www.publichealthnotes.com/wp-content/uploads/2018/08/560px-Reliability_and_validity.svg_.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Predictors, Outcomes and Controls
+
+It's important to keep the two roles "variable doing the explaining" and "variable being explained" distinct.
+
+Let's denote the:
+ - Outcome: "to be explained" variable as Y (also called Dependent Variable or DV)
+ - Predictor: "doing the explaining" as X (also called Independent Variable or IV)
+ 
+---
+
+# Predictors, Outcomes and Controls
+
+This results in the following equation: `\(Y = X\)` 
+
+Which can be translated by the following hypotheses:
+- "the variable Y is explained by the variable X"
+- "the variable X is explaining the variable Y"
+- "the variable X influences the variable X"
+- "there is a link/relationship between X and Y"
+
+Note, despite having different formulation, they are all the same.
+
+Which corresponds to the following model:
+
+<div id="htmlwidget-b85bf888dc62471906a9" style="width:864px;height:216px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-b85bf888dc62471906a9">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#direction: right\n#align: center\n\n[X]->[Y]","svg":false},"evals":[],"jsHooks":[]}</script>
+
+---
+
+# Predictors, Outcomes and Controls
+
+Be careful, in the order of predictor and outcome is different according to the model, hypotheses and equations:
+
+- In a model, the Predictors are first then comes the Outcome
+
+<div id="htmlwidget-88fdd2a34d502a66744b" style="width:864px;height:72px;" class="nomnoml html-widget"></div>
+<script type="application/json" data-for="htmlwidget-88fdd2a34d502a66744b">{"x":{"code":"\n#fill: #FEFEFF\n#lineWidth: 1\n#zoom: 4\n#direction: right\n\n#stroke: black\n#direction: right\n#align: center\n\n[X]->[Y]","svg":false},"evals":[],"jsHooks":[]}</script>
+
+- In an equation, the Outcome is first then comes the Predictors
+
+.center[ `\(Y = X\)` ]
+
+- In an hypothesis, the order depends on the formulation
+
+  - "the variable Y is explained by the variable X"
+  - "the variable X is explaining the variable Y"
+  - "the variable X influences the variable X"
+  - "there is a link/relationship between X and Y"
+  
+---
+
+# Predictors, Outcomes and Controls
+
+The only difference for control variables is that they are not included in the model and in the hypotheses but they are in the equation.
+
+They are used to remove an irrelevant explanation of the variable changes.
+
+---
+class: title-slide, middle
+
+## Exercise
+
+In the research paper you have selected, identify the variables and their type (10min)
+
+---
+class: inverse, mline, center, middle
+
+# 2. Model
+
+---
+
+# Types of Model
+
+In a model, **an arrow is an effect**
+
+Example:
+
+<div id="htmlwidget-8e1fe96c0688a849169a" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8e1fe96c0688a849169a">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n        \n  \"Intention to Use\" -> \"Actual Use\"\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+can be read as "Intention to Use has an effect on Actual Use".
+
+We can distinguish 2 types of model:
+- Model with main effect
+- Model with interaction effect
+
+---
+
+# Structure of Models
+
+Models are graphical representations of theories that highlight hypotheses:
+- all the relations correspond to an hypothesis to be tested
+- all the tested hypotheses have to be in the model
+
+Distinguish square and circles
+- **squares** are actual **measures/items**
+- **circles** are **latent variables** related to measures/items
+
+Example:
+- *Actual Use* is directly measured (time spend in min) so it's a square.
+- *Perceived Usefulness* is a latent variable with several questions so it's a circle.
+
+Items used for latent variables can be omitted in a model, variables are the most important.
+
+---
+
+# A Good Model
+
+- Comprehensiveness: Explains a wide range of phenomena
+- Internal Consistency: Propositions and assumptions are consistent and fit together in a coherent manner
+- Parsimony: Contains only those concepts and assumptions essential for the explanation of a phenomenon
+- Testability: Concepts and relational statements are precise.
+- Empirical Validity: Holds up when tested in the real world.
+
+Example: 
+
+<div id="htmlwidget-bb3486349adfa5d821dc" style="width:504px;height:100px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bb3486349adfa5d821dc">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+# A bad Theory/Model
+
+- too complicated
+- does not explain many things
+- cannot be tested
+
+Is it bad?
+
+![](https://d3i71xaburhd42.cloudfront.net/2a3e4a3024bfc4df27db07a1d48f77a6f371b0c3/8-Figure1-1.png)
+
+---
+
+# Main Effect Model
+
+.pull-left[
+The relation between one variable and another:
+
+<div id="htmlwidget-44474b3e8cd160f85a98" style="width:200px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44474b3e8cd160f85a98">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    \n    X -> Y\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+can be read as:
+- "X has a **main** effect on Y"
+]
+.pull-right[
+A model can have multiple main effects: 
+
+<div id="htmlwidget-2514ce28ae593bde0f73" style="width:200px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2514ce28ae593bde0f73">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    \n    X -> Y\n    Z -> Y\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+can be read as: 
+- "X has a **main** effect on Y"
+- "Z has a **main** effect on Y"
+]
+
+---
+
+# Interaction Effect Model
+
+The relation between two variables and another
+
+<div id="htmlwidget-5d05eac75555269eefd0" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5d05eac75555269eefd0">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = circle]\n    X; Y; Z\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    Z -> \"\"\n    X -> \"\" [arrowhead = none]\n    \"\"-> Y\n    \n    subgraph {\n      rank = same; Z; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+The arrow crossing the main effect arrow can be read as :
+- "X have a **main** effect on Y"
+- "Z have a **main** effect on Y"
+- "X and Z have an **interaction** effect on Y"
+
+Note: 
+- interaction means that the effect of X on Y will be different according the possibilities of Z (see section about hypothesis formulation)
+- also called Moderation
+
+---
+
+# Model's Constraints
+
+1. Each model corresponds to 1 equation
+
+2. Each model has only one Outcome/Dependent Variable
+
+3. Control variables are not included in models
+
+If 1. or 2. are not possible then more than one model needs to be used or a path analyses can also be performed
+
+---
+
+# Mediation Models
+
+A Mediation model is a complex path analysis between 3 variables, where one of them explains the relationship between the other two. It is usually used to identify cognitive process in psychology.
+
+<div id="htmlwidget-7531f021030c44f57ef2" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7531f021030c44f57ef2">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = circle]\n    Z; X; Y\n    \n    X -> {Y Z}\n    Z -> Y\n\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+can be read as: 
+- "the main effect of X on Y is explained by Z"
+
+It involves 3 requirements:
+- "X have a **main** effect on Y"
+- "X have a **main** effect on Z"
+- "the **main** effect of X on Y **disappears** when Z is taken into account"
+
+---
+
+# Structural Equation Model
+
+A Structural Equation Model (SEM) is a complex path analysis between multiple variables including multiple Outcomes and using factor analysis for latent variable estimation.
+
+<div id="htmlwidget-983315589fed18d622a7" style="width:504px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-983315589fed18d622a7">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"; \"Actual Use\"\n  \n  node [shape = box]\n  PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2; AU\n  \n  {PU1 PU2 PU3 PU4 PU5} -> \"Perceived Usefulness\" [arrowhead = none]\n  {PEOU1 PEOU2 PEOU3 PEOU4} -> \"Perceived Ease-of-use\" [arrowhead = none]\n  {BI1 BI2} -> \"Intention to Use\" [arrowhead = none]\n  {AU} -> \"Actual Use\" [arrowhead = none]\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n  \n  subgraph {\n      rank = same; PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2;\n  }\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+---
+class: title-slide, middle
+
+## Exercise
+
+In the research paper you have selected, draw the model(s) tested (10min)
+
+---
+class: inverse, mline, center, middle
+
+# 3. Hypotheses
+
+---
+
+# Model and Hypotheses
+
+Model: Overview of the predicted relationship between variables
+
+Hypotheses:
+- Predictions supported by theory/literature
+- Tested to confirm or refute
+- Can be revised or abandoned
+
+Hypotheses are affirmations designed to precisely describe the predicted relationships between variables. 
+
+*“Hypothesis statements contain two or more variables that are measurable or potentially measurable and that specify how the variables are related”* (Kerlinger, 1986)
+
+---
+
+# Hypothesis Testing
+
+A hypothesis test consists of a test between two competing hypotheses:
+
+- A null hypothesis `\(H_0\)` (pronounced “H-naught”) versus
+- An alternative hypothesis `\(H_a\)` (also denoted `\(H_1\)`)
+
+Generally the null hypothesis is a claim that there is “no effect” or “no difference of interest”. In many cases, the null hypothesis represents the status quo or a situation that nothing interesting is happening. Furthermore, generally the alternative hypothesis is the claim the experimenter or researcher wants to establish or find evidence to support. It is viewed as a “challenger” hypothesis to the null hypothesis `\(H_0\)`.
+
+Testing hypotheses consists in evaluating the probability of having "the difference obtained in my sample" knowing that the null hypothesis is true in the real life.
+
+---
+
+# Formulating Hypotheses
+
+Hypotheses include
+
+- Predictor(s) / Independent Variable(s)
+- Outcome / Dependent Variable (DV)
+- Effect strength and direction
+ - different is called two-tailed or two-sided
+ - higher/lower is called one-tailed or one-sided
+
+![](https://www.simplypsychology.org/controlled-experiment.jpg)
+
+---
+
+# Effect Strength and Direction
+
+A comparative word in hypotheses:
+
+- Different
+- Bigger/Higher/Better *vs.* Smaller/Lower/Worst
+- Increase *vs.* Decrease
+
+The letter `\(\beta\)` in equations
+
+Hypothesis cannot test equality between groups or modalities
+
+Hypothesis can only test differences
+
+---
+
+# Main Effect Hypothesis
+
+Replace with yours:
+
+- if IV is Categorical and DV is Categorical or Continuous
+
+{**IV Condition1**} is {**&gt;or&lt;**} on {**DV**} than {**IV Condition2**}
+
+- if IV is Continuous and DV is Categorical or Continuous
+
+The {**DV**} {**increase or decrease**} when {**IV**} {**increase or decrease**}
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+- DV = math exam results (continuous from 0 to 100)
+- IV = breakfast (categorical *yes* or *no*)
+
+--
+
+Model:
+
+<div id="htmlwidget-6f1d8b9e786d9d3fe28d" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6f1d8b9e786d9d3fe28d">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"breakfast\" -> \"math exam results\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+Hypothesis:
+
+- Students who eat breakfast will perform better on a math exam than students who do not eat breakfast
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+- DV = driving errors (continuous from 0 to Inf.)
+- IV = motorists talking on the phone (categorical *yes* or *no*)
+
+--
+
+Model:
+
+<div id="htmlwidget-dcdfc64296f5794e54a4" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dcdfc64296f5794e54a4">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"motorists talking on the phone\" -> \"driving errors\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+Hypothesis:
+
+- Motorists who talk on the phone while driving will be more likely to make errors on a driving course than those who do not talk on the phone
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+- DV = math exam results (continuous from 0 to 100)
+- IV = students’ sleep time (continuous from 0h to 24h)
+
+--
+
+Model:
+
+<div id="htmlwidget-873249b169eb6149d57e" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-873249b169eb6149d57e">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"students’ sleep time\" -> \"math exam results\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+Hypothesis:
+
+- The results on a math exam increase when students’ sleep time increase
+
+---
+
+# Interaction Effect Hypothesis
+
+Replace with yours:
+
+- if IV1 is Categorical, IV2 is Categorical or Continuous and DV is Categorical or Continuous
+
+The effect of {**IV2**} on {**DV**} is {**&gt;or&lt;**} for {**IV1 Condition1**} than for {**IV1 Condition2**}
+
+- if IV1 is Continuous, IV2 is Categorical or Continuous and DV is Categorical or Continuous
+
+The effect of {**IV2**} on {**DV**} is {**&gt;or&lt;**} when {**IV1**} {**increase or decrease**}
+
+---
+
+# Interaction Effect Hypothesis Examples
+
+Variables:
+- DV = math exam results (continuous from 0 to 100)
+- IV1 = gender (categorical male vs. female)
+- IV2 = sleep deprivation (categorical low, medium, high)
+
+--
+
+Model:
+
+<div id="htmlwidget-cbd3ad10bd2d35a2e76d" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cbd3ad10bd2d35a2e76d">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"sleep deprivation\"; \"math exam results\"; gender\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    gender -> \"\"\n    \"sleep deprivation\" -> \"\" [arrowhead = none]\n    \"\"-> \"math exam results\"\n    \n    subgraph {\n      rank = same; gender; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+Hypothesis:
+
+- The effect of sleep deprivation on Math scores is higher for Males than for Females
+
+---
+
+# Interaction Effect Hypothesis Examples
+
+Variables:
+- DV = road accidents (continuous from 0 to Inf.)
+- IV1 = alcohol consumption (continuous from 0L to Inf.L)
+- IV2 = driving experience (categorical low, high)
+
+--
+
+Model:
+
+<div id="htmlwidget-f25d4e1770d66a86dcce" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f25d4e1770d66a86dcce">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"alcohol consumption\"; \"road accidents\"; \"driving experience\"\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    \"driving experience\" -> \"\"\n    \"alcohol consumption\" -> \"\" [arrowhead = none]\n    \"\"-> \"road accidents\"\n    \n    subgraph {\n      rank = same; \"driving experience\" ; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+Hypothesis:
+
+- The effect of alcohol consumption is higher on road accidents is lower for experienced drivers than for inexperienced drivers
+
+---
+
+# Mediation Effect Hypothesis
+
+Replace with yours:
+
+The effect of {**IV1**} on {**DV**} is mediated by {**IV2/Med**}
+
+Warning, a mediation hypothesis involves two main hypotheses: IV1 on DV and IV1 on IV2/Med
+
+---
+
+# Mediation Effect Hypothesis Example
+
+Variables:
+- DV = happiness (continuous from 0 to 7)
+- IV1 = math exam results (continuous from 0 to 100)
+- IV2 = self-esteem (continuous from 0 to 7)
+
+--
+
+Model:
+
+<div id="htmlwidget-969965edfe9f869aa904" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-969965edfe9f869aa904">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"self-esteem\"; \"math exam results\"; happiness\n    \n    \"math exam results\" -> {happiness \"self-esteem\"}\n    \"self-esteem\" -> happiness\n\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+--
+
+Hypothesis:
+- the effect of math exam results on happiness is mediated by self-esteem
+
+---
+
+# Example of Hypotheses in Research Papers
+
+&lt;img src="img/ex1_title.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="img/ex1_hyp.png" width="50%" style="display: block; margin: auto;" /&gt;
+---
+
+# Example of Hypotheses in Research Papers
+
+&lt;img src="img/ex2_title.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="img/ex2_hyp1.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+&lt;img src="img/ex2_hyp2.png" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Find DVs and IVs in these Hypotheses
+
+- Overweight adults who value longevity are more likely than other overweight adults to lose their excess weight
+
+- Larger animals of the same species expend more energy than smaller animals of the same type.
+
+- Rainbow trout suffer more lice when water levels are low than other trout.
+
+- Professors who use a student-centered teaching method will have a greater positive rapport with their graduate students than professors who use a teacher-centered teaching method.
+
+---
+
+# Make your own Hypothesis
+
+|DV|IV1|IV2|
+|--|---|---|
+|Work motivation|Gender(Female/Male)|/|
+|Work motivation|Gender(Female/Male)|Origin(French/Irish)|
+|Work motivation|Gender(Female/Male)|Origin(French/Irish/Italians)|
+|Job Satisfaction|Stress(from 0 to 10)|/|
+|Job Satisfaction|Stress(from 0 to 10)|Origin(French/Irish)|
+|Job Satisfaction|Stress(from 0 to 10)|Age(Millennials/Baby boomers)|
+|Job Satisfaction|Stress(from 0 to 10)|Age(in year)|
+
+---
+
+# A Hypothesis Checklist
+
+- Does your hypothesis focus on something that you can actually test?
+- Does your hypothesis include both an independent and dependent variable?
+- Can you manipulate the variables?
+
+---
+class: title-slide, middle
+
+## Exercise
+
+In the research paper you have selected, identify or formulate the tested hypotheses (10min)
+
+---
+class: inverse, mline, center, middle
+
+# 4. Equation
+
+---
+
+# What is a Correlation?
+
+A correlation indicate the strength and direction of a relationship and uses the letter `\(\beta\)`
+
+It has a value between 1 and -1
+- 1 indicates a strong and positive relationship
+- -1 indicates a strong and negative relationship
+- 0 indicates no relationship
+
+---
+
+# What is a Correlation?
+
+&lt;img src="img/correlation.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+---
+
+# Evaluation of the Significance
+
+Once all the hypotheses are formulated, it is time to test all of them in one unique model. In this model, a value called `\(\beta\)` which is usually the coefficient of correlation is associated to each predictor from the hypotheses. 
+
+Testing for the significance of the effect means evaluating if this `\(\beta\)` value is significantly different, higher or lower than 0 (no link between variables):
+
+`\(H_a: \beta \neq 0\)` or `\(\beta &gt; 0\)` or `\(\beta &lt; 0\)`
+
+`\(H_0: \beta = 0\)`
+
+---
+
+# A Basic Equation
+
+The equation `\(Y = X\)` involves that the variable Y is completely explained by the variable X.
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:right;"&gt; X &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; Y &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 1 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 2 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 3 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 4 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 5 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 6 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 7 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 8 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 9 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 10 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# A Basic Equation
+
+In the equation `\(Y = X\)`, three coefficients are hidden because they are unused:
+- the intercept coefficient `\(\beta_{0}\)` corresponds to the value of Y when X = 0
+    - which is O in our case
+- the slope coefficient `\(\beta_{1}\)` corresponds to how much Y increase when X increase of 1
+    - which is 1 in our case
+- the error coefficient `\(\epsilon\)` corresponds to how far from the prediction line the values of Y are
+    - which is 0 in our case
+
+So in general, the relation between a predictor and an outcome can be written as:
+`$$Y = \beta_{0} + \beta_{1} . X + \epsilon$$`
+
+which is in our case:
+
+`$$Y = 0 + 1 * X + 0$$`
+
+---
+
+# A Basic Equation
+
+The equation `\(Y = \beta_{0} + \beta_{1}.X + \epsilon\)` is the same as the good old `\(y = ax + b\)` (here ordered as `\(y = b + ax\)`) where `\(\beta_{0}\)` is `\(b\)` and `\(\beta_{1}\)` is `\(a\)`.
+
+It is very important to know that under **EVERY** statistical test, a similar equation is used (t-test, ANOVA, Chi-square are all linear regressions)
+
+---
+
+# Basic Example
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; participant &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; IQ &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_results &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 120 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 103 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 64 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 96 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 71 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 87 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 114 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 69 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Basic Example
+
+Variables:
+- DV = math results (from 0 to 100)
+- IV = IQ (from 0 to Inf.)
+
+Hypothesis (one-tailed):
+- `\(H_a\)`: When IQ increases, math results increases as well (means `\(\beta_1\)` &gt; 0) 
+- `\(H_0\)` When IQ increases, math results stay the same (means `\(\beta_1\)` = 0)
+
+Equation:
+
+`$$MathResults = \beta_{0} + \beta_{1}.IQ + \epsilon$$`
+
+---
+
+# More Examples (1)
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; participant &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_results &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 64 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 71 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 69 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-30-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# More Examples (1)
+
+Variables:
+- DV = math results (from 0 to 100)
+- IV = gender (female vs. male)
+
+Hypothesis (one-tailed): 
+- `\(H_a\)`: avg(female) &gt; avg(male) means `\(\beta_1 &gt; 0\)`
+- `\(H_0\)`: avg(female) = avg(male) means `\(\beta_1 = 0\)`
+
+Equation:
+
+`$$MathResults = \beta_{0} + \beta_{1}.gender + \epsilon$$`
+
+---
+
+# More Examples (2)
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; participant &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; age &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_results &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt1 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0-29 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt2 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30-59 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 64 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt3 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60-89 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 71 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt4 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 90-119 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt5 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 0-29 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 78 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt6 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 30-59 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 69 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt7 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 60-89 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 59 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt8 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; 90-119 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 99 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-32-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# More Examples (2)
+
+Variables:
+- DV = math results (from 0 to 100)
+- IV = age group (0-29; 30-59; 60-89; 90-119)
+
+Hypothesis (one-tailed): 
+- `\(H_a\)`: When age increases, math results increases as well (means `\(\beta_1 &gt; 0\)`)
+- `\(H_0\)`: When age increases, math results stay the same (means `\(\beta_1 = 0\)`)
+
+Equation:
+
+`$$MathResults = \beta_{0} + \beta_{1}.age + \epsilon$$`
+
+---
+
+# Example with Interaction
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; participant &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; IQ &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; gender &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_results &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 120 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 103 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 64 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 96 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 71 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 87 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 114 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Male &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; Female &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 69 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-34-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# Example with Interaction
+
+Hypothesis (one-tailed): 
+- `\(H_{a_{1}}\)`: When IQ increases, math results increases as well
+- `\(H_{0_{1}}\)`: When IQ increases, math results stay the same
+
+- `\(H_{a_{2}}\)`: math results of males are higher than math results of females
+- `\(H_{0_{2}}\)`: math results of males are not different to math results of females
+
+- `\(H_{a_{3}}\)`: the effect of gender on math results increase when IQ increases
+- `\(H_{0_{3}}\)`: the effect of gender on math results stay the same when IQ increases
+
+Equations:
+
+`$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.gender + \beta_{3}.interaction + \epsilon$$`
+
+which equals to:
+
+`$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.gender + \beta_{3}.IQ*gender + \epsilon$$`
+
+---
+
+# More Examples with Interaction
+
+.pull-left[
+&lt;table&gt;
+ &lt;thead&gt;
+  &lt;tr&gt;
+   &lt;th style="text-align:left;"&gt; participant &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; IQ &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; age &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; math_results &lt;/th&gt;
+  &lt;/tr&gt;
+ &lt;/thead&gt;
+&lt;tbody&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt1 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 120 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 20 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 89 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt2 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 103 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 25 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 64 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt3 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 96 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 38 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 71 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt4 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 87 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 34 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 77 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt5 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 114 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 41 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 52 &lt;/td&gt;
+  &lt;/tr&gt;
+  &lt;tr&gt;
+   &lt;td style="text-align:left;"&gt; ppt6 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 95 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 45 &lt;/td&gt;
+   &lt;td style="text-align:right;"&gt; 69 &lt;/td&gt;
+  &lt;/tr&gt;
+&lt;/tbody&gt;
+&lt;/table&gt;
+]
+.pull-right[
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-36-1.png" width="504" style="display: block; margin: auto;" /&gt;
+]
+
+---
+
+# More Examples with Interaction
+
+Hypothesis (one-tailed): 
+- `\(H_{a_{1}}\)`: When IQ increases, math results increases as well
+- `\(H_{0_{1}}\)`: When IQ increases, math results stay the same
+
+- `\(H_{a_{2}}\)`: When age increases, math results increases as well
+- `\(H_{0_{2}}\)`: When age increases, math results stay the same
+
+- `\(H_{a_{3}}\)`: the effect of age on math results increase when IQ increases
+- `\(H_{0_{3}}\)`: the effect of age on math results stay the same when IQ increases
+
+Equations:
+
+`$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.age + \beta_{3}.interaction + \epsilon$$`
+
+which equals to:
+
+`$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.age + \beta_{3}.IQ*age + \epsilon$$`
+
+---
+
+# Mediation Effect
+
+The mediation model is a path analysis which involves 3 different linear models.
+
+Let's take the example in https://data.library.virginia.edu/introduction-to-mediation-analysis/
+
+Data analysis is also presented here: https://jamovi-amm.github.io/glm_example1.html
+
+Data used for this example can be downloaded here: https://jamovi-amm.github.io/glm_example1.html
+- X = grades
+- Y = happiness
+- M = self-esteem
+
+---
+
+# Mediation Effect
+
+Imagine that previous studies have suggested that higher grades predict higher happiness: X (grades) → Y (happiness). This is called **Direct Effect**.
+
+&lt;img src="https://data.library.virginia.edu/files/mediation_ex1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+However, grades are not the real reason that happiness increases. Let's hypothesize that good grades boost one’s self-esteem and then high self-esteem boosts one’s happiness: X (grades) → M (self-esteem) → Y (happiness). This is called **Indirect Effect**.
+
+&lt;img src="https://data.library.virginia.edu/files/mediation_ex2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+Self-esteem is a mediator that explains the underlying mechanism of the relationship between grades (IV) and happiness (DV).
+
+---
+
+# How to Analyse Mediation Effects?
+
+A mediation analysis is comprised of three sets of regression: X → Y, X → M, and X + M → Y. They are just three regression analyses!
+
+## Step 1
+
+&lt;img src="https://data.library.virginia.edu/files/mediation_step1.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+`$$Y = \beta_{0} + \beta_{1}.X + \epsilon$$`
+
+Is `\(\beta_1\)` significant? We want X to affect Y (Direct Effect). If there is no relationship between X and Y, there is nothing to mediate.
+
+---
+
+# How to Analyse Mediation Effects?
+
+## Step 2
+
+&lt;img src="https://data.library.virginia.edu/files/mediation_step2.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+`$$M = \beta_{0} + \beta_{2}.X + \epsilon$$`
+
+Is `\(\beta_2\)` significant? We want X to affect M. If X and M have no relationship, M is just a third variable that may or may not be associated with Y. A mediation makes sense only if X affects M.
+
+---
+
+# How to Analyse Mediation Effects?
+
+## Step 3
+
+&lt;img src="https://data.library.virginia.edu/files/mediation_step3.png" width="70%" style="display: block; margin: auto;" /&gt;
+
+`$$Y = \beta_{0} + \beta_{4}.X + \beta_{3}.M + \epsilon$$`
+
+Is `\(\beta_4\)` non-significant or smaller than before? We want M to affect Y, but X to no longer affect Y (or X to still affect Y but in a smaller magnitude). If a mediation effect exists, the effect of X on Y will disappear (or at least weaken) when M is included in the regression. The effect of X on Y goes through M.
+
+If the effect of X on Y completely disappears, M fully mediates between X and Y (full mediation). If the effect of X on Y still exists, but in a smaller magnitude, M partially mediates between X and Y (partial mediation).
+
+---
+
+# How to Analyse SEM?
+
+In SEM, there are as many equation as there are Outcomes/Dependent Variables.
+
+For example, in the following model: 
+
+<div id="htmlwidget-450f171f14364aa3ebed" style="width:504px;height:100px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-450f171f14364aa3ebed">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+Three equations are tested
+`$$PU = \beta_{0} + \beta_{1}.PEOU + \epsilon$$`
+
+`$$IU = \beta_{0} + \beta_{2}.PU + \beta_{3}.PEOU + \epsilon$$`
+
+`$$AU = \beta_{0} + \beta_{4}.IU + \epsilon$$`
+
+---
+class: title-slide, middle
+
+## Exercise
+
+In the research paper you have selected, write the equation corresponding to the model(s) (10min)
+
+---
+class: inverse, mline, left, middle
+
+&lt;img class="circle" src="https://github.com/damien-dupre.png" width="250px"/&gt;
+
+# Thanks for your attention and don't hesitate if you have any question!
+
+[&lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 512 512"&gt;&lt;path d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"/&gt;&lt;/svg&gt; @damien_dupre](http://twitter.com/damien_dupre)  
+[&lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 496 512"&gt;&lt;path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/&gt;&lt;/svg&gt; @damien-dupre](http://github.com/damien-dupre)  
+[&lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 512 512"&gt;&lt;path d="M326.612 185.391c59.747 59.809 58.927 155.698.36 214.59-.11.12-.24.25-.36.37l-67.2 67.2c-59.27 59.27-155.699 59.262-214.96 0-59.27-59.26-59.27-155.7 0-214.96l37.106-37.106c9.84-9.84 26.786-3.3 27.294 10.606.648 17.722 3.826 35.527 9.69 52.721 1.986 5.822.567 12.262-3.783 16.612l-13.087 13.087c-28.026 28.026-28.905 73.66-1.155 101.96 28.024 28.579 74.086 28.749 102.325.51l67.2-67.19c28.191-28.191 28.073-73.757 0-101.83-3.701-3.694-7.429-6.564-10.341-8.569a16.037 16.037 0 0 1-6.947-12.606c-.396-10.567 3.348-21.456 11.698-29.806l21.054-21.055c5.521-5.521 14.182-6.199 20.584-1.731a152.482 152.482 0 0 1 20.522 17.197zM467.547 44.449c-59.261-59.262-155.69-59.27-214.96 0l-67.2 67.2c-.12.12-.25.25-.36.37-58.566 58.892-59.387 154.781.36 214.59a152.454 152.454 0 0 0 20.521 17.196c6.402 4.468 15.064 3.789 20.584-1.731l21.054-21.055c8.35-8.35 12.094-19.239 11.698-29.806a16.037 16.037 0 0 0-6.947-12.606c-2.912-2.005-6.64-4.875-10.341-8.569-28.073-28.073-28.191-73.639 0-101.83l67.2-67.19c28.239-28.239 74.3-28.069 102.325.51 27.75 28.3 26.872 73.934-1.155 101.96l-13.087 13.087c-4.35 4.35-5.769 10.79-3.783 16.612 5.864 17.194 9.042 34.999 9.69 52.721.509 13.906 17.454 20.446 27.294 10.606l37.106-37.106c59.271-59.259 59.271-155.699.001-214.959z"/&gt;&lt;/svg&gt; damien-datasci-blog.netlify.app](https://damien-datasci-blog.netlify.app)  
+[&lt;svg style="height:0.8em;top:.04em;position:relative;" viewBox="0 0 512 512"&gt;&lt;path d="M476 3.2L12.5 270.6c-18.1 10.4-15.8 35.6 2.2 43.2L121 358.4l287.3-253.2c5.5-4.9 13.3 2.6 8.6 8.3L176 407v80.5c0 23.6 28.5 32.9 42.5 15.8L282 426l124.6 52.2c14.2 6 30.4-2.9 33-18.2l72-432C515 7.8 493.3-6.8 476 3.2z"/&gt;&lt;/svg&gt; damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
+    </textarea>
+<style data-target="print-only">@media screen {.remark-slide-container{display:block;}.remark-slide-scaler{box-shadow:none;}}</style>
+<script src="https://remarkjs.com/downloads/remark-latest.min.js"></script>
+<script src="libs/cols_macro.js"></script>
+<script>var slideshow = remark.create({
+"highlightStyle": "zenburn",
+"highlightLines": true,
+"countIncrementalSlides": false
+});
+if (window.HTMLWidgets) slideshow.on('afterShowSlide', function (slide) {
+  window.dispatchEvent(new Event('resize'));
+});
+(function(d) {
+  var s = d.createElement("style"), r = d.querySelector(".remark-slide-scaler");
+  if (!r) return;
+  s.type = "text/css"; s.innerHTML = "@page {size: " + r.style.width + " " + r.style.height +"; }";
+  d.head.appendChild(s);
+})(document);
+
+(function(d) {
+  var el = d.getElementsByClassName("remark-slides-area");
+  if (!el) return;
+  var slide, slides = slideshow.getSlides(), els = el[0].children;
+  for (var i = 1; i < slides.length; i++) {
+    slide = slides[i];
+    if (slide.properties.continued === "true" || slide.properties.count === "false") {
+      els[i - 1].className += ' has-continuation';
+    }
+  }
+  var s = d.createElement("style");
+  s.type = "text/css"; s.innerHTML = "@media print { .has-continuation { display: none; } }";
+  d.head.appendChild(s);
+})(document);
+// delete the temporary CSS (for displaying all slides initially) when the user
+// starts to view slides
+(function() {
+  var deleted = false;
+  slideshow.on('beforeShowSlide', function(slide) {
+    if (deleted) return;
+    var sheets = document.styleSheets, node;
+    for (var i = 0; i < sheets.length; i++) {
+      node = sheets[i].ownerNode;
+      if (node.dataset["target"] !== "print-only") continue;
+      node.parentNode.removeChild(node);
+    }
+    deleted = true;
+  });
+})();
+(function() {
+  "use strict"
+  // Replace <script> tags in slides area to make them executable
+  var scripts = document.querySelectorAll(
+    '.remark-slides-area .remark-slide-container script'
+  );
+  if (!scripts.length) return;
+  for (var i = 0; i < scripts.length; i++) {
+    var s = document.createElement('script');
+    var code = document.createTextNode(scripts[i].textContent);
+    s.appendChild(code);
+    var scriptAttrs = scripts[i].attributes;
+    for (var j = 0; j < scriptAttrs.length; j++) {
+      s.setAttribute(scriptAttrs[j].name, scriptAttrs[j].value);
+    }
+    scripts[i].parentElement.replaceChild(s, scripts[i]);
+  }
+})();
+(function() {
+  var links = document.getElementsByTagName('a');
+  for (var i = 0; i < links.length; i++) {
+    if (/^(https?:)?\/\//.test(links[i].getAttribute('href'))) {
+      links[i].target = '_blank';
+    }
+  }
+})();
+// adds .remark-code-has-line-highlighted class to <pre> parent elements
+// of code chunks containing highlighted lines with class .remark-code-line-highlighted
+(function(d) {
+  const hlines = d.querySelectorAll('.remark-code-line-highlighted');
+  const preParents = [];
+  const findPreParent = function(line, p = 0) {
+    if (p > 1) return null; // traverse up no further than grandparent
+    const el = line.parentElement;
+    return el.tagName === "PRE" ? el : findPreParent(el, ++p);
+  };
+
+  for (let line of hlines) {
+    let pre = findPreParent(line);
+    if (pre && !preParents.includes(pre)) preParents.push(pre);
+  }
+  preParents.forEach(p => p.classList.add("remark-code-has-line-highlighted"));
+})(document);</script>
+
+<script>
+slideshow._releaseMath = function(el) {
+  var i, text, code, codes = el.getElementsByTagName('code');
+  for (i = 0; i < codes.length;) {
+    code = codes[i];
+    if (code.parentNode.tagName !== 'PRE' && code.childElementCount === 0) {
+      text = code.textContent;
+      if (/^\\\((.|\s)+\\\)$/.test(text) || /^\\\[(.|\s)+\\\]$/.test(text) ||
+          /^\$\$(.|\s)+\$\$$/.test(text) ||
+          /^\\begin\{([^}]+)\}(.|\s)+\\end\{[^}]+\}$/.test(text)) {
+        code.outerHTML = code.innerHTML;  // remove <code></code>
+        continue;
+      }
+    }
+    i++;
+  }
+};
+slideshow._releaseMath(document);
+</script>
+<!-- dynamically load mathjax for compatibility with self-contained -->
+<script>
+(function () {
+  var script = document.createElement('script');
+  script.type = 'text/javascript';
+  script.src  = 'https://mathjax.rstudio.com/latest/MathJax.js?config=TeX-MML-AM_CHTML';
+  if (location.protocol !== 'file:' && /^https?:/.test(script.src))
+    script.src  = script.src.replace(/^https?:/, '');
+  document.getElementsByTagName('head')[0].appendChild(script);
+})();
+</script>
+  </body>
+</html>

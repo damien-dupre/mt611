@@ -1,0 +1,198 @@
+---
+title: "MT611 - Quantitative Research Methods"
+subtitle: "Introduction: Statistics, Research Papers and Me"
+author: "Damien Dupré"
+date: "Dublin City University"
+output:
+  xaringan::moon_reader:
+    css: ["default", "metropolis", "metropolis-fonts", "css/custom_design.css"]
+    lib_dir: libs
+    nature:
+      beforeInit: "libs/cols_macro.js"
+      highlightStyle: zenburn
+      highlightLines: true
+      countIncrementalSlides: false
+params:
+  eval_rights: FALSE
+---
+
+```{r setup, include = FALSE}
+# general options --------------------------------------------------------------
+options(scipen = 999)
+set.seed(123)
+# chunk options ----------------------------------------------------------------
+knitr::opts_chunk$set(
+  cache.extra = knitr::rand_seed, 
+  message = FALSE, 
+  warning = FALSE, 
+  error = FALSE, 
+  echo = FALSE,
+  cache = FALSE,
+  comment = "", 
+  fig.align = "center", 
+  fig.retina = 3
+  )
+# libraries --------------------------------------------------------------------
+library(fontawesome)
+```
+
+# Who am I?
+
+#### Developement of the DynEmo Facial Expression Database (Master)
+
+* Dynamic and spontaneous emotions
+* Assessed with self-reports and by observers
+
+#### Analysis of Emotional User Experience of Innovative Tech. (Industrial PhD)
+
+* Understand users' acceptance of technologies from their emotional response
+* Based on multivariate self-reports
+
+#### Evaluation of Emotions from Facial and Physiological Measures (Industrial PostDoc)
+
+* Applications to marketing, sports and automotive industries
+* Dynamic changes with trend extraction techniques (2 patents)
+
+#### Performance Prediction using Machine Learning (Academic PostDoc)
+
+* Application to sport analytics
+* Big Data treatment (> 1 million users with activities recorded in the past 5 years)
+
+---
+
+# Who are you?
+
+Please introduce yourself:
+
+- Where do you come from?
+- Which school are you in?
+- What are you expecting from this lecture?
+
+---
+class: inverse, mline, center, middle
+
+# 1. Aims and Assignment
+
+---
+
+# What to Expect?
+
+This lecture focuses on the new way to teach statistics:
+
+1. Understanding the basics
+
+2. Using new open source software (JAMOVI and R)
+
+3. Apply these knowledge and skills to research papers writing
+
+In the end, I want you to become a Data Scientist with enough knowledge and skills to:
+
+- Challenge bad science and wrong ideas from your supervisor
+
+- Apply to Data Science positions
+
+---
+
+# Details on the Assignment
+
+Based on your research topic, I will give you some data (in January). Your task will be **to write a ready to be published research paper** that includes:
+
+- A short introduction with a couple of references leading to your hypotheses
+
+- An extended method section presenting the variables, your model with a graphic representation, the equation to test your hypotheses and which test you are choosing to use
+
+- A result section that is publication top quality and additional results justifying the conditions of applications of the tests used
+
+- A short discussion and conclusion
+
+This paper will have **a maximum of 10 pages** and **a publication ready design** (any journal/conference final style but no draft manuscript design).
+
+Appendices are possible, specially if they includes codes to reproduce the results. They are not included in the page count.
+
+**The deadline is June 21st, 2021.**
+
+---
+class: title-slide, middle
+
+## Exercise
+
+If you haven't done it already, can you look for the quantitative academic journal paper which is the closest to your PhD (10min). 
+
+You need to download the pdf version of this paper and to send it to my email damien.dupre@dcu.ie . 
+
+Note this paper should not be one of yours if you already have published some.
+
+---
+class: inverse, mline, center, middle
+
+# 2. Statistics and Research Papers
+
+---
+
+# Why Statistics?
+
+Statistics usually triggers negative emotions to those who do not know anything about it, as well as to those who are experienced but:
+
+– Simple methods to summarise data
+– Essential for writing the result section of scientific communications/papers
+– Replaced by data analytics/ data science
+
+--
+
+## Tell us about your the quantitative research paper you choose:
+
+- What do you like vs. dislike?
+- What do you understand vs. don't understand?
+- Any other interesting information?
+
+---
+
+# Anatomy of a Paper
+
+The shape of the contents of the research paper resembles an hourglass: Starts wide (introduction), then narrows (hypotheses, method and results) and finally opens (discussion and conclusion).
+
+![](https://explorable.com/sites/default/files/images/steps-of-the-scientific-method.jpg)
+
+---
+
+# A Closer Look at Papers
+
+The idea of the hourglass is interesting but basic, it needs some precisions:
+
+1. **The Title** is your research question and includes the variables that you will investigate.
+
+--
+
+2. **The Introduction** indicates how the variables are related (model) and finishes with your hypotheses. The model includes all hypotheses that will be tested and only the tested hypotheses.
+
+--
+
+3. **The Method** presents 1/ the variables and 2/ the mathematical equation that summarises your model and which includes the test of all hypotheses.
+
+--
+
+4. **The Results** describes the numeric outputs of the tests for each hypothesis.
+
+--
+
+5. **The Discussion and Conclusion** are interpretations of these results. Strengths and weaknesses of the study are also presented.
+
+---
+
+# Essential Concepts to Master
+
+Everything is related in a paper: Variables, Model, Hypotheses, Equations and Statistical tests.
+
+Thus, to understand Statistics, it is essential to master the concepts of **Variable**, **Model**, **Hypothesis** and **Equation**.
+
+---
+class: inverse, mline, left, middle
+
+<img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
+
+# Thanks for your attention and don't hesitate if you have any question!
+
+[`r fa(name = "twitter")` @damien_dupre](http://twitter.com/damien_dupre)  
+[`r fa(name = "github")` @damien-dupre](http://github.com/damien-dupre)  
+[`r fa(name = "link")` damien-datasci-blog.netlify.app](https://damien-datasci-blog.netlify.app)  
+[`r fa(name = "paper-plane")` damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)
