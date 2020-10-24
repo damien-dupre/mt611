@@ -201,7 +201,7 @@ This results in the following equation: `\(Y = X\)`
 Which can be translated by the following hypotheses:
 - "the variable Y is explained by the variable X"
 - "the variable X is explaining the variable Y"
-- "the variable X influences the variable X"
+- "the variable X influences the variable Y"
 - "there is a link/relationship between X and Y"
 
 Note, despite having different formulation, they are all the same.
@@ -230,7 +230,7 @@ Be careful, in the order of predictor and outcome is different according to the 
 
   - "the variable Y is explained by the variable X"
   - "the variable X is explaining the variable Y"
-  - "the variable X influences the variable X"
+  - "the variable X influences the variable Y"
   - "there is a link/relationship between X and Y"
   
 ---
@@ -255,7 +255,7 @@ class: inverse, mline, center, middle
 
 ---
 
-# Types of Model
+# Structure of Models
 
 In a model, **an arrow is an effect**
 
@@ -265,10 +265,6 @@ Example:
 <script type="application/json" data-for="htmlwidget-8e1fe96c0688a849169a">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n        \n  \"Intention to Use\" -> \"Actual Use\"\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 can be read as "Intention to Use has an effect on Actual Use".
-
-We can distinguish 2 types of model:
-- Model with main effect
-- Model with interaction effect
 
 ---
 
@@ -288,6 +284,120 @@ Example:
 
 Items used for latent variables can be omitted in a model, variables are the most important.
 
+We can distinguish 2 types of relationship in a model:
+- Main effect relationship
+- Interaction effect relationship
+
+---
+
+# Main Effect Relationship
+
+.pull-left[
+The relation between one variable and another:
+
+<div id="htmlwidget-bb3486349adfa5d821dc" style="width:200px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-bb3486349adfa5d821dc">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    \n    X -> Y\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+can be read as:
+- "X has a **main** effect on Y"
+]
+.pull-right[
+A model can have multiple main effects: 
+
+<div id="htmlwidget-44474b3e8cd160f85a98" style="width:200px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44474b3e8cd160f85a98">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    \n    X -> Y\n    Z -> Y\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+can be read as: 
+- "X has a **main** effect on Y"
+- "Z has a **main** effect on Y"
+]
+
+---
+
+# Interaction Effect Relationship
+
+The relation between two predictor variables and another outcome variable. An interaction means that **the effect of X on Y will be different according the possibilities of Z** (also called Moderation).
+
+.pull-left[
+classic representation:
+<div id="htmlwidget-2514ce28ae593bde0f73" style="width:300px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2514ce28ae593bde0f73">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = circle]\n    X; Y; Z\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    Z -> \"\"\n    X -> \"\" [arrowhead = none]\n    \"\"-> Y\n    \n    subgraph {\n      rank = same; Z; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+.pull-right[
+is the same as:
+<div id="htmlwidget-5d05eac75555269eefd0" style="width:200px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-5d05eac75555269eefd0">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    \n    X -> Y\n    Z -> Y\n    \"X*Z\" -> Y\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+]
+
+The arrow crossing the main effect arrow can be read as :
+- "X have a **main** effect on Y"
+- "Z have a **main** effect on Y"
+- "X and Z have an **interaction** effect on Y"
+
+---
+
+# Model's Constraints
+
+1. Every model is made of one or multiple main effect and/or interaction effect relationships
+
+2. Control variables are not included in models
+
+---
+
+# Types of Model
+
+## Simple Model
+
+- One or more predictors
+- Only one outcome
+- Made of main or/and interaction effects
+
+## Mediation Model (simple or moderated)
+
+- At least 2 predictors (one call Mediator)
+- Only one outcome
+- Made of main effects only for simple mediation / main and interaction effects for moderated mediation
+
+## Structural Equation Model (SEM)
+
+- At least 2 predictors (usually latent variables)
+- One or more outcome
+- Made of main or/and interaction effects
+
+---
+
+# Simple Model
+
+Simple Models are the most statistically powerful, easy to test and reliable models. Always prefer a simple model compared to a more complicated solution.
+
+Warning, including interaction effect requires a significantly higher sample size (see calculation of power/effect size).
+
+Example:
+
+<div id="htmlwidget-7531f021030c44f57ef2" style="width:300px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-7531f021030c44f57ef2">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = circle]\n    \"Salary\"; \"Job Satisfaction\"; \"Gender\"; \"Holidays\"\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    \"Holidays\" -> \"Job Satisfaction\"\n    \"Gender\" -> \"\"\n    \"Salary\" -> \"\" [arrowhead = none]\n    \"\" -> \"Job Satisfaction\"\n    \n    subgraph {\n      rank = same; \"Gender\"; \"\";\n    }\n    subgraph {\n      rank = same; \"Holidays\"; \"Salary\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+# Mediation Models
+
+A Mediation model is a complex path analysis between 3 variables, where one of them explains the relationship between the other two. It is usually used to identify cognitive process in psychology.
+
+Example:
+
+<div id="htmlwidget-983315589fed18d622a7" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-983315589fed18d622a7">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"self-esteem\"; \"math exam results\"; happiness\n    \n    \"math exam results\" -> {happiness \"self-esteem\"}\n    \"self-esteem\" -> happiness\n\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+---
+
+# Structural Equation Model
+
+A Structural Equation Model (SEM) is a complex path analysis between multiple variables including multiple Outcomes and using factor analysis for latent variable estimation.
+
+<div id="htmlwidget-6f1d8b9e786d9d3fe28d" style="width:504px;height:400px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-6f1d8b9e786d9d3fe28d">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"; \"Actual Use\"\n  \n  node [shape = box]\n  PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2; AU\n  \n  {PU1 PU2 PU3 PU4 PU5} -> \"Perceived Usefulness\" [arrowhead = none]\n  {PEOU1 PEOU2 PEOU3 PEOU4} -> \"Perceived Ease-of-use\" [arrowhead = none]\n  {BI1 BI2} -> \"Intention to Use\" [arrowhead = none]\n  {AU} -> \"Actual Use\" [arrowhead = none]\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n  \n  subgraph {\n      rank = same; PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2;\n  }\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
 ---
 
 # A Good Model
@@ -300,8 +410,8 @@ Items used for latent variables can be omitted in a model, variables are the mos
 
 Example: 
 
-<div id="htmlwidget-bb3486349adfa5d821dc" style="width:504px;height:100px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-bb3486349adfa5d821dc">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-dcdfc64296f5794e54a4" style="width:504px;height:100px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-dcdfc64296f5794e54a4">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 ---
 
@@ -314,86 +424,6 @@ Example:
 Is it bad?
 
 ![](https://d3i71xaburhd42.cloudfront.net/2a3e4a3024bfc4df27db07a1d48f77a6f371b0c3/8-Figure1-1.png)
-
----
-
-# Main Effect Model
-
-.pull-left[
-The relation between one variable and another:
-
-<div id="htmlwidget-44474b3e8cd160f85a98" style="width:200px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-44474b3e8cd160f85a98">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    \n    X -> Y\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-
-can be read as:
-- "X has a **main** effect on Y"
-]
-.pull-right[
-A model can have multiple main effects: 
-
-<div id="htmlwidget-2514ce28ae593bde0f73" style="width:200px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-2514ce28ae593bde0f73">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    \n    X -> Y\n    Z -> Y\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-
-can be read as: 
-- "X has a **main** effect on Y"
-- "Z has a **main** effect on Y"
-]
-
----
-
-# Interaction Effect Model
-
-The relation between two variables and another
-
-<div id="htmlwidget-5d05eac75555269eefd0" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-5d05eac75555269eefd0">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = circle]\n    X; Y; Z\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    Z -> \"\"\n    X -> \"\" [arrowhead = none]\n    \"\"-> Y\n    \n    subgraph {\n      rank = same; Z; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-
-The arrow crossing the main effect arrow can be read as :
-- "X have a **main** effect on Y"
-- "Z have a **main** effect on Y"
-- "X and Z have an **interaction** effect on Y"
-
-Note: 
-- interaction means that the effect of X on Y will be different according the possibilities of Z (see section about hypothesis formulation)
-- also called Moderation
-
----
-
-# Model's Constraints
-
-1. Each model corresponds to 1 equation
-
-2. Each model has only one Outcome/Dependent Variable
-
-3. Control variables are not included in models
-
-If 1. or 2. are not possible then more than one model needs to be used or a path analyses can also be performed
-
----
-
-# Mediation Models
-
-A Mediation model is a complex path analysis between 3 variables, where one of them explains the relationship between the other two. It is usually used to identify cognitive process in psychology.
-
-<div id="htmlwidget-7531f021030c44f57ef2" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-7531f021030c44f57ef2">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = circle]\n    Z; X; Y\n    \n    X -> {Y Z}\n    Z -> Y\n\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
-
-can be read as: 
-- "the main effect of X on Y is explained by Z"
-
-It involves 3 requirements:
-- "X have a **main** effect on Y"
-- "X have a **main** effect on Z"
-- "the **main** effect of X on Y **disappears** when Z is taken into account"
-
----
-
-# Structural Equation Model
-
-A Structural Equation Model (SEM) is a complex path analysis between multiple variables including multiple Outcomes and using factor analysis for latent variable estimation.
-
-<div id="htmlwidget-983315589fed18d622a7" style="width:504px;height:400px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-983315589fed18d622a7">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"; \"Actual Use\"\n  \n  node [shape = box]\n  PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2; AU\n  \n  {PU1 PU2 PU3 PU4 PU5} -> \"Perceived Usefulness\" [arrowhead = none]\n  {PEOU1 PEOU2 PEOU3 PEOU4} -> \"Perceived Ease-of-use\" [arrowhead = none]\n  {BI1 BI2} -> \"Intention to Use\" [arrowhead = none]\n  {AU} -> \"Actual Use\" [arrowhead = none]\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n  \n  subgraph {\n      rank = same; PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2;\n  }\n\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 ---
 class: title-slide, middle
@@ -491,8 +521,8 @@ Variables:
 
 Model:
 
-<div id="htmlwidget-6f1d8b9e786d9d3fe28d" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-6f1d8b9e786d9d3fe28d">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"breakfast\" -> \"math exam results\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-873249b169eb6149d57e" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-873249b169eb6149d57e">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"breakfast\" -> \"math exam results\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -512,8 +542,8 @@ Variables:
 
 Model:
 
-<div id="htmlwidget-dcdfc64296f5794e54a4" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-dcdfc64296f5794e54a4">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"motorists talking on the phone\" -> \"driving errors\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-cbd3ad10bd2d35a2e76d" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-cbd3ad10bd2d35a2e76d">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"motorists talking on the phone\" -> \"driving errors\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -533,8 +563,8 @@ Variables:
 
 Model:
 
-<div id="htmlwidget-873249b169eb6149d57e" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-873249b169eb6149d57e">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"students’ sleep time\" -> \"math exam results\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-f25d4e1770d66a86dcce" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f25d4e1770d66a86dcce">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    \n    \"students’ sleep time\" -> \"math exam results\"\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -569,8 +599,8 @@ Variables:
 
 Model:
 
-<div id="htmlwidget-cbd3ad10bd2d35a2e76d" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-cbd3ad10bd2d35a2e76d">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"sleep deprivation\"; \"math exam results\"; gender\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    gender -> \"\"\n    \"sleep deprivation\" -> \"\" [arrowhead = none]\n    \"\"-> \"math exam results\"\n    \n    subgraph {\n      rank = same; gender; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-969965edfe9f869aa904" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-969965edfe9f869aa904">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"sleep deprivation\"; \"math exam results\"; gender\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    gender -> \"\"\n    \"sleep deprivation\" -> \"\" [arrowhead = none]\n    \"\"-> \"math exam results\"\n    \n    subgraph {\n      rank = same; gender; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -591,8 +621,8 @@ Variables:
 
 Model:
 
-<div id="htmlwidget-f25d4e1770d66a86dcce" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-f25d4e1770d66a86dcce">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"alcohol consumption\"; \"road accidents\"; \"driving experience\"\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    \"driving experience\" -> \"\"\n    \"alcohol consumption\" -> \"\" [arrowhead = none]\n    \"\"-> \"road accidents\"\n    \n    subgraph {\n      rank = same; \"driving experience\" ; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-450f171f14364aa3ebed" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-450f171f14364aa3ebed">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"alcohol consumption\"; \"road accidents\"; \"driving experience\"\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    \"driving experience\" -> \"\"\n    \"alcohol consumption\" -> \"\" [arrowhead = none]\n    \"\"-> \"road accidents\"\n    \n    subgraph {\n      rank = same; \"driving experience\" ; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -604,11 +634,20 @@ Hypothesis:
 
 # Mediation Effect Hypothesis
 
+<div id="htmlwidget-fbfc52d82635d988c6e1" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-fbfc52d82635d988c6e1">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = circle]\n    Z; X; Y\n    \n    X -> {Y Z}\n    Z -> Y\n\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+can be read as: 
+- "the main effect of X on Y is explained by Z"
+
+Warning, it involves 3 requirements:
+- "X have a **main** effect on Y"
+- "X have a **main** effect on Z"
+- "the **main** effect of X on Y **disappears** when Z is taken into account"
+
 Replace with yours:
 
 The effect of {**IV1**} on {**DV**} is mediated by {**IV2/Med**}
-
-Warning, a mediation hypothesis involves two main hypotheses: IV1 on DV and IV1 on IV2/Med
 
 ---
 
@@ -623,8 +662,8 @@ Variables:
 
 Model:
 
-<div id="htmlwidget-969965edfe9f869aa904" style="width:504px;height:200px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-969965edfe9f869aa904">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"self-esteem\"; \"math exam results\"; happiness\n    \n    \"math exam results\" -> {happiness \"self-esteem\"}\n    \"self-esteem\" -> happiness\n\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-2f4c52b7f36e26c300a7" style="width:504px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2f4c52b7f36e26c300a7">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node []\n    \"self-esteem\"; \"math exam results\"; happiness\n    \n    \"math exam results\" -> {happiness \"self-esteem\"}\n    \"self-esteem\" -> happiness\n\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 --
 
@@ -782,7 +821,7 @@ The equation `\(Y = X\)` involves that the variable Y is completely explained by
 &lt;/table&gt;
 ]
 .pull-right[
-&lt;img src="lecture_1_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-29-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -860,7 +899,7 @@ It is very important to know that under **EVERY** statistical test, a similar eq
 &lt;/table&gt;
 ]
 .pull-right[
-&lt;img src="lecture_1_files/figure-html/unnamed-chunk-28-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -927,7 +966,7 @@ Equation:
 &lt;/table&gt;
 ]
 .pull-right[
-&lt;img src="lecture_1_files/figure-html/unnamed-chunk-30-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-33-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1004,7 +1043,7 @@ Equation:
 &lt;/table&gt;
 ]
 .pull-right[
-&lt;img src="lecture_1_files/figure-html/unnamed-chunk-32-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-35-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1078,7 +1117,7 @@ Equation:
 &lt;/table&gt;
 ]
 .pull-right[
-&lt;img src="lecture_1_files/figure-html/unnamed-chunk-34-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-37-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1158,7 +1197,7 @@ which equals to:
 &lt;/table&gt;
 ]
 .pull-right[
-&lt;img src="lecture_1_files/figure-html/unnamed-chunk-36-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_1_files/figure-html/unnamed-chunk-39-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
@@ -1260,8 +1299,8 @@ In SEM, there are as many equation as there are Outcomes/Dependent Variables.
 
 For example, in the following model: 
 
-<div id="htmlwidget-450f171f14364aa3ebed" style="width:504px;height:100px;" class="grViz html-widget"></div>
-<script type="application/json" data-for="htmlwidget-450f171f14364aa3ebed">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+<div id="htmlwidget-1d5df3d80f5735caaf13" style="width:504px;height:100px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-1d5df3d80f5735caaf13">{"x":{"diagram":"\ndigraph rmarkdown {\n  graph [rankdir = LR]\n  \n  node [shape = oval]\n  \"Perceived Ease-of-use\"; \"Perceived Usefulness\"; \"Intention to Use\"\n  \n  node [shape = box]\n  \"Actual Use\"\n  \n  \"Perceived Usefulness\" -> \"Intention to Use\"\n  \"Perceived Ease-of-use\" -> {\"Perceived Usefulness\" \"Intention to Use\"}\n  \"Intention to Use\" -> \"Actual Use\"\n  \n  subgraph {\n      rank = same; \"Perceived Usefulness\"; \"Perceived Ease-of-use\";\n  }\n}\n","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 Three equations are tested
 `$$PU = \beta_{0} + \beta_{1}.PEOU + \epsilon$$`

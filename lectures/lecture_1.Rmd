@@ -231,7 +231,7 @@ This results in the following equation: $Y = X$
 Which can be translated by the following hypotheses:
 - "the variable Y is explained by the variable X"
 - "the variable X is explaining the variable Y"
-- "the variable X influences the variable X"
+- "the variable X influences the variable Y"
 - "there is a link/relationship between X and Y"
 
 Note, despite having different formulation, they are all the same.
@@ -264,13 +264,13 @@ Be careful, in the order of predictor and outcome is different according to the 
 
 - In an equation, the Outcome is first then comes the Predictors
 
-.center[ $Y = X$ ]
+.center[ Y = X ]
 
 - In an hypothesis, the order depends on the formulation
 
   - "the variable Y is explained by the variable X"
   - "the variable X is explaining the variable Y"
-  - "the variable X influences the variable X"
+  - "the variable X influences the variable Y"
   - "there is a link/relationship between X and Y"
   
 ---
@@ -295,7 +295,7 @@ class: inverse, mline, center, middle
 
 ---
 
-# Types of Model
+# Structure of Models
 
 In a model, **an arrow is an effect**
 
@@ -319,10 +319,6 @@ digraph rmarkdown {
 
 can be read as "Intention to Use has an effect on Actual Use".
 
-We can distinguish 2 types of model:
-- Model with main effect
-- Model with interaction effect
-
 ---
 
 # Structure of Models
@@ -340,6 +336,222 @@ Example:
 - *Perceived Usefulness* is a latent variable with several questions so it's a circle.
 
 Items used for latent variables can be omitted in a model, variables are the most important.
+
+We can distinguish 2 types of relationship in a model:
+- Main effect relationship
+- Interaction effect relationship
+
+---
+
+# Main Effect Relationship
+
+.pull-left[
+The relation between one variable and another:
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    
+    X -> Y
+  }", height = 200, width = 200)
+```
+
+can be read as:
+- "X has a **main** effect on Y"
+]
+.pull-right[
+A model can have multiple main effects: 
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    
+    X -> Y
+    Z -> Y
+  }", height = 200, width = 200)
+```
+
+can be read as: 
+- "X has a **main** effect on Y"
+- "Z has a **main** effect on Y"
+]
+
+---
+
+# Interaction Effect Relationship
+
+The relation between two predictor variables and another outcome variable. An interaction means that **the effect of X on Y will be different according the possibilities of Z** (also called Moderation).
+
+.pull-left[
+classic representation:
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    X; Y; Z
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    Z -> ''
+    X -> '' [arrowhead = none]
+    ''-> Y
+    
+    subgraph {
+      rank = same; Z; '';
+    }
+  }", height = 200, width = 300)
+```
+]
+
+.pull-right[
+is the same as:
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    
+    X -> Y
+    Z -> Y
+    'X*Z' -> Y
+  }", height = 200, width = 200)
+```
+]
+
+The arrow crossing the main effect arrow can be read as :
+- "X have a **main** effect on Y"
+- "Z have a **main** effect on Y"
+- "X and Z have an **interaction** effect on Y"
+
+---
+
+# Model's Constraints
+
+1. Every model is made of one or multiple main effect and/or interaction effect relationships
+
+2. Control variables are not included in models
+
+---
+
+# Types of Model
+
+## Simple Model
+
+- One or more predictors
+- Only one outcome
+- Made of main or/and interaction effects
+
+## Mediation Model (simple or moderated)
+
+- At least 2 predictors (one call Mediator)
+- Only one outcome
+- Made of main effects only for simple mediation / main and interaction effects for moderated mediation
+
+## Structural Equation Model (SEM)
+
+- At least 2 predictors (usually latent variables)
+- One or more outcome
+- Made of main or/and interaction effects
+
+---
+
+# Simple Model
+
+Simple Models are the most statistically powerful, easy to test and reliable models. Always prefer a simple model compared to a more complicated solution.
+
+Warning, including interaction effect requires a significantly higher sample size (see calculation of power/effect size).
+
+Example:
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    'Salary'; 'Job Satisfaction'; 'Gender'; 'Holidays'
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    'Holidays' -> 'Job Satisfaction'
+    'Gender' -> ''
+    'Salary' -> '' [arrowhead = none]
+    '' -> 'Job Satisfaction'
+    
+    subgraph {
+      rank = same; 'Gender'; '';
+    }
+    subgraph {
+      rank = same; 'Holidays'; 'Salary';
+    }
+  }", height = 200, width = 300)
+```
+
+---
+
+# Mediation Models
+
+A Mediation model is a complex path analysis between 3 variables, where one of them explains the relationship between the other two. It is usually used to identify cognitive process in psychology.
+
+Example:
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node []
+    'self-esteem'; 'math exam results'; happiness
+    
+    'math exam results' -> {happiness 'self-esteem'}
+    'self-esteem' -> happiness
+
+  }", height = 200)
+```
+
+---
+
+# Structural Equation Model
+
+A Structural Equation Model (SEM) is a complex path analysis between multiple variables including multiple Outcomes and using factor analysis for latent variable estimation.
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+digraph rmarkdown {
+  graph [rankdir = LR]
+  
+  node [shape = oval]
+  'Perceived Ease-of-use'; 'Perceived Usefulness'; 'Intention to Use'; 'Actual Use'
+  
+  node [shape = box]
+  PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2; AU
+  
+  {PU1 PU2 PU3 PU4 PU5} -> 'Perceived Usefulness' [arrowhead = none]
+  {PEOU1 PEOU2 PEOU3 PEOU4} -> 'Perceived Ease-of-use' [arrowhead = none]
+  {BI1 BI2} -> 'Intention to Use' [arrowhead = none]
+  {AU} -> 'Actual Use' [arrowhead = none]
+  
+  'Perceived Usefulness' -> 'Intention to Use'
+  'Perceived Ease-of-use' -> {'Perceived Usefulness' 'Intention to Use'}
+  'Intention to Use' -> 'Actual Use'
+  
+  subgraph {
+      rank = same; 'Perceived Usefulness'; 'Perceived Ease-of-use';
+  }
+  
+  subgraph {
+      rank = same; PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2;
+  }
+
+}
+", height = 400)
+```
 
 ---
 
@@ -386,158 +598,6 @@ digraph rmarkdown {
 Is it bad?
 
 ![](https://d3i71xaburhd42.cloudfront.net/2a3e4a3024bfc4df27db07a1d48f77a6f371b0c3/8-Figure1-1.png)
-
----
-
-# Main Effect Model
-
-.pull-left[
-The relation between one variable and another:
-
-```{r eval=TRUE, fig.align="left"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-    node [shape = circle]
-    
-    X -> Y
-  }", height = 200, width = 200)
-```
-
-can be read as:
-- "X has a **main** effect on Y"
-]
-.pull-right[
-A model can have multiple main effects: 
-
-```{r eval=TRUE}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-    node [shape = circle]
-    
-    X -> Y
-    Z -> Y
-  }", height = 200, width = 200)
-```
-
-can be read as: 
-- "X has a **main** effect on Y"
-- "Z has a **main** effect on Y"
-]
-
----
-
-# Interaction Effect Model
-
-The relation between two variables and another
-
-```{r eval=TRUE}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node [shape = circle]
-    X; Y; Z
-    node [shape = point, width = 0, height = 0]
-    ''
-    
-    Z -> ''
-    X -> '' [arrowhead = none]
-    ''-> Y
-    
-    subgraph {
-      rank = same; Z; '';
-    }
-  }", height = 200)
-```
-
-The arrow crossing the main effect arrow can be read as :
-- "X have a **main** effect on Y"
-- "Z have a **main** effect on Y"
-- "X and Z have an **interaction** effect on Y"
-
-Note: 
-- interaction means that the effect of X on Y will be different according the possibilities of Z (see section about hypothesis formulation)
-- also called Moderation
-
----
-
-# Model's Constraints
-
-1. Each model corresponds to 1 equation
-
-2. Each model has only one Outcome/Dependent Variable
-
-3. Control variables are not included in models
-
-If 1. or 2. are not possible then more than one model needs to be used or a path analyses can also be performed
-
----
-
-# Mediation Models
-
-A Mediation model is a complex path analysis between 3 variables, where one of them explains the relationship between the other two. It is usually used to identify cognitive process in psychology.
-
-```{r eval=TRUE}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node [shape = circle]
-    Z; X; Y
-    
-    X -> {Y Z}
-    Z -> Y
-
-  }", height = 200)
-```
-
-can be read as: 
-- "the main effect of X on Y is explained by Z"
-
-It involves 3 requirements:
-- "X have a **main** effect on Y"
-- "X have a **main** effect on Z"
-- "the **main** effect of X on Y **disappears** when Z is taken into account"
-
----
-
-# Structural Equation Model
-
-A Structural Equation Model (SEM) is a complex path analysis between multiple variables including multiple Outcomes and using factor analysis for latent variable estimation.
-
-```{r eval=TRUE}
-DiagrammeR::grViz("
-digraph rmarkdown {
-  graph [rankdir = LR]
-  
-  node [shape = oval]
-  'Perceived Ease-of-use'; 'Perceived Usefulness'; 'Intention to Use'; 'Actual Use'
-  
-  node [shape = box]
-  PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2; AU
-  
-  {PU1 PU2 PU3 PU4 PU5} -> 'Perceived Usefulness' [arrowhead = none]
-  {PEOU1 PEOU2 PEOU3 PEOU4} -> 'Perceived Ease-of-use' [arrowhead = none]
-  {BI1 BI2} -> 'Intention to Use' [arrowhead = none]
-  {AU} -> 'Actual Use' [arrowhead = none]
-  
-  'Perceived Usefulness' -> 'Intention to Use'
-  'Perceived Ease-of-use' -> {'Perceived Usefulness' 'Intention to Use'}
-  'Intention to Use' -> 'Actual Use'
-  
-  subgraph {
-      rank = same; 'Perceived Usefulness'; 'Perceived Ease-of-use';
-  }
-  
-  subgraph {
-      rank = same; PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2;
-  }
-
-}
-", height = 400)
-```
 
 ---
 class: title-slide, middle
@@ -800,11 +860,31 @@ Hypothesis:
 
 # Mediation Effect Hypothesis
 
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    Z; X; Y
+    
+    X -> {Y Z}
+    Z -> Y
+
+  }", height = 200)
+```
+
+can be read as: 
+- "the main effect of X on Y is explained by Z"
+
+Warning, it involves 3 requirements:
+- "X have a **main** effect on Y"
+- "X have a **main** effect on Z"
+- "the **main** effect of X on Y **disappears** when Z is taken into account"
+
 Replace with yours:
 
 The effect of {**IV1**} on {**DV**} is mediated by {**IV2/Med**}
-
-Warning, a mediation hypothesis involves two main hypotheses: IV1 on DV and IV1 on IV2/Med
 
 ---
 
