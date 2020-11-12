@@ -12,8 +12,6 @@ output:
       highlightStyle: zenburn
       highlightLines: true
       countIncrementalSlides: false
-params:
-  eval_rights: FALSE
 ---
 
 ```{r setup, include = FALSE}
@@ -38,7 +36,7 @@ library(fontawesome)
 
 # Who am I?
 
-#### Developement of the DynEmo Facial Expression Database (Master)
+#### Development of the DynEmo Facial Expression Database (Master)
 
 * Dynamic and spontaneous emotions
 * Assessed with self-reports and by observers
