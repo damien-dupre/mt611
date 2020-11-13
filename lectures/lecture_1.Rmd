@@ -36,6 +36,7 @@ library(nomnoml)
 library(DiagrammeR)
 library(ggrepel)
 library(fontawesome)
+library(tweetrmd)
 ```
 
 # Why Statistics?
@@ -1443,6 +1444,45 @@ class: title-slide, middle
 ## Exercise
 
 In the research paper you have selected, write the equation corresponding to the model(s) (10min)
+
+---
+
+class: inverse, mline, center, middle
+
+# Conclusion
+
+---
+
+# Know what you do
+
+```{r out.width="100%"}
+tweetrmd::tweet_screenshot(
+  tweetrmd::tweet_url("dan_a_chapman", "1326647958314622977"),
+  maxwidth = 300,
+  hide_media = FALSE,
+  theme = "dark"
+  )
+```
+
+---
+
+# Know what you do
+
+```{r out.width="100%"}
+tweetrmd::tweet_screenshot(
+  tweetrmd::tweet_url("JeffRouder", "1326938465938726915"),
+  maxwidth = 300,
+  hide_media = FALSE,
+  theme = "dark"
+  )
+```
+
+---
+class: title-slide, middle
+
+## Exercise
+
+Have a look at David's paper (uploaded on loop) and identify the potential problems with the variables/model/hypotheses
 
 ---
 class: inverse, mline, left, middle
