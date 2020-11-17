@@ -1,6 +1,6 @@
 ---
 title: "MT611 - Quantitative Research Methods"
-subtitle: "Lecture 1: Variables, Models, Hypotheses and Equations"
+subtitle: "Lecture 1: Variable, model, hypothesis and equation"
 author: "Damien Dupré"
 date: "Dublin City University"
 output:
@@ -37,6 +37,7 @@ library(DiagrammeR)
 library(ggrepel)
 library(fontawesome)
 library(tweetrmd)
+library(plotly)
 ```
 
 # Why Statistics?
@@ -427,6 +428,21 @@ The arrow crossing the main effect arrow can be read as :
 - "X have a **main** effect on Y"
 - "Z have a **main** effect on Y"
 - "X and Z have an **interaction** effect on Y"
+
+---
+
+# Interaction Effect Relationship
+
+In simple words ...
+
+```{r out.width="50%"}
+tweetrmd::tweet_screenshot(
+  tweetrmd::tweet_url("GioraSimchoni", "1255499208670527490"),
+  maxwidth = 300,
+  hide_media = FALSE,
+  theme = "dark"
+  )
+```
 
 ---
 
@@ -853,7 +869,7 @@ DiagrammeR::grViz("
 
 Hypothesis:
 
-- The effect of alcohol consumption is higher on road accidents is lower for experienced drivers than for inexperienced drivers
+- The effect of alcohol consumption on road accidents is lower for experienced drivers than for inexperienced drivers
 
 ---
 
@@ -1017,9 +1033,14 @@ Once all the hypotheses are formulated, it is time to test all of them in one un
 
 Testing for the significance of the effect means evaluating if this $\beta$ value is significantly different, higher or lower than 0 (no link between variables):
 
-$H_a: \beta \neq 0$ or $\beta > 0$ or $\beta < 0$
+- $H_a: \beta \neq 0$ means our hypothesis doesn't precise the direction of the change, just that there is a change
 
-$H_0: \beta = 0$
+
+- $H_a: \beta > 0$ means our hypothesis indicates that the relationship increases or a group is higher than another group
+
+- $H_a: \beta < 0$ means our hypothesis indicates that the relationship decreases or a group is lower than another group
+
+- The Null hypothesis will always be $H_0: \beta = 0$
 
 ---
 
@@ -1069,7 +1090,24 @@ $$Y = 0 + 1 * X + 0$$
 
 The equation $Y = \beta_{0} + \beta_{1}.X + \epsilon$ is the same as the good old $y = ax + b$ (here ordered as $y = b + ax$) where $\beta_{0}$ is $b$ and $\beta_{1}$ is $a$.
 
-It is very important to know that under **EVERY** statistical test, a similar equation is used (t-test, ANOVA, Chi-square are all linear regressions)
+It is very important to know that under **EVERY** statistical test, a similar equation is used (t-test, ANOVA, Chi-square are all linear regressions).
+
+```{r fig.width=5.5, fig.height=5.5}
+plot0 <- data.frame(X = 0:9, Y = 0:9) %>%
+  ggplot(aes(X, Y)) +
+  geom_point(color = "black", size = 5) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0, color = 'black', size = 0.5, linetype = 'dotted') +
+  annotate("text", x = 5, y = 0.2, label = "Intercept \u03b2\u2080") +
+  annotate('segment', x = 5, xend = 6, y = 5, yend = 5, color = 'red') +
+  annotate('segment', x = 6, xend = 6, y = 5, yend = 6, color = 'red') +
+  annotate("text", x = 7.5, y = 5.5, label = "Slope \u03b2\u2081") +
+  scale_x_continuous(breaks = seq(0:9)) +
+  scale_y_continuous(breaks = seq(0:9)) +
+  theme_bw()
+
+plotly::ggplotly(plot0)
+```
 
 ---
 
@@ -1107,13 +1145,31 @@ data.frame(
 
 # Basic Example
 
+.pull-left[
 Variables:
 - DV = math results (from 0 to 100)
 - IV = IQ (from 0 to Inf.)
+]
+.pull-right[
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    
+    IQ -> math_results [label= β1]
+  }", height = 200, width = 200)
+```
+]
 
 Hypothesis (one-tailed):
-- $H_a$: When IQ increases, math results increases as well (means $\beta_1$ > 0) 
-- $H_0$ When IQ increases, math results stay the same (means $\beta_1$ = 0)
+- $H_a$: When IQ increases, math results increases as well 
+
+*if the line increases then that means $\beta_1$ > 0*
+
+- $H_0$: When IQ increases, math results stay the same
+
+*if the line stay the same then that means $\beta_1$ = 0*
 
 Equation:
 
@@ -1154,13 +1210,31 @@ df2 %>%
 
 # More Examples (1)
 
+.pull-left[
 Variables:
 - DV = math results (from 0 to 100)
 - IV = gender (female vs. male)
+]
+.pull-right[
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    
+    gender -> math_results [label= β1]
+  }", height = 150, width = 200)
+```
+]
 
 Hypothesis (one-tailed): 
-- $H_a$: avg(female) > avg(male) means $\beta_1 > 0$
-- $H_0$: avg(female) = avg(male) means $\beta_1 = 0$
+- $H_a$: avg(female) > avg(male)
+
+*if female is first (i.e. coded 1) and male is second (i.e. coded 2), we expect the line joining avg(female) and avg(male) to decrease, therefore $\beta_1 < 0$*
+
+- $H_0$: avg(female) = avg(male)
+
+*if female is first (i.e. coded 1) and male is second (i.e. coded 2), we expect the line joining avg(female) and avg(male) to be stable, therefore $\beta_1 = 0$*
 
 Equation:
 
@@ -1202,9 +1276,22 @@ df3 %>%
 
 # More Examples (2)
 
+.pull-left[
 Variables:
 - DV = math results (from 0 to 100)
 - IV = age group (0-29; 30-59; 60-89; 90-119)
+]
+.pull-right[
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    
+    age_group -> math_results [label= β1]
+  }", height = 200, width = 200)
+```
+]
 
 Hypothesis (one-tailed): 
 - $H_a$: When age increases, math results increases as well (means $\beta_1 > 0$)
@@ -1243,6 +1330,49 @@ df4 %>%
   theme(
     text = element_text(size = 14)
   )
+```
+]
+
+---
+
+# Example with Interaction
+
+.pull-left[
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    IQ; math_results; gender
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    gender -> ''
+    IQ -> '' [arrowhead = none]
+    ''-> math_results
+    
+    subgraph {
+      rank = same; gender; '';
+    }
+  }", height = 300, width = 400)
+```
+]
+
+.pull-right[
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    IQ; math_results;'IQ*gender'; gender
+
+    gender -> math_results [label= β2]
+    IQ -> math_results [label= β1]
+    'IQ*gender' -> math_results [label= β3]
+    
+  }", height = 300, width = 300)
 ```
 ]
 
@@ -1455,7 +1585,7 @@ class: inverse, mline, center, middle
 
 # Know what you do
 
-```{r out.width="100%"}
+```{r out.width="50%"}
 tweetrmd::tweet_screenshot(
   tweetrmd::tweet_url("dan_a_chapman", "1326647958314622977"),
   maxwidth = 300,
@@ -1468,7 +1598,7 @@ tweetrmd::tweet_screenshot(
 
 # Know what you do
 
-```{r out.width="100%"}
+```{r out.width="50%"}
 tweetrmd::tweet_screenshot(
   tweetrmd::tweet_url("JeffRouder", "1326938465938726915"),
   maxwidth = 300,
