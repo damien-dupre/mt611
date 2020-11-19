@@ -1,0 +1,107 @@
+---
+title: "MT611 - Quantitative Research Methods"
+subtitle: "Lecture 3: Understanding the general linear model"
+author: "Damien Dupré"
+date: "Dublin City University"
+output:
+  xaringan::moon_reader:
+    css: ["default", "metropolis", "metropolis-fonts", "css/custom_design.css"]
+    lib_dir: libs
+    nature:
+      beforeInit: "libs/cols_macro.js"
+      highlightStyle: zenburn
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+# general options --------------------------------------------------------------
+options(scipen = 999)
+set.seed(123)
+# chunk options ----------------------------------------------------------------
+knitr::opts_chunk$set(
+  cache.extra = knitr::rand_seed, 
+  message = FALSE, 
+  warning = FALSE, 
+  error = FALSE, 
+  echo = FALSE,
+  cache = FALSE,
+  comment = "", 
+  fig.align = "center", 
+  fig.retina = 3
+  )
+# libraries --------------------------------------------------------------------
+library(tidyverse)
+library(fontawesome)
+library(DiagrammeR)
+```
+
+class: inverse, mline, center, middle
+
+# 1. Regressions for Hypothesis Testing
+
+---
+
+# Vocabulary
+
+"Linear Model", "Linear Regression", "Multiple Regression" or simply "Regression" are all referring to the same model: **The General Linear Model**.
+
+It contains:
+
+- Only one Outcome/Dependent Variable
+- One or more Predictor/Independent Variables of any type (categorical or continuous)
+- Made of Main and/or Interaction Effects
+
+$$Y = \beta_{0} + \beta_{1} . X_{1} + \beta_{2} . X_{2} + ... + \beta_{n} . X_{n} + \epsilon$$
+
+where $n$ is an expected effect (main or interaction)
+
+---
+
+# Notes on the Equations
+
+Equations of general linear model can be written differently:
+
+## 1. Using Greek or normal letters
+
+$$Y = \beta_{0} + \beta_{1} . X_{1} + \epsilon \; vs. \; Y = b_{0} + b_{1} . X_{1} + e$$
+
+Greek letters (e.g. $\beta$) are used when the value of the parameter is unknown while normal letters (e.g. $b$) are used when the value is know. However few are doing the distinction and Greek letters are generally preferred.
+
+## 2. Using $i$s or not
+
+$$Y = \beta_{0} + \beta_{1} . X_{1} + \epsilon \; vs. \; Y_{i} = \beta_{0} + \beta_{1} . X_{1_{i}} + \epsilon_{i}$$
+
+$i$s indicate "for all possible observations". It is more correct in a mathematical writing but it is usually not used and will not be included in this lecture to no add to much complexity. 
+
+---
+
+# General Linear Model Everywhere
+
+Most of the common statistical models (t-test, correlation, ANOVA; chi-square, etc.) are special cases of linear models.
+
+This beautiful simplicity means that there is less to learn. In particular, it all comes down to $y = ax + b$ which most students know from secondary school. 
+
+Unfortunately, stats intro courses are usually taught as if each test is an independent tool, needlessly making life more complicated for students and teachers alike.
+
+```{r out.width = "35%"}
+knitr::include_graphics("https://psyteachr.github.io/msc-data-skills/images/memes/glm_meme.pngv  ")
+```
+
+---
+
+# Principle of Regression
+
+
+
+---
+class: inverse, mline, left, middle
+
+<img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
+
+# Thanks for your attention and don't hesitate if you have any question!
+
+[`r fa(name = "twitter")` @damien_dupre](http://twitter.com/damien_dupre)  
+[`r fa(name = "github")` @damien-dupre](http://github.com/damien-dupre)  
+[`r fa(name = "link")` damien-datasci-blog.netlify.app](https://damien-datasci-blog.netlify.app)  
+[`r fa(name = "paper-plane")` damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)

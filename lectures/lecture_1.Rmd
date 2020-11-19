@@ -38,6 +38,8 @@ library(ggrepel)
 library(fontawesome)
 library(tweetrmd)
 library(plotly)
+library(gapminder)
+library(patchwork)
 ```
 
 # Why Statistics?
@@ -1046,7 +1048,21 @@ Testing for the significance of the effect means evaluating if this $\beta$ valu
 
 # A Basic Equation
 
-The equation $Y = X$ involves that the variable Y is completely explained by the variable X.
+The basic structure of a statistical model is:
+
+$$data = model + error$$
+
+where the $model$ is a series of predicted relationships/hypotheses.
+
+This expresses the idea that the data can be described by a statistical model, which expresses what we expect to occur in the data, along with the difference between the model and the data, which we refer to as the error.
+
+---
+
+# A Basic Equation
+
+Let's imagine the perfect scenario: **your predictor variable X explains perfectly the outcome variable Y**.
+
+The corresponding equation is: $Y = X$
 
 .pull-left[
 ```{r, eval=TRUE}
@@ -1107,6 +1123,49 @@ plot0 <- data.frame(X = 0:9, Y = 0:9) %>%
   theme_bw()
 
 plotly::ggplotly(plot0)
+```
+
+---
+
+# Components of the equation
+
+```{r}
+p1 <- gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  scale_y_continuous(limits = c(0, 90)) +
+  labs(
+    title = "A: Original Data",
+    x = "GDP per Capita ($)",
+    y = "Life Expectancy"
+  )
+
+p2 <- gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE, formula = "y ~ x + 0 ") +
+  scale_y_continuous(limits = c(0, 90)) +
+  labs(
+    title = "B: Model without intercept",
+    x = "GDP per Capita ($)",
+    y = "Life Expectancy"
+  )
+
+p3 <- gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE, formula = "y ~ x") +
+  scale_y_continuous(limits = c(0, 90)) +
+  labs(
+    title = "C: Model with intercept",
+    x = "GDP per Capita ($)",
+    y = "Life Expectancy"
+  )
+
+p1 / (p2 + p3)
 ```
 
 ---
