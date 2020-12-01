@@ -113,21 +113,21 @@ Specific tests are available for certain type of hypothesis such as T-test or AN
 
 # Notes on the Equations
 
-Equations of general linear model can be written differently:
-
 ### 1. Using Greek or Latin alphabet
 
 $$Y = \beta_{0} + \beta_{1} . X_{1} + \epsilon \; vs. \; Y = b_{0} + b_{1} . X_{1} + e$$
 
-Latin alphabet (e.g. $b$) is used for parameters that are non-standardized (i.e., expressed in the unit of the predictor such as years for age or euro for salary).
-
-Greek alphabet (e.g. $\beta$) is used when parameters are standardized (i.e., expressed in term of correlation ranging from 1 to -1). Because it is possible to compare standardized parameters, Greek alphabet are generally preferred.
+**Latin alphabet** (e.g. $b$) is used for parameters that are **non-standardized** (i.e., expressed in the unit of the predictor) whereas **Greek alphabet** (e.g. $\beta$) is used when parameters are **standardized** (i.e., expressed in term of correlation ranging from 1 to -1).
 
 ### 2. Using $i$s or not
 
 $$Y = \beta_{0} + \beta_{1} . X_{1} + \epsilon \; vs. \; Y_{i} = \beta_{0} + \beta_{1} . X_{1_{i}} + \epsilon_{i}$$
 
-$i$s indicate "for all possible observations". It is more correct in a mathematical writing but it is usually not used and will not be included in this lecture to no add to much complexity. 
+$i$s indicate "for all possible observations". It is **more correct** in a mathematical writing but it is **usually not used** and will not be included in this lecture to no add to much complexity. 
+
+### 3. Using hats or no hats
+
+$\hat{Y}$ or $\hat{y}$ are used to indicate a **predicted value**. Indeed, an equation predicts values of the outcome variable therefore, $y$ should be $\hat{y}$ but it is generally used only by mathematicians.
 
 ---
 
