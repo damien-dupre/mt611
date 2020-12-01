@@ -1127,7 +1127,43 @@ plotly::ggplotly(plot0)
 
 ---
 
-# Components of the equation
+# Equations and Variable Categories
+
+For this first lecture, all examples are using **continuous Outcome/Dependant Variables** and **continuous Predictor/Independent Variables**:
+
+- Categorical Outcome/Dependant Variables involves a logistic regression NOT a linear regression. Even if the equation will stay the same, the distribution of the residual will change. For the moment only focus on **continuous Outcome/Dependant Variables**
+
+- **Categorical** Predictor/Independent Variables can be used in the exact same way as **continuous** Predictor/Independent Variables for main and interaction effects. We will see why in a future lecture.
+
+Examples:
+
+$$MathResults = \beta_{0} + \beta_{1}.IQ + \epsilon$$
+
+$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.age + \beta_{3}.IQ*age + \epsilon$$
+
+$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.gender + \epsilon$$
+
+$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.gender + \beta_{3}.IQ*gender + \epsilon$$
+
+---
+
+# Relevance of the Intercept
+
+To test hypotheses only the \beta values associated to the Predictor /Independent Variables are important.
+
+The intercept is always included in an equation but its result is useless for hypothesis testing.
+
+Let's see why the intercept is always included but its results discarded.
+
+Imagine we want to test the relationship between GDP per Capita and Life Expectancy of countries in the world. Let's compare a model without and a model with intercept:
+
+- Without intercept: $Life\,Expectancy = \beta_{1}.GDP\,per\,Capita + \epsilon$
+
+- With intercept: $Life\,Expectancy = \beta_{0} + \beta_{1}.GDP\,per\,Capita + \epsilon$
+
+---
+
+# Relevance of the Intercept
 
 ```{r}
 p1 <- gapminder %>% 
@@ -1167,6 +1203,8 @@ p3 <- gapminder %>%
 
 p1 / (p2 + p3)
 ```
+
+If the intercept is not included, the intercept is zero and can lead to estimation errors
 
 ---
 
@@ -1236,132 +1274,6 @@ $$MathResults = \beta_{0} + \beta_{1}.IQ + \epsilon$$
 
 ---
 
-# More Examples (1)
-
-.pull-left[
-```{r, eval=TRUE}
-df2 <- data.frame(
-  participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6"), 
-  gender = c("Female", "Male", "Male", "Female", "Male", "Female"),
-  math_results = c(89, 64, 71, 77, 78, 69)
-)
-
-# write.csv(df2, "basic_example_2.csv", row.names = FALSE)
-
-knitr::kable(df2, 
-  format = "html")
-```
-]
-.pull-right[
-```{r eval=TRUE, fig.height=5}
-df2 %>% 
-  ggplot(aes(x = gender, y = math_results)) +
-  geom_point(color = "black", size = 5) +
-  stat_summary(fun.y = "mean", colour = "blue", size = 6, geom = "point") +
-  theme_bw() +
-  theme(
-    text = element_text(size = 14)
-  )
-```
-]
-
----
-
-# More Examples (1)
-
-.pull-left[
-Variables:
-- DV = math results (from 0 to 100)
-- IV = gender (female vs. male)
-]
-.pull-right[
-```{r eval=TRUE, fig.align="center"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-    node [shape = circle]
-    
-    gender -> math_results [label= β1]
-  }", height = 150, width = 200)
-```
-]
-
-Hypothesis (one-tailed): 
-- $H_a$: avg(female) > avg(male)
-
-*if female is first (i.e. coded 1) and male is second (i.e. coded 2), we expect the line joining avg(female) and avg(male) to decrease, therefore $\beta_1 < 0$*
-
-- $H_0$: avg(female) = avg(male)
-
-*if female is first (i.e. coded 1) and male is second (i.e. coded 2), we expect the line joining avg(female) and avg(male) to be stable, therefore $\beta_1 = 0$*
-
-Equation:
-
-$$MathResults = \beta_{0} + \beta_{1}.gender + \epsilon$$
-
----
-
-# More Examples (2)
-
-.pull-left[
-```{r, eval=TRUE}
-df3 <- data.frame(
-  participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6", "ppt7", "ppt8"), 
-  age = c("0-29", "30-59", "60-89", "90-119", "0-29", "30-59", "60-89", "90-119"),
-  math_results = c(89, 64, 71, 77, 78, 69, 59, 99)
-)
-
-# write.csv(df3, "basic_example_3.csv", row.names = FALSE)
-
-knitr::kable(
-  df3, 
-  format = "html")
-```
-]
-.pull-right[
-```{r eval=TRUE, fig.height=5}
-df3 %>% 
-  ggplot(aes(x = age, y = math_results)) +
-  geom_point(color = "black", size = 5) +
-  stat_summary(fun.y = "mean", colour = "blue", size = 6, geom = "point") +
-  theme_bw() +
-  theme(
-    text = element_text(size = 14)
-  )
-```
-]
-
----
-
-# More Examples (2)
-
-.pull-left[
-Variables:
-- DV = math results (from 0 to 100)
-- IV = age group (0-29; 30-59; 60-89; 90-119)
-]
-.pull-right[
-```{r eval=TRUE, fig.align="center"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-    node [shape = circle]
-    
-    age_group -> math_results [label= β1]
-  }", height = 200, width = 200)
-```
-]
-
-Hypothesis (one-tailed): 
-- $H_a$: When age increases, math results increases as well (means $\beta_1 > 0$)
-- $H_0$: When age increases, math results stay the same (means $\beta_1 = 0$)
-
-Equation:
-
-$$MathResults = \beta_{0} + \beta_{1}.age + \epsilon$$
-
----
-
 # Example with Interaction
 
 .pull-left[
@@ -1369,116 +1281,16 @@ $$MathResults = \beta_{0} + \beta_{1}.age + \epsilon$$
 df4 <- data.frame(
   participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6"), 
   IQ = c(120, 103, 96, 87, 114, 95),
-  gender = c("Female", "Male", "Male", "Female", "Male", "Female"),
+  age = c(20, 30, 40, 50, 60, 70),
   math_results = c(89, 64, 71, 77, 52, 69)
 )
 
-# write.csv(df4, "basic_example_4.csv", row.names = FALSE)
-
-knitr::kable(df4, 
-  format = "html")
+knitr::kable(df4, format = "html")
 ```
 ]
 .pull-right[
 ```{r eval=TRUE, fig.height=5}
 df4 %>% 
-  ggplot(aes(x = IQ, y = math_results)) +
-  geom_point(size = 5, aes(color = gender)) +
-  geom_smooth(method = "lm", se = FALSE) +
-  theme_bw() +
-  theme(
-    text = element_text(size = 14)
-  )
-```
-]
-
----
-
-# Example with Interaction
-
-.pull-left[
-```{r eval=TRUE}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node [shape = circle]
-    IQ; math_results; gender
-    node [shape = point, width = 0, height = 0]
-    ''
-    
-    gender -> ''
-    IQ -> '' [arrowhead = none]
-    ''-> math_results
-    
-    subgraph {
-      rank = same; gender; '';
-    }
-  }", height = 300, width = 400)
-```
-]
-
-.pull-right[
-```{r eval=TRUE}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node [shape = circle]
-    IQ; math_results;'IQ*gender'; gender
-
-    gender -> math_results [label= β2]
-    IQ -> math_results [label= β1]
-    'IQ*gender' -> math_results [label= β3]
-    
-  }", height = 300, width = 300)
-```
-]
-
----
-
-# Example with Interaction
-
-Hypothesis (one-tailed): 
-- $H_{a_{1}}$: When IQ increases, math results increases as well
-- $H_{0_{1}}$: When IQ increases, math results stay the same
-
-- $H_{a_{2}}$: math results of males are higher than math results of females
-- $H_{0_{2}}$: math results of males are not different to math results of females
-
-- $H_{a_{3}}$: the effect of gender on math results increase when IQ increases
-- $H_{0_{3}}$: the effect of gender on math results stay the same when IQ increases
-
-Equations:
-
-$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.gender + \beta_{3}.interaction + \epsilon$$
-
-which equals to:
-
-$$MathResults = \beta_{0} + \beta_{1}.IQ + \beta_{2}.gender + \beta_{3}.IQ*gender + \epsilon$$
-
----
-
-# More Examples with Interaction
-
-.pull-left[
-```{r, eval=TRUE}
-df5 <- data.frame(
-  participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6"), 
-  IQ = c(120, 103, 96, 87, 114, 95),
-  age = c(20, 25, 38, 34, 41, 45),
-  math_results = c(89, 64, 71, 77, 52, 69)
-)
-
-# write.csv(df5, "basic_example_5.csv", row.names = FALSE)
-
-knitr::kable(df5, 
-  format = "html")
-```
-]
-.pull-right[
-```{r eval=TRUE, fig.height=5}
-df5 %>% 
   ggplot(aes(x = IQ, y = math_results)) +
   geom_point(size = 5, aes(color = age)) +
   geom_smooth(method = "lm", se = FALSE) +
@@ -1491,7 +1303,50 @@ df5 %>%
 
 ---
 
-# More Examples with Interaction
+# Example with Interaction
+
+.pull-left[
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    IQ; math_results; age
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    age -> ''
+    IQ -> '' [arrowhead = none]
+    ''-> math_results
+    
+    subgraph {
+      rank = same; age; '';
+    }
+  }", height = 300, width = 400)
+```
+]
+
+.pull-right[
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    IQ; math_results;'IQ*age'; age
+
+    age -> math_results [label= β2]
+    IQ -> math_results [label= β1]
+    'IQ*age' -> math_results [label= β3]
+    
+  }", height = 300, width = 300)
+```
+]
+
+---
+
+# Example with Interaction
 
 Hypothesis (one-tailed): 
 - $H_{a_{1}}$: When IQ increases, math results increases as well
