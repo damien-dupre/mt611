@@ -265,7 +265,29 @@ These calculations has lots of appealing mathematical properties, which we’re 
 
 ---
 
-# Estimating Regression's Coefficients?
+# Significance of the Estimates
+
+The statistical significance of an estimate depends on the **strength of the relationship** and on the **sample size**:
+
+- A standardized estimate of $\beta_1 = 0.02$ can be very small but still significantly different from $\beta_1 = 0$
+- Whereas a standardized estimate of $\beta_1 = 0.35$ can be stronger but in fact not significantly different from $\beta_1 = 0$
+
+--
+
+The significance is the probability to obtain your results with your sample knowing that there is no link between the variables in the real life:
+
+- Also called $p$-value
+- Is between 0% and 100% which corresponds to a value between 0.0 and 1.0
+
+**If the $p$-value is lower to 5% or 0.05, then the probability to obtain your results (knowing that there is no link between the variables) is low enough to say that there must be a link between the variables.**
+
+--
+
+Remember that the $p$-value is the probability of the data given the null hypothesis: $P(data|H_0)$.
+
+---
+
+# Estimating Regression's Coefficients
 
 As previously indicated, you will not have to calculate all the possible lines in your data to find the best fit, a software will do it for you:
 
@@ -293,32 +315,31 @@ knitr::include_graphics("img/jamovi_gui.png")
 ```
 
 ---
+
+# Anatomy of JAMOVI
+
+### 1. Different symbols for **variable types**
+
+```{r out.width = "15%"}
+knitr::include_graphics("img/jamovi_icons.png")
+```
+
+### 2. Distinction between **Factors** and **Covariates**:
+  - A Factor is a predictor of type categorical (nominal or ordinal)
+  - A Covariate is a predictor of type continuous
+  
+Expected variable type is displayed in bottom right corner of boxes
+
+### 3. Customise your analysis by **unfolding optional boxes**
+
+### 4. Two linear regression **tables by default**:
+  - Model Fit Measures
+  - Model Coefficients
+
+---
 class: inverse, mline, left, middle
 
 # 2. Hypothesis with Continuous Predictor
-
----
-
-# Main Effect Example
-
-.pull-left[
-```{r}
-dnd %>% 
-  dplyr::select(employee, salary, js_score) %>% 
-  knitr::kable(format = "html")
-```
-]
-.pull-right[
-```{r fig.height=5}
-dnd %>% 
-  ggplot(aes(x = salary, y = js_score, label = employee)) +
-  geom_point(color = "red", size = 5) +
-  geom_text_repel(point.padding = 0.5, size = 14) +
-  scale_y_continuous(limits = c(0, 10)) +
-  theme_bw() +
-  theme(text = element_text(size = 20))
-```
-]
 
 ---
 
@@ -341,7 +362,30 @@ $$js\_score = \beta_{0} + \beta_{1} * salary + \epsilon$$
 ]
 
 .pull-right[
-```{r eval=TRUE, fig.height=10}
+```{r}
+dnd %>% 
+  dplyr::select(employee, salary, js_score) %>% 
+  knitr::kable(format = "html")
+```
+]
+
+---
+
+# Main Effect Example
+
+.pull-left[
+```{r fig.height=10}
+dnd %>% 
+  ggplot(aes(x = salary, y = js_score, label = employee)) +
+  geom_point(color = "red", size = 5) +
+  geom_text_repel(point.padding = 0.5, size = 14) +
+  scale_y_continuous(limits = c(0, 10)) +
+  theme_bw() +
+  theme(text = element_text(size = 20))
+```
+]
+.pull-right[
+```{r fig.height=10}
 dnd %>% 
   ggplot(aes(x = salary, y = js_score, label = employee)) +
   geom_point(color = "black", size = 5) +
@@ -368,11 +412,13 @@ dnd %>%
   )
 ```
 ]
+
 ---
 
 # Main Effect Example
 
-### In JAMOVI:
+### In JAMOVI
+
 1. Open your file
 2. Set variables as continuous
 3. **Analyses** > **Regression** > **Linear Regression**
@@ -381,34 +427,14 @@ dnd %>%
 ```{r out.width = "100%"}
 knitr::include_graphics("img/jamovi_lm_main.png")
 ```
-
----
-
-# Anatomy of JAMOVI
-
-### 1. Different symbol for variable types
-
-```{r out.width = "15%"}
-knitr::include_graphics("img/jamovi_icons.png")
-```
-
-### 2. Distinction between **Factors** and **Covariates**:
-  - A Factor is a predictor of type categorical (nominal or ordinal)
-  - A Covariate is a predictor of type continuous
-  
-Expected variable type is displayed in bottom right corner of boxes
-
-### 3. Customise your analysis by unfolding optional boxes
-
-### 4. Two linear regression tables by default:
-  - Model Fit Measures
-  - Model Coefficients
   
 ---
 
 # Model Fit Measure Table
 
 The **Model Fit Measure** table tests the prediction **accuracy of your overall model** (all predictors taken into account).
+
+$Model_{a}: js\_score = \beta_{0} + \beta_{1} * salary + \epsilon\;vs.\; Model_{0}: js\_score = \beta_{0} + \epsilon$
 
 .pull-left[
 - The **Model** column indicate the reference of the model in case you want to compare multiple models
@@ -421,8 +447,8 @@ knitr::include_graphics("img/jamovi_mfm.png")
 ]
 
 - $R$ is the correlation between the outcome variable and all predictors taken into account (i.e., the closer to 1 or -1 the better, however in social science models with more that 0.2 or less than -0.2 are already excellent)
-- $R$ has to be distinguished with $r$. $r$ is only for 1 predictor whereas $R$ is for a model that can include multiple predictors
-- $R^2$ is the % of variance from the outcome explained by the model (e.g., $R^2 = 0.85$ means the model explains 85% of the variance of the outcome variable)
+- $R \neq r$: $R$ is for a model that can include multiple predictors whereas $r$ is only for 1 predictor 
+- $R^2$ is the % of variance from the outcome explained by the model (e.g., $R^2 = 0.73$ means the model explains 73% of the variance of the outcome variable)
 - $R^2$ is also called **Coefficient of Determination**
 
 ---
@@ -445,15 +471,15 @@ knitr::include_graphics("img/jamovi_mfm_full.png")
 
 # Communicate Model Fit Measures
 
-Remember that in null hypothesis testing, the p-value is the probability of the data given the null hypothesis: $P(data|H_0)$. It does not warrant conclusions about the probability of the null hypothesis given the data: $P(H_0|data)$.
-
 To communicate results about a model, APA style is a good guide. Report as follow:
 
 $R^2 = value_{R^2}$, $F(value_{df1},value_{df2}) = value_{F}$, $p = value_{p}$
 
 From our example:
 
-> The predictions from the model taking into account the predictors included are significantly different to the ones of a model with these predictors ( `r lm_1$full_result$modelfit$r2`).
+> The predictions from the model with our predictors are significantly better than the predictions from a model without predictor ( `r lm_1$full_result$modelfit$r2`).
+
+--
 
 Note about p-values: 
  - If p-value is higher than 0.001, write $p = 0.58$
@@ -506,7 +532,7 @@ $b = value_b$, **95% CI** $[value_{lower\,CI}$, $value_{upper\,CI}]$, $t(N - K -
 
 From our example:
 
-> The effect of $salary$ on $js\_score$ is statistically significant, therefore $H_0$ can be rejected ( `r lm_1$full_result$salary`).
+> The effect of $salary$ on $js\_score$ is statistically significant, therefore $H_0$ can be rejected (** `r lm_1$full_result$salary`**).
 
 ---
 
@@ -524,12 +550,12 @@ knitr::include_graphics("https://media.makeameme.org/created/what-is-something-5
 
 # Interaction Effect Example
 
-### Variables:
+### Variables
 - DV = $js\_score$ (from 0 to 10)
 - IV1 = $salary$ (from 0 to Inf.)
 - IV2 = $perf$ (from 0 to 10)
 
-### Hypothesis (one-tailed):
+### Hypotheses
 
 - $H_{a_{1}}$: When $salary$ increases, $js\_score$ increases as well (i.e., $\beta_1>0$) 
 - $H_{0_{1}}$: When $salary$ increases, $js\_score$ results stay the same (i.e., $\beta_1=0$)
@@ -544,7 +570,7 @@ knitr::include_graphics("https://media.makeameme.org/created/what-is-something-5
 
 # Interaction Effect Example
 
-### Equation:
+### Equation
 
 $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.perf + \beta_{3}.salary*perf + \epsilon$$
 
@@ -576,7 +602,7 @@ knitr::include_graphics("img/jamovi_lm_int.png")
 
 ### Overall model:
 
-> The prediction provided by the model with all predictors is significantly better that the model without predictors ( `r lm_2$full_result$modelfit$r2`).
+> The prediction provided by the model with all predictors is significantly better than a model without predictors ( `r lm_2$full_result$modelfit$r2`).
 
 ### Salary Hypothesis:
 
@@ -753,15 +779,15 @@ knitr::include_graphics("img/jamovi_lm_main_c2.png")
 
 ### Model:
 
-> The prediction provided by the model with all predictors is significantly better that the model without predictors ( `r lm_c$full_result$modelfit$r2`).
+> The prediction provided by the model with all predictors is significantly better than a model without predictors (** `r lm_c$full_result$modelfit$r2`**).
 
 ### Hypothesis (high = 1 vs. low = 2, default):
 
-> The effect of $salary\_c$ on $js\_score$ is statistically significant, therefore $H_{0_{1}}$ can be rejected ( **`r lm_c$full_result$salary_c`**).
+> The effect of $salary\_c$ on $js\_score$ is statistically significant, therefore $H_{0_{1}}$ can be rejected (** `r lm_c$full_result$salary_c`**).
 
 ### Hypothesis (low = 1 vs. high = 2, recoded):
 
-> The effect of $salary\_c$ on $js\_score$ is statistically significant, therefore $H_{0_{1}}$ can be rejected ( **`r lm_c2$full_result$salary_c`**).
+> The effect of $salary\_c$ on $js\_score$ is statistically significant, therefore $H_{0_{1}}$ can be rejected (** `r lm_c2$full_result$salary_c`**).
 
 ---
 
