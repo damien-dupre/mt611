@@ -1,0 +1,319 @@
+---
+title: "MT611 - Quantitative Research Methods"
+subtitle: "Lecture 4: Hypotheses with Categorical Variables"
+author: "Damien Dupré"
+date: "Dublin City University"
+output:
+  xaringan::moon_reader:
+    css: ["default", "metropolis", "metropolis-fonts", "css/custom_design.css"]
+    lib_dir: libs
+    nature:
+      beforeInit: "libs/cols_macro.js"
+      highlightStyle: zenburn
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+# general options --------------------------------------------------------------
+options(scipen = 999)
+set.seed(123)
+# chunk options ----------------------------------------------------------------
+knitr::opts_chunk$set(
+  cache.extra = knitr::rand_seed, 
+  message = FALSE, 
+  warning = FALSE, 
+  error = FALSE, 
+  echo = FALSE,
+  cache = FALSE,
+  comment = "", 
+  fig.align = "center", 
+  fig.retina = 3
+  )
+# libraries --------------------------------------------------------------------
+library(tidyverse)
+library(fontawesome)
+library(DiagrammeR)
+library(patchwork)
+library(ggrepel)
+library(papaja)
+library(knitr)
+library(kableExtra)
+
+# data -------------------------------------------------------------------------
+dnd <- readr::read_csv(here::here("data/dnd.csv"))  
+
+  # tibble::tibble(
+  #   gender = sample(c("male", "female"), 20, replace = TRUE),
+  #   location = sample(c("Ireland", "France", "Australia"), 20, replace = TRUE),
+  #   perf = rnorm(20, mean = 4, sd = 2),
+  #   salary = rnorm(20, mean = 30000, sd = 1000),
+  #   js_score = -55 + 0.002 * salary + rnorm(20, mean = 2, sd = 1)
+  # ) %>%
+  # tibble::rownames_to_column("employee") %>%
+  # dplyr::mutate(
+  #   js_score = case_when(
+  #     js_score > 10 ~ 10,
+  #     js_score < 0 ~ 0,
+  #     TRUE ~ js_score
+  #   ),
+  #   perf = case_when(
+  #     perf > 10 ~ 10,
+  #     perf < 0 ~ 0,
+  #     TRUE ~ perf
+  #   ),
+  #   salary_c = case_when(
+  #     salary >= mean(salary) ~ "high",
+  #     salary < mean(salary) ~ "low"
+  #   ),
+  #   perf_c = case_when(
+  #     perf >= mean(perf) + sd(perf) ~ "high",
+  #     perf < mean(perf) + sd(perf) & perf >= mean(perf) - sd(perf) ~ "medium",
+  #     perf < mean(perf) - sd(perf) ~ "low"
+  #   ),
+  # ) %>%
+  # readr::write_csv(here::here("data/dnd.csv"))
+
+# analyses ---------------------------------------------------------------------
+m_js_high <- mean(dnd$js_score[dnd$salary_c == "high"])
+m_js_low <- mean(dnd$js_score[dnd$salary_c == "low"])
+lm_1 <- lm(js_score ~ salary, data = dnd) %>% apa_print
+lm_2 <- lm(js_score ~ salary*perf, data = dnd) %>% apa_print
+lm_c <- lm(js_score ~ salary_c, data = dnd) %>% apa_print
+lm_c2 <- dnd %>% 
+  dplyr::mutate(salary_c = factor(salary_c, level = c("low", "high"))) %>% 
+  lm(js_score ~ salary_c, data = .) %>% apa_print
+lm_c3 <- lm(js_score ~ location, data = dnd) %>% aov %>% apa_print
+
+```
+
+class: inverse, mline, center, middle
+
+# Two-way ANOVA
+
+---
+
+# Two-way ANOVA
+
+One-way ANOVA is analyzing one Categorical predictor variable with more than 2 modalities over a Continuous outcome variable.
+
+But ANOVA can include more than one Categorical predictor variable:
+- if it includes 2 variables, it is called two-way ANOVA
+- if it includes 3 variables, it is called three-way ANOVA
+- ...
+
+But let's focus on a simple two-way ANOVA first.
+
+---
+
+# Two-way ANOVA
+
+Imagine the following example: you want to test the efficiency of the vaccine for the COVID-19 virus according patient gender.
+
+Your measure/Y/Outcome/DV is time for recovery (continuous from 0 to +Inf)
+Your predictors/X/IV are:
+- substance injected (Categorical with 2 modalities: Placebo vs. Vaccine)
+- gender (Categorical with 2 modalities: Female vs. Male)
+
+There is one hypothesis per variable:
+- Patient with Vaccine will have less recovery time than patient with Placebo
+- Female will have less recovery time than Male
+
+There are in fact 4 groups: Placebo-Female, Placebo-Male, Vaccine-Female and Vaccine-Male
+
+How to test these hypotheses?
+
+By default you can compute a linear regression and ask for an ANOVA table. Because there is only two modalities for each the default contrast will test our hypotheses.
+
+---
+
+# Two-way ANOVA
+
+Let's create:
+- a Dummy Coding to compare Placebo (0) vs Vaccine (1)
+- a Deviation Coding to compare Female (-0.5) vs Male (0.5)
+
+```{r}
+tibble::tribble(
+  ~Modality, ~contrast_1, ~contrast_2,
+  "Placebo-Female",   0,  -0.5,
+  "Placebo-Male",     0,   0.5,
+  "Vaccine-Female",   1,  -0.5,
+  "Vaccine-Male",     1,   0.5
+) %>% 
+  knitr::kable()
+```
+
+With these codings, a Linear Regression Model can directly test both hypotheses:
+
+$$time.recovery = b_{0} + b_{1}.contrast\_1 + b_{2}.contrast\_2 + \epsilon_{i}$$
+
+---
+
+# Two-way ANOVA with interaction effect
+
+The two previous hypotheses were testing only the main effect of `substance injected` and `gender`. Imagine we want to test the interaction hypotheses between `substance injected` and `gender`.
+
+The corresponding hypothesis would be that, **the effect of `substance injected` on `time recovery` will be different for Females compared to Males**.
+
+Because we have 4 groups, we can test 3 contrasts, so let's include a 3rd contrast testing this interaction effect. In the same way as traditional interaction effect testing, the interaction contrast is the **multiplication of contrast_1 and contrast_2**:
+
+```{r}
+tibble::tribble(
+  ~Modality, ~contrast_1, ~contrast_2, ~contrast_3,
+  "Placebo-Female",   0,  -0.5,    0,
+  "Placebo-Male",     0,   0.5,    0,
+  "Vaccine-Female",   1,  -0.5, -0.5,
+  "Vaccine-Male",     1,   0.5,  0.5
+) %>% 
+  knitr::kable()
+```
+
+And the Linear Regression Model will be:
+
+$$time.recovery = b_{0} + b_{1}.contrast\_1 + b_{2}.contrast\_2 + b_{3}.contrast\_3 + \epsilon_{i}$$
+
+---
+
+# A last thing about contrast coding: Orthogonality
+
+The best contrast matrix you can test is an orthogonal matrix, that means that sum of the multiplication of the contrasts for each group needs to be 0.
+
+From the previous example we had:
+
+(0 x -0.5 x 0) + (0 x 0.5 x 0) + (1 x -0.5 x -0.5) + (1 x 0.5 x 0.5) $\neq$ 0
+
+When the sum of the multiplication of the contrasts for each group is different than 0, this is an **unbalanced design**.
+
+It is important to know whether the comparisons you are conducting are orthogonal or not. However, it is not critical that you limit yourself to orthogonal comparisons. It is much more important to test the comparisons that make sense in terms of your experimental hypotheses.
+
+---
+
+# ANOVA for Unbalanced Designs
+
+There are three fundamentally different ways in which you might want to run an ANOVA in an unbalanced design. 
+- If you have a balanced design all three versions produce identical results.
+- However, when your design is unbalanced they don't give the same answers.
+
+They are not all equally appropriate to every situation. Some methods will be more appropriate to your situation than others.
+
+When you're looking at an ANOVA table, it helps to remember that each of those F-tests corresponds to a pair of models that are being compared. Of course, this leads naturally to the question of which pair of models is being compared. This is the fundamental difference between ANOVA Types I, II and III: each one corresponds to a different way of choosing the model pairs for the tests.
+
+---
+
+# Type I Sum of Squares
+
+The Type I method is sometimes referred to as the "sequential" sum of squares, because it involves a process of adding terms to the model one at a time.
+
+Suppose we want to run the full 2 X 2 factorial ANOVA, including interaction terms.
+
+The full model contains the outcome variable `time recovery`, the predictor variables `substance` and `gender`, and the interaction term `substance*gender`.
+
+This can be written as: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + b_{3}.substance*gender + \epsilon_{i}$
+
+The Type I strategy builds this model up sequentially, starting from the simplest possible model and gradually adding terms.
+
+The simplest possible model for the data would be one in which neither `substance` nor `gender` is assumed to have any effect on `time recovery`.
+
+The only term that would be included in such a model is the intercept, written as: $time.recovery = b_{0} + \epsilon_{i}$
+
+---
+
+# Type I Sum of Squares
+
+$time.recovery = b_{0} + \epsilon_{i}$ is our initial null hypothesis. 
+
+The next simplest model for the data would be one in which only one of the two main effects is included. The order actually turns out to matter, because `substance` has been included in the model first, the second model is:
+
+- Null model: $time.recovery = b_{0} + \epsilon_{i}$
+- Alternative model: $time.recovery = b_{0} + b_{1}.substance + \epsilon_{i}$
+
+The next step in our model building exercise is to add the other main effect term, so the next model in our sequence is:
+
+- Null model: $time.recovery = b_{0} + b_{1}.substance + \epsilon_{i}$
+- Alternative model: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + \epsilon_{i}$
+
+Finally, let's add the interaction effect `substance`*`gender`.
+
+- Null model: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + \epsilon_{i}$
+- Alternative model: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + b_{3}.substance*gender + \epsilon_{i}$
+
+---
+
+# Type I Sum of Squares
+
+The big problem with using Type I sum of squares is the fact that it really does depend on the order in which you enter the variables. Yet, in many situations the researcher has no reason to prefer one ordering over another.
+
+the Type I testing strategy really does treat the first main effect as if it had a kind of theoretical primacy over the second one. The consequence of all this is that Type I tests are very rarely of much interest.
+
+---
+
+# Type III Sum of Squares
+
+Type III tests are simple and the default in jamovi ANOVA. The basic idea behind Type III tests is extremely simple.
+
+Regardless of which term you're trying to evaluate, run the F-test in which the alternative hypothesis corresponds to the full ANOVA model as specified by the user, and the null model just deletes that one term that you're testing.
+
+## Test of `substance` effect
+
+- Null model: $time.recovery = b_{0} + b_{2}.gender + b_{3}.substance*gender + \epsilon_{i}$
+- Alternative model: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + b_{3}.substance*gender + \epsilon_{i}$
+
+## Test of `gender` effect
+
+- Null model: $time.recovery = b_{0} + b_{1}.substance + b_{3}.substance*gender + \epsilon_{i}$
+- Alternative model: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + b_{3}.substance*gender + \epsilon_{i}$
+
+## Test of `substance*gender` effect
+
+- Null model: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + \epsilon_{i}$
+- Alternative model: $time.recovery = b_{0} + b_{1}.substance + b_{2}.gender + b_{3}.substance*gender + \epsilon_{i}$
+
+---
+
+# Type III Sum of Squares
+
+At first pass, Type III tests seem like a nice idea. Firstly, we've removed the asymmetry that caused us to have problems when running Type I tests. And because we're now treating all terms the same way, the results of the hypothesis tests do not depend on the order in which we specify them. This is definitely a good thing. However, there is a big problem when interpreting the results of the tests, especially for main effect terms.
+
+In Type III tests, it's meaningless to talk about non-significant main effect if the interaction is significant because part of the main effects are included in the interaction.
+
+---
+
+# Type II Sum of Squares
+
+Type II tests are broadly similar to Type III tests. Start with a "full" model, and test a particular term by deleting it from that model. However, Type II tests are based on the marginality principle which states that you should not omit a lower order term from your model if there are any higher order ones that depend on it.
+
+Imagine we have 3 variables (A, B and C) and we are testing a full model with all interactions (AxB, AxC, BxC, and AxBxC). 
+
+The test of the main effect of A under the Type III test would be:
+
+- Null model: $outcome = B + C + A*B + A*C + B*C + A*B*C$
+- Alternative model: $outcome = A + B + C + A*B + A*C + B*C + A*B*C$
+
+The test of the main effect of A under the Type II test would be:
+
+- Null model: $outcome = B + C + B*C$
+- Alternative model: $outcome = A + B + C + B*C$
+
+Running the tests are again straightforward. Just select `Type 2` in the `Sum of squares` selection box in the jamovi `ANOVA` - `Model` options.
+
+---
+
+# Type II Sum of Squares
+
+Type II tests have some clear advantages over Type I and Type III tests. They don't depend on the order in which you specify factors (unlike Type I), and their main effect is not included in the possible intraction while tesing them (unlike Type III).
+
+As a consequence, it's usually easier to interpret the results of a Type II test than the results of a Type I or Type III test. For this reason, if you can't think of any obvious model comparisons that directly map onto your research questions but you still want to run an ANOVA in an unbalanced design, Type II tests are probably a better choice than Type I or Type III.
+
+
+---
+class: inverse, mline, left, middle
+
+<img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
+
+# Thanks for your attention and don't hesitate if you have any question!
+
+[`r fa(name = "twitter")` @damien_dupre](http://twitter.com/damien_dupre)  
+[`r fa(name = "github")` @damien-dupre](http://github.com/damien-dupre)  
+[`r fa(name = "link")` damien-datasci-blog.netlify.app](https://damien-datasci-blog.netlify.app)  
+[`r fa(name = "paper-plane")` damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)

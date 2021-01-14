@@ -40,6 +40,9 @@ library(tweetrmd)
 library(plotly)
 library(gapminder)
 library(patchwork)
+library(webshot2)
+library(VennDiagram)
+
 ```
 
 # Why Statistics?
@@ -78,9 +81,9 @@ Every hypothesis has a null hypothesis counterpart (no difference between groups
 #stroke: black
 #direction: right
 #align: center
-[Variables]->[Model]
-[Model]->[Hypotheses]
-[Hypotheses]->[Equation]
+[Variables]->[Hypotheses]
+[Hypotheses]->[Model]
+[Model]->[Equation]
 ```
 
 ---
@@ -279,7 +282,59 @@ Be careful, in the order of predictor and outcome is different according to the 
 
 # Predictors, Outcomes and Controls
 
-The only difference for control variables is that they are not included in the model and in the hypotheses but they are in the equation.
+A significant effect of a predictor on an outcome variable means that a variable X is explaining enough variance of the variable Y to be taken into account
+
+.pull-left[
+
+A **non-significant** p-values means there is no relationship exists between the variables
+```{r}
+venn.plot <- draw.pairwise.venn(
+  100, 100, 0, c("Predictor", "Outcome"), ind = FALSE)
+grid.draw(venn.plot)
+```
+
+]
+
+.pull-right[
+
+A **significant** p-values means a relationship exists between the variables
+
+```{r}
+venn.plot <- draw.pairwise.venn(
+  100, 100, 30, c("Predictor", "Outcome"), ind = FALSE)
+grid.draw(venn.plot)
+```
+]
+
+---
+
+# Predictors, Outcomes and Controls
+
+The significance is the probability to obtain your results with your sample knowing that there is no link between the variables in the real life:
+- Also called *p-value*
+- Is between 0% and 100% which corresponds to a value between 0.0 and 1.0
+
+**If the *p-value* is lower to 5% or 0.05, then the probability to obtain your results knowing that there is no link between the variables is low enough to say ...**
+
+.center["There MUST be a link between these variables!"]
+  
+---
+
+# Predictors, Outcomes and Controls
+
+## Correlation not Causation
+
+Hypothesis testing evaluates how two or more variable are related or correlated, there is no assumpution of one causing the other:
+
+* An "effect" is reciprocal and does not involves causality
+* Causality analysis is an other kind of test that involves:
+  1. To be sure that 2 variables are correlated
+  2. That one variable is the antecedent of the other
+  3. That no other variable is explaining this relationship
+
+## Control Variables
+
+The only difference for **control variables** is that they are not included in the model and in the hypotheses but they are in the equation.
 
 They are used to remove an irrelevant explanation of the variable changes.
 
@@ -293,7 +348,454 @@ In the research paper you have selected, identify the variables and their type (
 ---
 class: inverse, mline, center, middle
 
-# 2. Model
+# 2. Hypotheses
+
+---
+
+# Model and Hypotheses
+
+Model: Overview of the predicted relationship between variables
+
+Hypotheses:
+- Predictions supported by theory/literature
+- Tested to confirm or refute
+- Can be revised or abandoned
+
+Hypotheses are affirmations designed to precisely describe the predicted relationships between variables. 
+
+*“Hypothesis statements contain two or more variables that are measurable or potentially measurable and that specify how the variables are related”* (Kerlinger, 1986)
+
+---
+
+# Hypothesis Testing
+
+A hypothesis test consists of a test between two competing hypotheses:
+
+- A null hypothesis $H_0$ (pronounced “H-naught”) versus
+- An alternative hypothesis $H_a$ (also denoted $H_1$)
+
+Generally the null hypothesis is a claim that there is “no effect” or “no difference of interest”. In many cases, the null hypothesis represents the status quo or a situation that nothing interesting is happening. Furthermore, generally the alternative hypothesis is the claim the experimenter or researcher wants to establish or find evidence to support. It is viewed as a “challenger” hypothesis to the null hypothesis $H_0$.
+
+Testing hypotheses consists in evaluating the probability of having "the difference obtained in my sample" knowing that the null hypothesis is true in the real life.
+
+---
+
+# Formulating Hypotheses
+
+Hypotheses include
+
+- Predictor(s) / Independent Variable(s)
+- Outcome / Dependent Variable (DV)
+- Effect strength and direction
+ - different is called two-tailed or two-sided
+ - higher/lower is called one-tailed or one-sided
+
+![](https://www.simplypsychology.org/controlled-experiment.jpg)
+
+---
+
+# Effect Strength and Direction
+
+A comparative word in hypotheses:
+
+- Different
+- Bigger/Higher/Better *vs.* Smaller/Lower/Worst
+- Increase *vs.* Decrease
+
+The letter $\beta$ in equations
+
+Hypothesis cannot test equality between groups or modalities
+
+Hypothesis can only test differences
+
+---
+
+# Statistical Test
+
+I could try to present you the mathematics behind the T-test but the drawing of Allison Horst are much easier to understand.
+
+```{r out.width = '70%'}
+knitr::include_graphics("img/allison_horst/EOGPgsIUUAE4b1C.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPh_9UcAAOAyQ.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPjOYVAAAA7uX.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPkiyU0AEy1I5.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPlvJU8AIDLEV.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPnCXVUAAK5A1.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPonNUwAA37lg.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPqCzUcAABLwr.jpg")
+```
+
+---
+
+# Statistical Test
+
+```{r out.width = '100%'}
+knitr::include_graphics("img/allison_horst/EOGPssbVUAIX0wN.jpg")
+```
+
+---
+
+# Main Effect Hypothesis
+
+Replace with yours:
+
+- if IV is Categorical and DV is Categorical or Continuous
+
+{**IV Condition1**} is {**>or<**} on {**DV**} than {**IV Condition2**}
+
+- if IV is Continuous and DV is Categorical or Continuous
+
+The {**DV**} {**increase or decrease**} when {**IV**} {**increase or decrease**}
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+- DV = math exam results (continuous from 0 to 100)
+- IV = breakfast (categorical *yes* or *no*)
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    
+    'breakfast' -> 'math exam results'
+  }", height = 200)
+```
+
+--
+
+Hypothesis:
+
+- Students who eat breakfast will perform better on a math exam than students who do not eat breakfast
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+- DV = driving errors (continuous from 0 to Inf.)
+- IV = motorists talking on the phone (categorical *yes* or *no*)
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    
+    'motorists talking on the phone' -> 'driving errors'
+  }", height = 200)
+```
+
+--
+
+Hypothesis:
+
+- Motorists who talk on the phone while driving will be more likely to make errors on a driving course than those who do not talk on the phone
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+
+- DV = math exam results (continuous from 0 to 100)
+- IV = students’ sleep time (continuous from 0h to 24h)
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    
+    'students’ sleep time' -> 'math exam results'
+  }", height = 200)
+```
+
+--
+
+Hypothesis:
+
+- The results on a math exam increase when students’ sleep time increase
+
+---
+
+# Interaction Effect Hypothesis
+
+Replace with yours:
+
+- if IV1 is Categorical, IV2 is Categorical or Continuous and DV is Categorical or Continuous
+
+The effect of {**IV2**} on {**DV**} is {**>or<**} for {**IV1 Condition1**} than for {**IV1 Condition2**}
+
+- if IV1 is Continuous, IV2 is Categorical or Continuous and DV is Categorical or Continuous
+
+The effect of {**IV2**} on {**DV**} is {**>or<**} when {**IV1**} {**increase or decrease**}
+
+---
+
+# Interaction Effect Hypothesis
+
+In simple words ...
+
+```{r out.width="50%"}
+tweetrmd::tweet_screenshot(
+  tweetrmd::tweet_url("GioraSimchoni", "1255499208670527490"),
+  maxwidth = 300,
+  hide_media = FALSE,
+  theme = "dark"
+  )
+```
+
+---
+
+# Interaction Effect Hypothesis Examples
+
+Variables:
+
+- DV = math exam results (continuous from 0 to 100)
+- IV1 = gender (categorical male vs. female)
+- IV2 = sleep deprivation (categorical low, medium, high)
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node []
+    'sleep deprivation'; 'math exam results'; gender
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    gender -> ''
+    'sleep deprivation' -> '' [arrowhead = none]
+    ''-> 'math exam results'
+    
+    subgraph {
+      rank = same; gender; '';
+    }
+  }", height = 200)
+```
+
+--
+
+Hypothesis:
+
+- The effect of sleep deprivation on Math scores is higher for Males than for Females
+
+---
+
+# Interaction Effect Hypothesis Examples
+
+Variables:
+- DV = road accidents (continuous from 0 to Inf.)
+- IV1 = alcohol consumption (continuous from 0L to Inf.L)
+- IV2 = driving experience (categorical low, high)
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node []
+    'alcohol consumption'; 'road accidents'; 'driving experience'
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    'driving experience' -> ''
+    'alcohol consumption' -> '' [arrowhead = none]
+    ''-> 'road accidents'
+    
+    subgraph {
+      rank = same; 'driving experience' ; '';
+    }
+  }", height = 200)
+```
+
+--
+
+Hypothesis:
+
+- The effect of alcohol consumption on road accidents is lower for experienced drivers than for inexperienced drivers
+
+---
+
+# Mediation Effect Hypothesis
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = circle]
+    Z; X; Y
+    
+    X -> {Y Z}
+    Z -> Y
+
+  }", height = 200)
+```
+
+can be read as: 
+- "the main effect of X on Y is explained by Z"
+
+Warning, it involves 3 requirements:
+- "X have a **main** effect on Y"
+- "X have a **main** effect on Z"
+- "the **main** effect of X on Y **disappears** when Z is taken into account"
+
+Replace with yours:
+
+The effect of {**IV1**} on {**DV**} is mediated by {**IV2/Med**}
+
+---
+
+# Mediation Effect Hypothesis Example
+
+Variables:
+- DV = happiness (continuous from 0 to 7)
+- IV1 = math exam results (continuous from 0 to 100)
+- IV2 = self-esteem (continuous from 0 to 7)
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node []
+    'self-esteem'; 'math exam results'; happiness
+    
+    'math exam results' -> {happiness 'self-esteem'}
+    'self-esteem' -> happiness
+
+  }", height = 200)
+```
+
+--
+
+Hypothesis:
+- the effect of math exam results on happiness is mediated by self-esteem
+
+---
+
+# Example of Hypotheses in Research Papers
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex1_title.png")
+```
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex1_hyp.png")
+```
+---
+
+# Example of Hypotheses in Research Papers
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex2_title.png")
+```
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex2_hyp1.png")
+```
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex2_hyp2.png")
+```
+
+---
+
+# Find DVs and IVs in these Hypotheses
+
+- Overweight adults who value longevity are more likely than other overweight adults to lose their excess weight
+
+- Larger animals of the same species expend more energy than smaller animals of the same type.
+
+- Rainbow trout suffer more lice when water levels are low than other trout.
+
+- Professors who use a student-centered teaching method will have a greater positive rapport with their graduate students than professors who use a teacher-centered teaching method.
+
+---
+
+# Make your own Hypothesis
+
+|DV|IV1|IV2|
+|--|---|---|
+|Work motivation|Gender(Female/Male)|/|
+|Work motivation|Gender(Female/Male)|Origin(French/Irish)|
+|Work motivation|Gender(Female/Male)|Origin(French/Irish/Italians)|
+|Job Satisfaction|Stress(from 0 to 10)|/|
+|Job Satisfaction|Stress(from 0 to 10)|Origin(French/Irish)|
+|Job Satisfaction|Stress(from 0 to 10)|Age(Millennials/Baby boomers)|
+|Job Satisfaction|Stress(from 0 to 10)|Age(in year)|
+
+---
+
+# A Hypothesis Checklist
+
+- Does your hypothesis focus on something that you can actually test?
+- Does your hypothesis include both an independent and dependent variable?
+- Can you manipulate the variables?
+
+---
+class: title-slide, middle
+
+## Exercise
+
+In the research paper you have selected, identify or formulate the tested hypotheses (10min)
+
+---
+class: inverse, mline, center, middle
+
+# 3. Model
 
 ---
 
@@ -430,21 +932,6 @@ The arrow crossing the main effect arrow can be read as :
 - "X have a **main** effect on Y"
 - "Z have a **main** effect on Y"
 - "X and Z have an **interaction** effect on Y"
-
----
-
-# Interaction Effect Relationship
-
-In simple words ...
-
-```{r out.width="50%"}
-tweetrmd::tweet_screenshot(
-  tweetrmd::tweet_url("GioraSimchoni", "1255499208670527490"),
-  maxwidth = 300,
-  hide_media = FALSE,
-  theme = "dark"
-  )
-```
 
 ---
 
@@ -622,386 +1109,6 @@ class: title-slide, middle
 ## Exercise
 
 In the research paper you have selected, draw the model(s) tested (10min)
-
----
-class: inverse, mline, center, middle
-
-# 3. Hypotheses
-
----
-
-# Model and Hypotheses
-
-Model: Overview of the predicted relationship between variables
-
-Hypotheses:
-- Predictions supported by theory/literature
-- Tested to confirm or refute
-- Can be revised or abandoned
-
-Hypotheses are affirmations designed to precisely describe the predicted relationships between variables. 
-
-*“Hypothesis statements contain two or more variables that are measurable or potentially measurable and that specify how the variables are related”* (Kerlinger, 1986)
-
----
-
-# Hypothesis Testing
-
-A hypothesis test consists of a test between two competing hypotheses:
-
-- A null hypothesis $H_0$ (pronounced “H-naught”) versus
-- An alternative hypothesis $H_a$ (also denoted $H_1$)
-
-Generally the null hypothesis is a claim that there is “no effect” or “no difference of interest”. In many cases, the null hypothesis represents the status quo or a situation that nothing interesting is happening. Furthermore, generally the alternative hypothesis is the claim the experimenter or researcher wants to establish or find evidence to support. It is viewed as a “challenger” hypothesis to the null hypothesis $H_0$.
-
-Testing hypotheses consists in evaluating the probability of having "the difference obtained in my sample" knowing that the null hypothesis is true in the real life.
-
----
-
-# Formulating Hypotheses
-
-Hypotheses include
-
-- Predictor(s) / Independent Variable(s)
-- Outcome / Dependent Variable (DV)
-- Effect strength and direction
- - different is called two-tailed or two-sided
- - higher/lower is called one-tailed or one-sided
-
-![](https://www.simplypsychology.org/controlled-experiment.jpg)
-
----
-
-# Effect Strength and Direction
-
-A comparative word in hypotheses:
-
-- Different
-- Bigger/Higher/Better *vs.* Smaller/Lower/Worst
-- Increase *vs.* Decrease
-
-The letter $\beta$ in equations
-
-Hypothesis cannot test equality between groups or modalities
-
-Hypothesis can only test differences
-
----
-
-# Main Effect Hypothesis
-
-Replace with yours:
-
-- if IV is Categorical and DV is Categorical or Continuous
-
-{**IV Condition1**} is {**>or<**} on {**DV**} than {**IV Condition2**}
-
-- if IV is Continuous and DV is Categorical or Continuous
-
-The {**DV**} {**increase or decrease**} when {**IV**} {**increase or decrease**}
-
----
-
-# Main Effect Hypothesis Examples
-
-Variables:
-- DV = math exam results (continuous from 0 to 100)
-- IV = breakfast (categorical *yes* or *no*)
-
---
-
-Model:
-
-```{r eval=TRUE, fig.align="left"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-    
-    'breakfast' -> 'math exam results'
-  }", height = 200)
-```
-
---
-
-Hypothesis:
-
-- Students who eat breakfast will perform better on a math exam than students who do not eat breakfast
-
----
-
-# Main Effect Hypothesis Examples
-
-Variables:
-- DV = driving errors (continuous from 0 to Inf.)
-- IV = motorists talking on the phone (categorical *yes* or *no*)
-
---
-
-Model:
-
-```{r eval=TRUE, fig.align="left"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-    
-    'motorists talking on the phone' -> 'driving errors'
-  }", height = 200)
-```
-
---
-
-Hypothesis:
-
-- Motorists who talk on the phone while driving will be more likely to make errors on a driving course than those who do not talk on the phone
-
----
-
-# Main Effect Hypothesis Examples
-
-Variables:
-- DV = math exam results (continuous from 0 to 100)
-- IV = students’ sleep time (continuous from 0h to 24h)
-
---
-
-Model:
-
-```{r eval=TRUE, fig.align="left"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-    
-    'students’ sleep time' -> 'math exam results'
-  }", height = 200)
-```
-
---
-
-Hypothesis:
-
-- The results on a math exam increase when students’ sleep time increase
-
----
-
-# Interaction Effect Hypothesis
-
-Replace with yours:
-
-- if IV1 is Categorical, IV2 is Categorical or Continuous and DV is Categorical or Continuous
-
-The effect of {**IV2**} on {**DV**} is {**>or<**} for {**IV1 Condition1**} than for {**IV1 Condition2**}
-
-- if IV1 is Continuous, IV2 is Categorical or Continuous and DV is Categorical or Continuous
-
-The effect of {**IV2**} on {**DV**} is {**>or<**} when {**IV1**} {**increase or decrease**}
-
----
-
-# Interaction Effect Hypothesis Examples
-
-Variables:
-- DV = math exam results (continuous from 0 to 100)
-- IV1 = gender (categorical male vs. female)
-- IV2 = sleep deprivation (categorical low, medium, high)
-
---
-
-Model:
-
-```{r eval=TRUE, fig.align="left"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node []
-    'sleep deprivation'; 'math exam results'; gender
-    node [shape = point, width = 0, height = 0]
-    ''
-    
-    gender -> ''
-    'sleep deprivation' -> '' [arrowhead = none]
-    ''-> 'math exam results'
-    
-    subgraph {
-      rank = same; gender; '';
-    }
-  }", height = 200)
-```
-
---
-
-Hypothesis:
-
-- The effect of sleep deprivation on Math scores is higher for Males than for Females
-
----
-
-# Interaction Effect Hypothesis Examples
-
-Variables:
-- DV = road accidents (continuous from 0 to Inf.)
-- IV1 = alcohol consumption (continuous from 0L to Inf.L)
-- IV2 = driving experience (categorical low, high)
-
---
-
-Model:
-
-```{r eval=TRUE, fig.align="left"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node []
-    'alcohol consumption'; 'road accidents'; 'driving experience'
-    node [shape = point, width = 0, height = 0]
-    ''
-    
-    'driving experience' -> ''
-    'alcohol consumption' -> '' [arrowhead = none]
-    ''-> 'road accidents'
-    
-    subgraph {
-      rank = same; 'driving experience' ; '';
-    }
-  }", height = 200)
-```
-
---
-
-Hypothesis:
-
-- The effect of alcohol consumption on road accidents is lower for experienced drivers than for inexperienced drivers
-
----
-
-# Mediation Effect Hypothesis
-
-```{r eval=TRUE}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node [shape = circle]
-    Z; X; Y
-    
-    X -> {Y Z}
-    Z -> Y
-
-  }", height = 200)
-```
-
-can be read as: 
-- "the main effect of X on Y is explained by Z"
-
-Warning, it involves 3 requirements:
-- "X have a **main** effect on Y"
-- "X have a **main** effect on Z"
-- "the **main** effect of X on Y **disappears** when Z is taken into account"
-
-Replace with yours:
-
-The effect of {**IV1**} on {**DV**} is mediated by {**IV2/Med**}
-
----
-
-# Mediation Effect Hypothesis Example
-
-Variables:
-- DV = happiness (continuous from 0 to 7)
-- IV1 = math exam results (continuous from 0 to 100)
-- IV2 = self-esteem (continuous from 0 to 7)
-
---
-
-Model:
-
-```{r eval=TRUE, fig.align="left"}
-DiagrammeR::grViz("
-  digraph {
-    graph [rankdir = LR]
-  
-    node []
-    'self-esteem'; 'math exam results'; happiness
-    
-    'math exam results' -> {happiness 'self-esteem'}
-    'self-esteem' -> happiness
-
-  }", height = 200)
-```
-
---
-
-Hypothesis:
-- the effect of math exam results on happiness is mediated by self-esteem
-
----
-
-# Example of Hypotheses in Research Papers
-
-```{r out.width = "50%"}
-knitr::include_graphics("img/ex1_title.png")
-```
-
-```{r out.width = "50%"}
-knitr::include_graphics("img/ex1_hyp.png")
-```
----
-
-# Example of Hypotheses in Research Papers
-
-```{r out.width = "50%"}
-knitr::include_graphics("img/ex2_title.png")
-```
-
-```{r out.width = "50%"}
-knitr::include_graphics("img/ex2_hyp1.png")
-```
-
-```{r out.width = "50%"}
-knitr::include_graphics("img/ex2_hyp2.png")
-```
-
----
-
-# Find DVs and IVs in these Hypotheses
-
-- Overweight adults who value longevity are more likely than other overweight adults to lose their excess weight
-
-- Larger animals of the same species expend more energy than smaller animals of the same type.
-
-- Rainbow trout suffer more lice when water levels are low than other trout.
-
-- Professors who use a student-centered teaching method will have a greater positive rapport with their graduate students than professors who use a teacher-centered teaching method.
-
----
-
-# Make your own Hypothesis
-
-|DV|IV1|IV2|
-|--|---|---|
-|Work motivation|Gender(Female/Male)|/|
-|Work motivation|Gender(Female/Male)|Origin(French/Irish)|
-|Work motivation|Gender(Female/Male)|Origin(French/Irish/Italians)|
-|Job Satisfaction|Stress(from 0 to 10)|/|
-|Job Satisfaction|Stress(from 0 to 10)|Origin(French/Irish)|
-|Job Satisfaction|Stress(from 0 to 10)|Age(Millennials/Baby boomers)|
-|Job Satisfaction|Stress(from 0 to 10)|Age(in year)|
-
----
-
-# A Hypothesis Checklist
-
-- Does your hypothesis focus on something that you can actually test?
-- Does your hypothesis include both an independent and dependent variable?
-- Can you manipulate the variables?
-
----
-class: title-slide, middle
-
-## Exercise
-
-In the research paper you have selected, identify or formulate the tested hypotheses (10min)
 
 ---
 class: inverse, mline, center, middle
@@ -1497,7 +1604,7 @@ class: inverse, mline, center, middle
 
 ---
 
-# Know what you do
+# Understand your Analyses
 
 ```{r out.width="50%"}
 tweetrmd::tweet_screenshot(
@@ -1510,11 +1617,24 @@ tweetrmd::tweet_screenshot(
 
 ---
 
-# Know what you do
+# Understand your Analyses
 
 ```{r out.width="50%"}
 tweetrmd::tweet_screenshot(
   tweetrmd::tweet_url("JeffRouder", "1326938465938726915"),
+  maxwidth = 300,
+  hide_media = FALSE,
+  theme = "dark"
+  )
+```
+
+---
+
+# The General Linear Model
+
+```{r out.width="50%"}
+tweetrmd::tweet_screenshot(
+  tweetrmd::tweet_url("kylehamilton", "1349225426669817856"),
   maxwidth = 300,
   hide_media = FALSE,
   theme = "dark"

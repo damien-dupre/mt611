@@ -1,6 +1,6 @@
 ---
 title: "MT611 - Quantitative Research Methods"
-subtitle: "Lecture 3: Understanding the general linear model"
+subtitle: "Lecture 3: Understanding the General Linear Model"
 author: "Damien Dupré"
 date: "Dublin City University"
 output:
@@ -37,40 +37,44 @@ library(DiagrammeR)
 library(patchwork)
 library(ggrepel)
 library(papaja)
+library(ggfortify)
+library(ggcorrplot)
 
 # data -------------------------------------------------------------------------
+census <- readr::read_csv(here::here("data/ireland_census_2016.csv")) 
+iqsize <- read.table(here::here("data/iqsize.txt"), header = TRUE)
 dnd <- readr::read_csv(here::here("data/dnd.csv"))  
 
-  tibble::tibble(
-    gender = sample(c("male", "female"), 20, replace = TRUE),
-    location = sample(c("Ireland", "France", "Australia"), 20, replace = TRUE),
-    perf = rnorm(20, mean = 4, sd = 2),
-    salary = rnorm(20, mean = 30000, sd = 1000),
-    js_score = -55 + 0.002 * salary + rnorm(20, mean = 2, sd = 1)
-  ) %>%
-  tibble::rownames_to_column("employee") %>%
-  dplyr::mutate(
-    js_score = case_when(
-      js_score > 10 ~ 10,
-      js_score < 0 ~ 0,
-      TRUE ~ js_score
-    ),
-    perf = case_when(
-      perf > 10 ~ 10,
-      perf < 0 ~ 0,
-      TRUE ~ perf
-    ),
-    salary_c = case_when(
-      salary >= mean(salary) ~ "high",
-      salary < mean(salary) ~ "low"
-    ),
-    perf_c = case_when(
-      perf >= mean(perf) + sd(perf) ~ "high",
-      perf < mean(perf) + sd(perf) & perf >= mean(perf) - sd(perf) ~ "medium",
-      perf < mean(perf) - sd(perf) ~ "low"
-    ),
-  ) %>%
-  readr::write_csv(here::here("data/dnd.csv"))
+  # tibble::tibble(
+  #   gender = sample(c("male", "female"), 20, replace = TRUE),
+  #   location = sample(c("Ireland", "France", "Australia"), 20, replace = TRUE),
+  #   perf = rnorm(20, mean = 4, sd = 2),
+  #   salary = rnorm(20, mean = 30000, sd = 1000),
+  #   js_score = -55 + 0.002 * salary + rnorm(20, mean = 2, sd = 1)
+  # ) %>%
+  # tibble::rownames_to_column("employee") %>%
+  # dplyr::mutate(
+  #   js_score = case_when(
+  #     js_score > 10 ~ 10,
+  #     js_score < 0 ~ 0,
+  #     TRUE ~ js_score
+  #   ),
+  #   perf = case_when(
+  #     perf > 10 ~ 10,
+  #     perf < 0 ~ 0,
+  #     TRUE ~ perf
+  #   ),
+  #   salary_c = case_when(
+  #     salary >= mean(salary) ~ "high",
+  #     salary < mean(salary) ~ "low"
+  #   ),
+  #   perf_c = case_when(
+  #     perf >= mean(perf) + sd(perf) ~ "high",
+  #     perf < mean(perf) + sd(perf) & perf >= mean(perf) - sd(perf) ~ "medium",
+  #     perf < mean(perf) - sd(perf) ~ "low"
+  #   ),
+  # ) %>%
+  # readr::write_csv(here::here("data/dnd.csv"))
   
 # analyses ---------------------------------------------------------------------
 m_js_high <- mean(dnd$js_score[dnd$salary_c == "high"])
@@ -163,7 +167,7 @@ knitr::include_graphics("https://psyteachr.github.io/msc-data-skills/images/meme
 
 ### The corresponding model is:
 
-$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.perf + \beta_{1}.salary*perf + \epsilon$$
+$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.perf + \beta_{3}.salary*perf + \epsilon$$
 
 ---
 
@@ -205,10 +209,10 @@ For each point this specific prediction error is called **Residual**
 
 .pull-left[
 ```{r fig.width=5, fig.height=5}
-linear_model <- lm(js_score ~ salary, dnd)
+linear_model_1 <- lm(js_score ~ salary, dnd)
 
-dnd$predicted <- predict(linear_model)   # Save the predicted values
-dnd$residuals <- residuals(linear_model) # Save the residual values
+dnd$predicted <- predict(linear_model_1)   # Save the predicted values
+dnd$residuals <- residuals(linear_model_1) # Save the residual values
 
 plot_error <- dnd %>% 
   ggplot(aes(salary, js_score, label = residuals)) +
@@ -389,7 +393,7 @@ dnd %>%
 dnd %>% 
   ggplot(aes(x = salary, y = js_score, label = employee)) +
   geom_point(color = "black", size = 5) +
-  geom_smooth(method = "lm", size = 2, fullrange = TRUE, se = FALSE) +
+  geom_smooth(method = "lm", formula = "y ~ x", size = 2, fullrange = TRUE, se = FALSE) +
   geom_hline(yintercept = mean(dnd$js_score), color = "red", size = 2) +
   scale_y_continuous(limits = c(0, 10)) +
   theme_bw() +
@@ -398,17 +402,19 @@ dnd %>%
     "text", 
     x = 29000, 
     y = 7.5, 
-    label = bquote(H[0]*": "*beta[1]*" = 0"), 
+    label = "H[0]:beta[1] == 0", 
     color = "red", 
-    size = 6
+    size = 6,
+    parse = TRUE
   ) +
   annotate(
     "text", 
     x = 30500, 
     y = 10, 
-    label = bquote(H[1]*": "*beta[1]*" > 0"), 
+    label = "H[1]:beta[1] > 0", 
     color = "blue", 
-    size = 6
+    size = 6,
+    parse = TRUE
   )
 ```
 ]
@@ -661,293 +667,520 @@ $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.perf + \beta_{3}.salary\_
 $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.salary*perf + \epsilon$$
 
 ---
-class: inverse, mline, left, middle
 
-# 3. Hypothesis with Categorical Predictor
+class: inverse, mline, center, middle
 
----
-
-# Categorical Predictor with 2 Modalities
-
-### Variable transformation
-
-Instead of using $salary$ as a **continuous variable**, let's convert it as $salary\_c$ which is a **categorical variable**:
-- Everything higher than or equal to salary average is labelled "**high**" salary
-- Everything lower than salary average is labelled "**low**" salary
-
-### Hypothesis
-
-The average $js\_score$ of employer having a **high** $salary\_c$ is higher than for those having a **low** $salary\_c$
-
-### In mathematical terms
-
-$$H_a: \mu(js\_score)_{high\,salary} > \mu(js\_score)_{low\,salary}$$
-$$H_0: \mu(js\_score)_{high\,salary} = \mu(js\_score)_{low\,salary}$$
+# 3. Assumptions of Regression Model
 
 ---
 
-# Categorical Predictor with 2 Modalities
+# Assumptions of Regression Model
 
-### The trick to remember
+People are using Linear Regression for all hypotheses testing, exactly how I just did but...
 
-**Comparing the difference between two averages is the same as comparing the slope of the line crossing these two averages**
+Linear Regression (as well as t-test and ANOVA should be used **only if requirements are meet**:
 
-### Explanation
+## 1. Linearity (of the effects). 
+
+## 2. Normality (of the residuals).
+
+## 3. Independence (of observations). 
+
+## 4. Homoscedasticity (of the residuals) 
+
+While the assumption of a Linear Model are never perfectly met in reality, we must check if there are reasonable enough assumption that we can work with them.
+
+---
+
+# Assumptions 1: Linearity
+
+A pretty fundamental assumption of the linear regression model is that the relationship between X and Y actually is linear.
+
+**How to check it**: Plot the data and have a look (here simulated data)
+
+```{r fig.height=4, fig.width=10}
+df <- data.frame(
+  x = c(0,5,10,6 ,9,13,15,16,20,21,24,26,29,30,32,34,36,38,40,43,44,45, 50,60) - 15,
+  y = c(0.00,0.10,0.25,0.15,0.24,0.26,0.30,0.31,0.40,0.41,0.49,0.50,0.56, 0.80,0.90,1.00,1.00,1.00,0.80,0.50,0.40,0.20,0.15,0.00)*10
+  )
+
+raw_plot <- df %>% 
+  ggplot(aes(x, y)) +
+  geom_point() +
+  theme_bw()
+
+linear_model_1 <- lm(y ~ x, data = df)
+
+df$predicted <- predict(linear_model_1)   # Save the predicted values
+df$residuals <- residuals(linear_model_1) # Save the residual values
+
+linear_plot <- df %>% 
+  ggplot(aes(x, y)) +
+  geom_segment(aes(xend = x, yend = predicted)) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_bw()
+
+loess_model <- loess(y ~ x, data = df, span = 5)
+
+df$predicted <- predict(loess_model)   # Save the predicted values
+df$residuals <- residuals(loess_model) # Save the residual values
+
+loess_plot <- df %>% 
+  ggplot(aes(x, y)) +
+  geom_segment(aes(xend = x, yend = predicted)) +
+  geom_point() +
+  geom_smooth(method = "loess", span = 5) +
+  theme_bw()
+
+
+raw_plot + linear_plot + loess_plot
+
+```
+
+If the shape of the data is non linear then even the best linear model will have very big residuals and therefore very high $MSE$ or $RMSE$.
+
+---
+
+# Assumptions 2: Normality
+
+Like many of the models in statistics, simple or multiple linear regression relies on an assumption of normality. Specifically, **it assumes that the residuals are normally distributed**. **It's actually okay if the predictors X and the outcome Y are non-normal**, as long as the residuals $\epsilon$ are normal.
+
+### Three kinds of residuals:
+
+- **Ordinary residuals**: Distance between the prediction and the observed value from your variable (called $\epsilon$). In case of a multiple linear regression with variables using different scales, the ordinary residuals will have different scales as well.
+
+- **Standardised residuals**: Normalised residuals used for comparison between variables having different scales.
+ 
+- **Studentised residuals**: Normalised residuals for even more standardised comparisons between variables having different scales.
+
+---
+
+# Assumptions 2: Normality with QQ-plot
+
+Plot of the theoretical quantiles according to the model, against the quantiles of the standardised residuals (JAMOVI: Assumption Checks > Q-Q plot of residuals).
+
+```{r fig.height=4, fig.width=10}
+df <- data.frame(
+  normal = rnorm(1000)
+  ) %>% 
+  dplyr::mutate(
+    skew_right = ifelse(normal > 0, normal * 2.5, normal),
+    skew_left = ifelse(normal < 0, normal * 2.5, normal),
+    fat_tails = normal * 2.5
+  ) %>% 
+  tidyr::pivot_longer(everything(), names_to = "type", values_to = "value") %>% 
+  dplyr::mutate(type = factor(type, levels = c("normal", "skew_right", "skew_left", "fat_tails")))
+  
+distribution_plot <- df %>% 
+  ggplot(aes(x = value, y = ..density..)) +
+  geom_histogram(colour = "black", fill = "white") +
+  facet_grid(.~type) +
+  theme_bw()
+
+qq_plot <- df %>% 
+  ggplot(aes(sample = value)) + 
+  stat_qq() + 
+  stat_qq_line() +
+  facet_grid(.~type) +
+  theme_bw()
+
+distribution_plot/qq_plot
+```
+
+- If the standardised residuals are normality distributed, then the QQ-plot has a straight line (plot 1 and 4)
+- If the standardised residuals are skewed right/left, then the QQ-plot is attracted in the opposite direction (plot 2 and 3)
+
+---
+
+# Assumptions 3: Homogeneity
+
+The regression model assumes that each residual $\epsilon$ is generated from a normal distribution: **the standard deviation of the residual should be the same for all values of Y**. 
 
 .pull-left[
-- If two averages are **equal**, then the **slope of the line crossing these two averages is 0**
-- If two averages are **not equal**, then **the slope of the line crossing these two averages is not 0**
+In Jamovi, use **Residuals Plot** option providing a scatterplot for each predictor variable, the outcome variable, and the predicted values against residuals.
+
+If the linearity assumption is met **we should see no pattern here, only a cloud of points**.
 ]
+
 .pull-right[
-```{r fig.width=4, fig.height=4}
-ggplot(dnd, aes(x = salary_c, y = js_score)) + 
-  geom_jitter(width = 0.1) +
-  geom_segment(x = 1, xend = 2, y = m_js_high, yend = m_js_low, lwd = 2, color = "red") +
-  geom_hline(yintercept = (m_js_high + m_js_low)/2, linetype = "dashed") +
-  stat_summary(fun = mean, geom = "errorbar", aes(ymax = ..y.., ymin = ..y..), lwd = 2, color = "blue") +
-  theme(
-    legend.position = "none",
-    text = element_text(size = 20)
-    )
+```{r, fig.height=5, fig.width=5}
+model <- lm(fert_r ~ percent_owner_occupier_with_mortgage_households + percent_owner_occupier_no_mortgage_households + percent_private_rented + percent_social_rented + percent_rented_free_of_rent_households, data = census)
+
+test <- autoplot(model, label.size = 3, alpha = 0.1) +
+  theme_classic() +
+  theme(text = element_text(size = 14))
+
+test@plots[[1]]
 ```
 ]
 
-Here **high is coded with the value 1** and **low is coded with the value 2**
-
 ---
 
-# Categorical Predictor with 2 Modalities
+# Assumptions 4: Independent Residuals
 
-### Warning
+To check this assumption, you need to know how the data were collected. **Is there a reason why two observations could be artificially related?**
 
-JAMOVI and other software **automatically code categorical variable following alphabetical order** but sometimes you need your own system of coding to make. 
+> For example, an experiment investigating marriage satisfaction according the duration of the marriage will be flawed if data are collected from both partners. Indeed the satisfaction from 1 member of the couple should be correlated to the satisfaction of the other couple. 
 
-For example, here **low coded with the value 1** and **high coded with the value 2** would make more sense
+Make sure your participant does not know each others or then use the so called "linear mixed models".
 
-```{r fig.width=4, fig.height=4}
-dnd %>% 
-  dplyr::mutate(salary_c = factor(salary_c, levels = c("low", "high"))) %>% 
-  ggplot(aes(x = salary_c, y = js_score)) + 
-  geom_jitter(width = 0.1) +
-  geom_segment(x = 1, xend = 2, yend = m_js_high, y = m_js_low, lwd = 2, color = "red") +
-  geom_hline(yintercept = (m_js_high + m_js_low)/2, linetype = "dashed") +
-  stat_summary(fun = mean, geom = "errorbar", aes(ymax = ..y.., ymin = ..y..), lwd = 2, color = "blue") +
-  theme(
-    legend.position = "none",
-    text = element_text(size = 20)
-    )
-```
-
----
-
-# Categorical Predictor with 2 Modalities
-
-The way how categorical variables are coded will influence:
-- The sign of the estimate (positive vs. negative)
-- The value of the non-standardized estimate
-
-But **it doesn't change the value of the statistical test** nor the $p$-value obtained
-
-Note: This test is usually done using a $t$-test but will produce the same result as $t$-test is a special case of the General Linear Model
-
-### To sum up
-
-**To test the influence of a categorical predictor** variable either nominal or ordinal **having two modalities** (e.g., high vs. low, male vs. female, France vs. Ireland), it is possible to **test if the $\beta$ associated to this predictor is significantly different, higher or lower than 0**.
-
-### Equation
-
-$$js\_score = \beta_{0} + \beta_{1} * salary\_c + \epsilon$$
-
----
-
-# Testing Categorical Predictors
-
-### In JAMOVI
-
-1. Open your file
-2. Set variables in their **correct type** (continuous, cat. nominal or cat. ordinal)
-3. **Analyses > Regression > Linear Regression**
-4. Set $js\_score$ as DV and $salary\_c$ as Factors
-
-```{r out.width = "100%"}
-knitr::include_graphics("img/jamovi_lm_main_c2.png")
-```
-
----
-
-# Testing Categorical Predictors
-
-### Model:
-
-> The prediction provided by the model with all predictors is significantly better than a model without predictors (** `r lm_c$full_result$modelfit$r2`**).
-
-### Hypothesis (high = 1 vs. low = 2, default):
-
-> The effect of $salary\_c$ on $js\_score$ is statistically significant, therefore $H_{0_{1}}$ can be rejected (** `r lm_c$full_result$salary_c`**).
-
-### Hypothesis (low = 1 vs. high = 2, recoded):
-
-> The effect of $salary\_c$ on $js\_score$ is statistically significant, therefore $H_{0_{1}}$ can be rejected (** `r lm_c2$full_result$salary_c`**).
-
----
-
-# Coding of Categorical Predictors
-
-Choosing 1 and 2 are **just arbitrary numerical values** but any other possibility will produce the same $p$-value
-
-However choosing codes separated by 1 is handy because it's easily interpretable, the **non-standardized estimate corresponds to the change from one modality to another**:
-
-> When "low" is coded 1 and "high" coded 2, the average $js\_score$ for "high" $salary\_c$ employes is `r round(m_js_high - m_js_low, 2)` higher than the average $js\_score$ for "low" $salary\_c$ employees
-
----
-
-# Coding of Categorical Predictors
-
-### Special case called **Dummy Coding** when a modality is coded 0 and the other 1:
-- Then the intercept, value of JS when salary is 0 corresponds to the modality coded 0
-- The test of the intercept is the test of the average for the modality coded 0 against an average of 0
-- Is called simple effect
-
-### Special case called **Deviation Coding** when a modality is coded 1 and the other -1:
-- Then the intercept, corresponds to the average between the two modalities
-- The test of the intercept is the test of the average for the variable
-- However, the distance between 1 and -1 is 2 units so the estimate is not as easy to interpret, therefore it is possible to choose modalities coded 0.5 vs. -0.5 instead
-
----
-
-# Interaction with Categorical Variables
-
-### In JAMOVI
-
-1. Open your file
-2. Set variables according their type
-3. **Analyses > Regression > Linear Regression**
-4. Set $js\_score$ as DV and $salary\_c$ as well as $gender$ as Factors
-4. In **Model Builder** option: select both $salary\_c$ and $gender$ to bring them in the Factors at once
-
-### Model Tested
-
-$$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.gender + \beta_{3}.salary\_c*gender + \epsilon$$
-
-Note: The test of the interaction effect corresponds to the test of a variable resulting from the multiplication between the codes of $salary\_c$ and the codes of $gender$.
-
----
-
-# Interaction with Categorical Variables
-
-```{r out.width = "100%"}
-knitr::include_graphics("img/jamovi_lm_main_cint.png")
-```
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-### Problem with more than 2 groups
-
-I would like to test the effect of the variable $location$ which has 3 modalities: "Ireland", "France" and "Australia".
-
-```{r}
-knitr::include_graphics("img/jamovi_lm_main_c31.png")
-```
-
-There is not 1 result for $location$ but 2!
-- Comparison of "France" vs. "Australia"
-- Comparison of "Ireland" vs. "Australia"
-
-### How can I test the effect of the full variable?
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-An hypothesis for a categorical predictor with 3 or more modalities predicts that at least one group among the 3 groups will have an average significantly different than the other averages.
-
-### With $location$ the hypothesis is the following
-
-> The average $js\_score$ of employees working in at least one specific $location$ will be significantly different than the average $js\_score$ of employees working in the other $location$.
-
-### In mathematical terms
-
-- $H_0$: it is true that $\mu_{Ireland} = \mu_{France} = \mu_{Australia}$
-- $H_a$: it is **not** true that $\mu_{Ireland} = \mu_{France} = \mu_{Australia}$
-
-This analysis is usually preformed using a one-way ANOVA but as ANOVA are special cases of the General Linear Model, let's keep this approach.
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-```{r}
-dnd %>% 
-  ggplot(aes(x = location, y =  js_score)) + 
-  geom_jitter(width = 0.1) +
-  geom_hline(yintercept = mean(dnd$js_score), linetype = "dashed") +
-  stat_summary(fun = mean, geom = "errorbar", aes(ymax = ..y.., ymin = ..y..), lwd = 2, color = "blue") +
-  theme(
-    legend.position = "none",
-    text = element_text(size = 20)
-  )
-```
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-### In JAMOVI
-
-1. Open your file
-2. Set variables according their type
-3. Analyses > Regression > Linear Regression
-4. Set $js\_score$ as DV and $location$ as Factors
-5. In **Model Coefficients** option: select **Omnibus Test ANOVA test**
-
-```{r out.width = "40%"}
-knitr::include_graphics("img/jamovi_lm_main_c32.png")
-```
-
-### Results
-
-> The is a significant effect of employee's $location$ on their average $js\_score$ ( `r lm_c3$statistic$location`)
+In general, this is really just a "catch all" assumption, to the effect that "there's nothing else funny going on in the residuals". If there is something weird (e.g., the residuals all depend heavily on some other unmeasured variable) going on, it might screw things up.
 
 ---
 class: title-slide, middle
 
 ## Exercise (10 min)
 
-Using the dnd.csv dataset, test the following models:
+Test the assumptions of the following linear regression: 
 
-1. $$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.location + \epsilon$$
+$$js\_score = \beta_{0} + \beta_{1}.salary + \epsilon$$
 
-2. $$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.location + \beta_{3}.salary\_c*location + \epsilon$$
+### 1. Linearity (of the effects). 
 
-3. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \epsilon$$
+### 2. Normality (of the residuals).
 
-4. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.salary*location + \epsilon$$
+### 3. Independence (of observations). 
 
-5. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \epsilon$$
+### 4. Homoscedasticity (of the residuals) 
 
-6. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \beta_{4}.salary*location +$$
-$$\beta_{5}.perf*location + \beta_{6}.perf*salary + \beta_{7}.salary*location*perf + \epsilon$$
+---
+class: inverse, mline, center, middle
+
+# 4. More Assumptions
 
 ---
 
-# Coming up in MT611
+# Uncorrelated Predictors
 
-### More questions to answer
+In a multiple regression model, you don't want your predictors to be too strongly correlated with each other:
 
-- How to test for a specific group being different than other in categorical variables with 3+ modalities?
-- What are the conditions to apply a General Linear Model?
-- What are $p$-values and how to obtain the predicted effect?
+* This isn't technically an assumption of the regression model, but in practice it's required
+* Predictors that are too strongly correlated with each other (referred to as collinearity) can cause problems when evaluating the model
 
-### Even more complicated models with JAMOVI
+### How to check it
+- JAMOVI: **Regression > Correlation Matrix > Plot Correlation Matrix**
 
-- Mediations and Moderated Mediations
-- Structural Equation Models
-- Generalized Linear Models
-- Generalized Linear Mixed Models
+### Example
 
-### Always more homework
+.pull-left[
+Imagine American scientist trying to predict individual's IQ by using their height, weight and the size of their brain as follow:
+
+$$IQ = \beta_0 + \beta_1Height + \beta_2Weight + \beta_3Brain + \epsilon$$
+]
+
+.pull-right[
+```{r, fig.height=3, fig.width=3}
+iqsize %>% 
+  cor() %>% 
+  ggcorrplot::ggcorrplot(
+    hc.order = TRUE,
+    type = "lower",
+    outline.col = "white",
+    lab = TRUE
+  )
+```
+]
+
+
+---
+
+# Uncorrelated Predictors
+
+**Variance Inflation Factors** (VIFs) is a very good measure of the extent to which a variable is correlated with all the other variables in the model. **A cut off value of 5 is commonly used**.
+
+### How to check it
+
+- JAMOVI: **Regression > Linear Regression: Assumption Checks "Collinearity statistics"**
+
+```{r}
+res <- jmv::linReg(
+    data = iqsize,
+    dep = PIQ,
+    covs = vars(Brain, Height, Weight),
+    blocks = list(
+        list(
+            "Brain",
+            "Height",
+            "Weight")),
+    refLevels = list(),
+    collin = TRUE)
+
+res$models[[1]]$assump$collin$asDF %>%
+  knitr::kable(digits = 2)
+```
+
+---
+
+# No Anomalous Data
+
+Again, not actually a technical assumption of the model (or rather, it's sort of implied by all the others), but there is **an implicit assumption that your regression model isn't being too strongly influenced by one or two anomalous data points** because this raises questions about the adequacy of the model and the trustworthiness of the data in some cases.
+
+### Three kinds of anomalous data
+
+- Harmless Outlier Observations
+- High Leverage Observations
+- High Influence Observations
+
+---
+
+# Harmless Outlier Observations
+
+An "harmless" outliers is **an observation that is very different from what the regression model predicts**. In practice, we operationalise this concept by saying that an outlier is an observation that has a very large Studentised residual.
+
+.pull-left[
+Outliers are interesting: 
+
+* A big outlier might correspond to junk data, e.g., the variables might have been recorded incorrectly in the data set, or some other defect may be detectable. 
+* You shouldn't throw an observation away just because it's an outlier. But the fact that it's an outlier is often a cue to look more closely at that case and try to find out why it's so different.
+]
+
+.pull-right[
+```{r fig.height=5, fig.width=5}
+mydata <- within(data.frame(x=1:10), y <- rnorm(x, mean=x))
+fm.orig <- lm(y ~ x, data=mydata)
+mydata$y[6] <- 20
+fm.lm <- update(fm.orig)
+plot(y ~ x, data=mydata)
+abline(fm.orig, lty="dashed")    # use a dashed line
+abline(fm.lm)
+legend(
+  "topright", 
+  inset=0.03, 
+  bty="n",
+  legend = c("Fit without outlier", "Fit with outlier"),
+  lty = c("dashed", "solid")
+  )
+```
+]
+
+
+---
+
+# High Leverage Observations
+
+The second way in which an observation can be unusual is if it has high leverage, which happens when the observation is **very different from all the other observations and influences the slope of the linear regression**. 
+
+.pull-left[
+This doesn't necessarily have to correspond to a large residual. 
+
+If the observation happens to be unusual on all variables in precisely the same way, it can actually lie very close to the regression line.
+
+High leverage points are also worth looking at in more detail, but they're much less likely to be a cause for concern.
+]
+
+.pull-right[
+```{r fig.height=5, fig.width=5}
+mydata <- within(data.frame(x=1:10), y <- rnorm(x, mean = x))
+fm.orig <- lm(y ~ x, data=mydata)
+mydata$y[9] <- 5
+fm.lm <- update(fm.orig)
+plot(y ~ x, data=mydata)
+abline(fm.orig, lty="dashed")    # use a dashed line
+abline(fm.lm)
+legend(
+  "topright", 
+  inset = 0.03, 
+  bty = "n",
+  legend = c("Fit without high leverage", "Fit with high leverage"),
+  lty = c("dashed", "solid")
+  )
+```
+]
+
+---
+
+# High Influence Observations
+
+A high influence observation is an outlier that has high leverage. That is, it is **an observation that is
+very different to all the other ones in some respect, and also lies a long way from the regression line**.
+
+.pull-left[
+We operationalise influence in terms of a measure known as **Cook's distance**. 
+
+In Jamovi, information about Cook's distance can be calculated by clicking on the Cook's Distance' checkbox in the **Assumption Checks > Data Summary** options. 
+
+A Cook's distance greater than 1 is considered large.
+]
+
+.pull-right[
+```{r fig.height=5, fig.width=5}
+mydata <- within(data.frame(x=1:10), y <- rnorm(x, mean=x))
+fm.orig <- lm(y ~ x, data=mydata)
+mydata$y[9] <- 20
+fm.lm <- update(fm.orig)
+plot(y ~ x, data=mydata)
+abline(fm.orig, lty="dashed")    # use a dashed line
+abline(fm.lm)
+legend(
+  "topright", 
+  inset = 0.03, 
+  bty = "n",
+  legend = c("Fit without high influence", "Fit with high influence"),
+  lty = c("dashed", "solid")
+  )
+```
+]
+
+---
+class: title-slide, middle
+
+## Exercise (5 min)
+
+Check if the the relationship between $js\_score$ and $salary$ as well as between $js\_score$ and $pref$ have some:
+
+### 1. Harmless Outlier Observations
+### 2. High Leverage Observations
+### 3. High Influence Observations
+
+---
+class: inverse, mline, center, middle
+
+# 5. Model Selection
+
+---
+
+# First Warning
+
+Model Selection is also called Hierarchical Linear Regression but is **NOT** Hierarchical Linear Model.
+
+- **Hierarchical Linear Regression** compares 2 or more models with fixed effects
+- **Hierarchical Linear Model** compares 2 or more models with random effects (also called Multilevel Model)
+
+Here we are using the term **Model Selection** for **Hierarchical Linear Regression**.
+
+---
+
+# Default Model Testing in Multiple Regression
+
+Imagine you are **testing the model** that includes the variables $X$ and $Z$ have an effect on the variable $Y$ such as:
+
+$$H_a: Y = \beta_{0} + \beta_{1}.X + \beta_{2}.Z + \epsilon$$
+
+If nothing is specified, the null hypothesis $H_0$ is always the following:
+
+$$H_0: Y = \beta_{0} + \epsilon$$
+
+But when there are multiple predictors, the $p$-values provided are only in reference to this simpliest model.
+
+If you want to evaluate the effect of the variable $Z$ while $X$ is taken into account, it is possible to specify $H_0$ as being not that simple such as:
+
+$$H_0: Y = \beta_{0} + \beta_{1}.X + \epsilon$$
+
+This is a Model Comparison!
+
+---
+
+# Default Model Testing in Multiple Regression
+
+Example, imagine a model predicting $js\_score$ with $salary$ and $perf$:
+
+$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.perf + \epsilon\;(full\;model)$$
+
+In the Model Fit table of Jamovi, this model will be compared to a null model as follow:
+
+$$js\_score = \beta_{0} + \epsilon\;(null\;model)$$
+
+However it is possible to use a more complicated model to be compared with:
+
+$$js\_score = \beta_{0} + \beta_{1}.salary + \epsilon\;(simple\;model)$$
+
+Comparing the full model with a simple model consist in evaluating the added value of a new variable in the model, here $perf$.
+
+---
+
+# Model Comparison
+
+A model comparison can:
+
+- Compare Full Model with a more complicated model (called Simple Model)
+- Indicates if a variable is useful in a model
+
+This principle is often referred to as Ockham's razor and is often summarised in terms of the following pithy saying: do not multiply entities beyond necessity. In this context, it means don't chuck in a bunch of largely irrelevant predictors just to boost your $R^2$.
+
+To evaluate the good-fitness of a model, the **Akaike Information Criterion** also called $AIC$ (Akaike 1974) is compared between the models: 
+
+- The smaller the $AIC$ value, the better the model performance
+- $AIC$ can be added to the Model Fit Measures output Table when the $AIC$ checkbox is clicked
+
+---
+
+# Model Comparison in JAMOVI
+
+```{r}
+res <- jmv::linReg(
+  data = dnd,
+  dep = js_score,
+  covs = vars(
+    salary,
+    perf
+  ),
+  blocks = list(
+    list("salary"),
+    list("perf")
+  ),
+  refLevels = list(),
+  aic = TRUE,
+  modelTest = TRUE)
+```
+
+In Model Builder create Block 1 as your Simple Model and a New Block 2 with the additional predictor.
+
+Details of Model 1 (Simple Model) and Model 2 (Full Model):
+
+```{r}
+res$modelFit$asDF %>%
+  knitr::kable()
+```
+
+Evaluation of significant difference between the two models:
+
+```{r}
+res$modelComp$asDF %>%
+  knitr::kable()
+```
+
+Here the difference between the two models is not statistically significant, therefore adding $perf$ in the full model doesn't help to increase the prediction (as indicated by the $AIC$).
+
+---
+class: title-slide, middle
+
+## Exercise (5 min)
+
+Compare the following full model:
+
+$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.perf + \beta_{3}.salary*perf + \epsilon$$
+
+With:
+
+$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.perf + \epsilon$$
+x
+**Is the addition of the Interaction effect improving the accuracy of the model?**
+
+---
+class: inverse, mline, center, middle
+
+# 6. Resonable Statistics
+
+---
+
+# Bad vs Good Science
+
+## $p$-Hacking
+
+Running statistical tests until finding a significant $p$-value is $p$-Hacking. To avoid it, all the hypotheses should be tested with one unique test and not with one test by hypothesis. Ideally if another statistical test has to be run, it should be done on new data.
+
+## $p$-HARKing
+
+$p$-HARKing (Hypothesizing After the Results are Known) is defined as presenting a post hoc hypothesis (i.e., one based on or informed by one's results) in one's research report as if it were, in fact, an a priori hypotheses.
+
+## Pre-Registration and Open Science
+
+In order to avoid any kind of $p$-Hacking or $p$-HARKing, new possibilities for research pre-registration are possible with the open science framework (https://osf.io/), some journal are also suggesting the publication of the data treatment code and all the data source to replicate the results
+
+---
+
+# Always more homework
 
 **For next lecture, read Chapter 12 of "Learning Statistics with JAMOVI"**
 https://www.learnstatswithjamovi.com/
