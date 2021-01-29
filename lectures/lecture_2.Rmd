@@ -264,6 +264,7 @@ My suggestion is **snake_case**: all small letter and words separated by "_"
 ```{r out.width = "70%"}
 knitr::include_graphics("img/name_convention.jpg")
 ```
+
 ---
 
 # To Clean Data ...
