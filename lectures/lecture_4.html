@@ -4,11 +4,18 @@
     <title>MT611 - Quantitative Research Methods</title>
     <meta charset="utf-8" />
     <meta name="author" content="Damien Dupré" />
+    <script src="libs/header-attrs-2.6.6/header-attrs.js"></script>
     <link href="libs/remark-css-0.0.1/default.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis.css" rel="stylesheet" />
     <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <script src="libs/kePrint-0.0.1/kePrint.js"></script>
     <link href="libs/lightable-0.0.1/lightable.css" rel="stylesheet" />
+    <link href="libs/countdown-0.3.5/countdown.css" rel="stylesheet" />
+    <script src="libs/countdown-0.3.5/countdown.js"></script>
+    <script src="libs/htmlwidgets-1.5.3/htmlwidgets.js"></script>
+    <script src="libs/viz-1.8.2/viz.js"></script>
+    <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
+    <script src="libs/grViz-binding-1.0.6.1/grViz.js"></script>
     <link rel="stylesheet" href="css/custom_design.css" type="text/css" />
   </head>
   <body>
@@ -25,38 +32,45 @@ class: center, middle, inverse, title-slide
 
 
 
-class: inverse, mline, center, middle
-
-# 1. Hypotheses with Categorical Predictors having 2 Modalities
-
----
-
-# `\(t\)`-test vs. Linear Regression
-
-Why `\(t\)`-test and Linear Regression obtain the exact **same** results?
+# Previously in MT611 ...
 
 .pull-left[
+We have seen:
 
-Hypothesis Testing in `\(t\)`-test
-
-- H1: `\(\mu_{1} \neq \mu_{2}\)`
-- H0: `\(\mu_{1} = \mu_{2}\)`
+- How to perform linear regressions and multiple linear regressions analyses with Jamovi
+- How to analyse main and interaction effects with Jamovi
+- What are the main conditions to apply a linear regression model and how to test them
 ]
 
 .pull-right[
-
-Hypothesis Testing in Linear Regression
-
-- H1: `\(\beta_{1} \neq 0\)`
-- H0: `\(\beta_{1} = 0\)`
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-1-1.png" width="80%" style="display: block; margin: auto;" /&gt;
 
 ]
 
-If `\(\mu_{1} \neq \mu_{2}\)` then the slope of the line between group averages is different than 0 ( `\(\beta_{1} \neq 0\)` ).
+Let's see them again quickly with the "dnd.csv" file!
 
-If `\(\mu_{1} = \mu_{2}\)` then the slope of the line between group averages is equal to 0 ( `\(\beta_{1} = 0\)` ).
+---
+class: title-slide, middle
 
-What you don't know is that the Linear Regression automatically recode all Categorical variables to Continuous variables.
+## Live Demo
+
+---
+
+# Today in MT611
+
+We will have a deep dive in the processing of Categorical predictor variables with linear regressions:
+
+- How to analyse a Categorical predictor with only 2 categories?
+- How to analyse a Categorical predictor with more than 2 categories?
+- What are contrasts and how to manipulate them?
+
+&lt;img src="https://memegenerator.net/img/instances/82194202/what-if-we-enter-a-categorical-variable-in-a-regression-model.jpg" width="50%" style="display: block; margin: auto;" /&gt;
+
+---
+
+class: inverse, mline, center, middle
+
+# 1. Hypotheses with Categorical Predictors having 2 Categories
 
 ---
 
@@ -74,7 +88,7 @@ That is, **is the difference between male and female student statistically signi
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; participant &lt;/th&gt;
    &lt;th style="text-align:left;"&gt; gender &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; math_results &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; exam_mark &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
@@ -116,21 +130,25 @@ That is, **is the difference between male and female student statistically signi
 
 # Example of Categorical Coding
 
-In fact, **comparing female vs. male** is the same as **comparing female coded 1 and male coded 2**
-
 .pull-left[
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-2-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+.center[When using a Categorical variable having 2 category, **e.g., comparing female vs. male** ...]
+
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-4-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-3-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+.center[... is the same as **comparing female coded 1 and male coded 2**]
+
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-5-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
 # Categorical Coding in Linear Regression
 
-For Categorical variables having 2 modalities, **by default the Linear Regression recodes with the alphabetical order** (Female first then Male).
+For Categorical variables having 2 categories, **by default the Linear Regression recodes with the alphabetical order** (Female first then Male).
 
 However you can manually choose to recode the variable yourself by creating a new variable, such as...
 
@@ -172,11 +190,11 @@ If the distance between codes increases:
 
 .pull-left[
 
-Female = 1 and Male = 2
+.center[Female = 1 and Male = 2]
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-4-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-6-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -207,11 +225,11 @@ Female = 1 and Male = 2
 
 .pull-right[
 
-Female = 2 and Male = 1
+.center[Female = 2 and Male = 1]
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-6-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-8-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -246,11 +264,11 @@ Female = 2 and Male = 1
 
 .pull-left[
 
-Female = 1 and Male = 2
+.center[Female = 1 and Male = 2]
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-8-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-10-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -281,11 +299,11 @@ Female = 1 and Male = 2
 
 .pull-right[
 
-Female = 1 and Male = 3
+.center[Female = 1 and Male = 3]
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-10-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-12-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -316,7 +334,7 @@ Female = 1 and Male = 3
 
 ---
 
-# Categorical Predictor with 2 Modalities
+# Categorical Predictor with 2 Categories
 
 Let's use another example with the `dnd` dataset!
 
@@ -332,12 +350,46 @@ The average `\(js\_score\)` of employer having a **high** `\(salary\_c\)` is hig
 
 ### In mathematical terms
 
-`$$H_a: \mu(js\_score)_{high\,salary} &gt; \mu(js\_score)_{low\,salary}$$`
+`$$H_a: \mu(js\_score)_{high\,salary} \neq \mu(js\_score)_{low\,salary}$$`
 `$$H_0: \mu(js\_score)_{high\,salary} = \mu(js\_score)_{low\,salary}$$`
 
 ---
+class: title-slide, middle
 
-# Categorical Predictor with 2 Modalities
+## Live Demo
+
+---
+
+# Categorical Predictor with 2 Categories
+
+Why `\(t\)`-test and Linear Regression obtain the exact **same** results?
+
+.pull-left[
+
+Hypothesis Testing in `\(t\)`-test
+
+- `\(H_a: \mu_{1} \neq \mu_{2}\)`
+- `\(H_0: \mu_{1} = \mu_{2}\)`
+]
+
+.pull-right[
+
+Hypothesis Testing in Linear Regression
+
+- `\(H_a: \beta_{1} \neq 0\)`
+- `\(H_0: \beta_{1} = 0\)`
+
+]
+
+If `\(\mu_{1} \neq \mu_{2}\)` then the slope of the line between group averages is different than 0 ( `\(\beta_{1} \neq 0\)` ).
+
+If `\(\mu_{1} = \mu_{2}\)` then the slope of the line between group averages is equal to 0 ( `\(\beta_{1} = 0\)` ).
+
+What you don't know is that the Linear Regression automatically recode all Categorical variables to Continuous variables.
+
+---
+
+# Categorical Predictor with 2 Categories
 
 ### The trick to remember
 
@@ -351,12 +403,12 @@ The average `\(js\_score\)` of employer having a **high** `\(salary\_c\)` is hig
 ]
 
 .pull-right[
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-12-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-14-1.png" width="288" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Categorical Predictor with 2 Modalities
+# Categorical Predictor with 2 Categories
 
 ### Warning
 
@@ -364,11 +416,11 @@ JAMOVI and other software **automatically code categorical variable following al
 
 For example, here **low coded with the value 1** and **high coded with the value 2** would make more sense
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-13-1.png" width="288" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-15-1.png" width="288" style="display: block; margin: auto;" /&gt;
 
 ---
 
-# Categorical Predictor with 2 Modalities
+# Categorical Predictor with 2 Categories
 
 The way how categorical variables are coded will influence:
 - The sign of the estimate (positive vs. negative)
@@ -380,7 +432,7 @@ Note: This test is usually done using a `\(t\)`-test but will produce the same r
 
 ### To sum up
 
-**To test the influence of a categorical predictor** variable either nominal or ordinal **having two modalities** (e.g., high vs. low, male vs. female, France vs. Ireland), it is possible to **test if the `\(\beta\)` associated to this predictor is significantly different, higher or lower than 0**.
+**To test the influence of a categorical predictor** variable either nominal or ordinal **having two categories** (e.g., high vs. low, male vs. female, France vs. Ireland), it is possible to **test if the `\(\beta\)` associated to this predictor is significantly different than 0**.
 
 ### Equation
 
@@ -421,7 +473,7 @@ Note: This test is usually done using a `\(t\)`-test but will produce the same r
 
 Choosing 1 and 2 are **just arbitrary numerical values** but any other possibility will produce the same `\(p\)`-value
 
-However choosing codes separated by 1 is handy because it's easily interpretable, the **non-standardized estimate corresponds to the change from one modality to another**:
+However choosing codes separated by 1 is handy because it's easily interpretable, the **non-standardized estimate corresponds to the change from one category to another**:
 
 &gt; When "low" is coded 1 and "high" coded 2, the average `\(js\_score\)` for "high" `\(salary\_c\)` employes is 1.87 higher than the average `\(js\_score\)` for "low" `\(salary\_c\)` employees
 
@@ -429,156 +481,37 @@ However choosing codes separated by 1 is handy because it's easily interpretable
 
 # Coding of Categorical Predictors
 
-### Special case called **Dummy Coding** when a modality is coded 0 and the other 1:
-- Then the intercept, value of `\(js\_score\)` when salary is 0 corresponds to the modality coded 0
-- The test of the intercept is the test of the average for the modality coded 0 against an average of 0
+### Special case called **Dummy Coding** when a category is coded 0 and the other 1:
+- Then the intercept, value of `\(js\_score\)` when salary is 0 corresponds to the category coded 0
+- The test of the intercept is the test of the average for the category coded 0 against an average of 0
 - Is called simple effect
 
-### Special case called **Deviation Coding** when a modality is coded 1 and the other -1:
-- Then the intercept, corresponds to the average between the two modalities
+### Special case called **Deviation Coding** when a category is coded 1 and the other -1:
+- Then the intercept, corresponds to the average between the two categories
 - The test of the intercept is the test of the average for the variable
-- However, the distance between 1 and -1 is 2 units so the estimate is not as easy to interpret, therefore it is possible to choose modalities coded 0.5 vs. -0.5 instead
-
----
-
-# Interaction with Categorical Variables
-
-### In JAMOVI
-
-1. Open your file
-2. Set variables according their type
-3. **Analyses &gt; Regression &gt; Linear Regression**
-4. Set `\(js\_score\)` as DV and `\(salary\_c\)` as well as `\(gender\)` as Factors
-4. In **Model Builder** option: select both `\(salary\_c\)` and `\(gender\)` to bring them in the Factors at once
-
-### Model Tested
-
-`$$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.gender + \beta_{3}.salary\_c*gender + \epsilon$$`
-
-Note: The test of the interaction effect corresponds to the test of a variable resulting from the multiplication between the codes of `\(salary\_c\)` and the codes of `\(gender\)`.
-
----
-
-# Interaction with Categorical Variables
-
-&lt;img src="img/jamovi_lm_main_cint.png" width="100%" style="display: block; margin: auto;" /&gt;
-
-
----
-
-class: inverse, mline, center, middle
-
-# 2. Hypotheses with Categorical Predictor having 3+ Modalities
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-### Problem with more than 2 groups
-
-I would like to test the effect of the variable `\(location\)` which has 3 modalities: "Ireland", "France" and "Australia".
-
-&lt;img src="img/jamovi_lm_main_c31.png" width="452" style="display: block; margin: auto;" /&gt;
-
-There is not 1 result for `\(location\)` but 2!
-- Comparison of "France" vs. "Australia"
-- Comparison of "Ireland" vs. "Australia"
-
-### How can I test the effect of the full variable?
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-An hypothesis for a categorical predictor with 3 or more modalities predicts that **at least one group among the 3 groups will have an average significantly different than the other averages**.
-
-### With `\(location\)` the hypothesis is the following
-
-&gt; The average `\(js\_score\)` of employees working in at least one specific `\(location\)` will be significantly different than the average `\(js\_score\)` of employees working in the other `\(location\)`.
-
-### In mathematical terms
-
-- `\(H_0\)`: it is true that `\(\mu_{Ireland} = \mu_{France} = \mu_{Australia}\)`
-- `\(H_a\)`: it is **not** true that `\(\mu_{Ireland} = \mu_{France} = \mu_{Australia}\)`
-
-This analysis is usually preformed using a one-way ANOVA but as ANOVA are special cases of the General Linear Model, let's keep this approach.
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-17-1.png" width="504" style="display: block; margin: auto;" /&gt;
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-### In JAMOVI
-
-1. Open your file
-2. Set variables according their type
-3. Analyses &gt; Regression &gt; Linear Regression
-4. Set `\(js\_score\)` as DV and `\(location\)` as Factors
-5. In **Model Coefficients** option: select **Omnibus Test ANOVA test**
-
-&lt;img src="img/jamovi_lm_main_c32.png" width="40%" style="display: block; margin: auto;" /&gt;
-
-### Results
-
-&gt; The is a significant effect of employee's `\(location\)` on their average `\(js\_score\)` ( `\(F(2, 17) = 3.30\)`, `\(\mathit{MSE} = 2.37\)`, `\(p = .062\)`)
-
----
-class: title-slide, middle
-
-## Exercise (10 min)
-
-Using the dnd.csv dataset, test the following models:
-
-1. `$$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.location + \epsilon$$`
-
-2. `$$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.location + \beta_{3}.salary\_c*location + \epsilon$$`
-
-3. `$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \epsilon$$`
-
-4. `$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.salary*location + \epsilon$$`
-
-5. `$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \epsilon$$`
-
-6. `$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \beta_{4}.salary*location +$$`
-`$$\beta_{5}.perf*location + \beta_{6}.perf*salary + \beta_{7}.salary*location*perf + \epsilon$$`
-
----
-class: inverse, mline, left, middle
-
-# 3. Manipulating Contrast with Categorical Predictors
-
----
-
-# Categorical Coding in Linear Regression
-
-Among the possibilities of recoding a Categorical variable to Continuous, there are some classics called "Dummy Coding" and "Deviation Coding".
+- However, the distance between 1 and -1 is 2 units so the estimate is not as easy to interpret, therefore it is possible to choose categories coded 0.5 vs. -0.5 instead
 
 ---
 
 # Dummy Coding in Linear Regression
 
-Dummy Coding is when a modality is coded 0 and the other coded 1. For example:
+Dummy Coding is when a category is coded 0 and the other coded 1. For example:
 
 ```
 # In JAMOVI, recode female as 0 and male as 1 (Dummy Coding)
 IF(gender == "female", 0, 1)
 ```
 
-Dummy Coding is useful because one of the modality becomes the intercept and is tested against 0.
+Dummy Coding is useful because one of the category becomes the intercept and is tested against 0.
 
 .pull-left[
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-19-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-17-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 .pull-right[
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -611,18 +544,18 @@ Dummy Coding is useful because one of the modality becomes the intercept and is 
 
 # Deviation Coding in Linear Regression
 
-Deviation Coding is when the intercept is situated between the codes of the modalities. For example:
+Deviation Coding is when the intercept is situated between the codes of the categories. For example:
 
 ```
 # In JAMOVI, recode female as -1 and male as 1 (Deviation Coding)
 IF(gender == "female", -1, 1)
 ```
 
-Deviation Coding is useful because the average of the modalities becomes the intercept and is tested against 0.
+Deviation Coding is useful because the average of the categories becomes the intercept and is tested against 0.
 
-However, in the Deviation Coding using -1 vs. +1, the distance between the modalities is 2 not 1. Therefore, even if the test of the slop is the exact same, the value of the slop (the estimate) is twice lower.
+However, in the Deviation Coding using -1 vs. +1, the distance between the categories is 2 not 1. Therefore, even if the test of the slop is the exact same, the value of the slop (the estimate) is twice lower.
 
-Consequently it is possible to use a Deviation Coding with -0.5 vs. +0.5 to keep the distance of 1 between the modalities.
+Consequently it is possible to use a Deviation Coding with -0.5 vs. +0.5 to keep the distance of 1 between the categories.
 
 ```
 # In JAMOVI, recode female as -0.5 and male as 0.5 (Deviation Coding)
@@ -635,11 +568,11 @@ IF(gender == "female", -0.5, 0.5)
 
 .pull-left[
 
-Female = -1 and Male = 1
+.center[Female = -1 and Male = 1]
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-21-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-19-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -670,11 +603,11 @@ Female = -1 and Male = 1
 
 .pull-right[
 
-Female = -0.5 and Male = 0.5
+.center[Female = -0.5 and Male = 0.5]
 
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-23-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-21-1.png" width="504" style="display: block; margin: auto;" /&gt;
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -705,20 +638,86 @@ Female = -0.5 and Male = 0.5
 
 ---
 
-# Coding Predictors with 3+ Modalities
+# Interaction with Categorical Variables
 
-Y/Outcome/DV = `\(math\_results\)`(Continuous variable from 0 to 100)
+### In JAMOVI
 
-X/Predictor/IV = `\(country\)` (Categorical variable with 3 modalities: *Ireland*, *France* and *Spain*)
+1. Open your file
+2. Set variables according their type
+3. **Analyses &gt; Regression &gt; Linear Regression**
+4. Set `\(js\_score\)` as DV and `\(salary\_c\)` as well as `\(gender\)` as Factors
+4. In **Model Builder** option: select both `\(salary\_c\)` and `\(gender\)` to bring them in the Factors at once
+
+### Model Tested
+
+`$$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.gender + \beta_{3}.salary\_c*gender + \epsilon$$`
+
+Note: The test of the interaction effect corresponds to the test of a variable resulting from the multiplication between the codes of `\(salary\_c\)` and the codes of `\(gender\)`.
+
+---
+
+# Interaction with Categorical Variables
+
+&lt;img src="img/jamovi_lm_main_cint.png" width="100%" style="display: block; margin: auto;" /&gt;
+
+---
+class: title-slide, middle
+
+## Live Demo
+
+---
+class: title-slide, middle
+
+## Exercise
+
+With the "dnd.csv" data, test the following models and conclude on each effect:
+
+Model 1: `\(js\_score = \beta_{0} + \beta_{1}.perf\_c + \beta_{2}.gender + \beta_{3}.perf\_c*gender + \epsilon\)`
+
+Model 2: `\(js\_score = \beta_{0} + \beta_{1}.perf\_c + \beta_{2}.location + \beta_{3}.perf\_c*location+ \epsilon\)`
+
+<div class="countdown" id="timer_60362df8" style="right:0;bottom:0;" data-warnwhen="60">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+
+class: inverse, mline, center, middle
+
+# 2. Hypotheses with Categorical Predictor having 3+ Categories
+
+---
+
+# Categorical Predictor with 3+ Categories
+
+### Problem with more than 2 groups
+
+I would like to test the effect of the variable `\(location\)` which has 3 categories: "Ireland", "France" and "Australia".
+
+&lt;img src="img/jamovi_lm_main_c31.png" width="452" style="display: block; margin: auto;" /&gt;
+
+There is not 1 result for `\(location\)` but 2!
+- Comparison of "France" vs. "Australia"
+- Comparison of "Ireland" vs. "Australia"
+
+### How can I test the effect of the full variable?
+
+---
+
+# Coding Predictors with 3+ categories
+
+Y/Outcome/DV = `\(exam\_mark\)`(Continuous variable from 0 to 100)
+
+X/Predictor/IV = `\(location\)` (Categorical variable with 3 categories: *Ireland*, *France* and *Spain*)
 
 .pull-left[
 &lt;table class="table" style="font-size: 14px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; participant &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; country &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; math_results &lt;/th&gt;
-   &lt;th style="text-align:right;"&gt; country_c &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; location &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; exam_mark &lt;/th&gt;
+   &lt;th style="text-align:right;"&gt; location_c &lt;/th&gt;
   &lt;/tr&gt;
  &lt;/thead&gt;
 &lt;tbody&gt;
@@ -775,18 +774,18 @@ X/Predictor/IV = `\(country\)` (Categorical variable with 3 modalities: *Ireland
 ]
 
 .pull-right[
-&lt;img src="lecture_4_files/figure-html/unnamed-chunk-26-1.png" width="504" style="display: block; margin: auto;" /&gt;
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-27-1.png" width="504" style="display: block; margin: auto;" /&gt;
 ]
 
 ---
 
-# Coding Predictors with 3+ Modalities
+# Coding Predictors with 3+ categories
 
-`\(t\)`-test can only compare 2 modalities. Because Linear Regression Models are (kind of) `\(t\)`-test, modalities will be compared 2-by-2 with one modality as the reference to compare all the others.
+`\(t\)`-test can only compare 2 categories. Because Linear Regression Models are (kind of) `\(t\)`-test, categories will be compared 2-by-2 with one category as the reference to compare all the others.
 
-For example a linear regression of `country` on `math_results` will display not one effect for the `country` but the effect of the 2-by-2 comparison using a reference group by alphabetical order:
+For example a linear regression of `location` on `exam_mark` will display not one effect for the `location` but the effect of the 2-by-2 comparison using a reference group by alphabetical order:
 
-&lt;table class="table" style="font-size: 12px; margin-left: auto; margin-right: auto;"&gt;
+&lt;table class="table" style="font-size: 16px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
    &lt;th style="text-align:left;"&gt; term &lt;/th&gt;
@@ -805,14 +804,14 @@ For example a linear regression of `country` on `math_results` will display not 
    &lt;td style="text-align:left;"&gt; &amp;lt;0.001 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; countryIreland &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; locationIreland &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 28.17 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 6.23 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 4.52 &lt;/td&gt;
    &lt;td style="text-align:left;"&gt; 0.006 &lt;/td&gt;
   &lt;/tr&gt;
   &lt;tr&gt;
-   &lt;td style="text-align:left;"&gt; countrySpain &lt;/td&gt;
+   &lt;td style="text-align:left;"&gt; locationSpain &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 2.50 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 6.23 &lt;/td&gt;
    &lt;td style="text-align:right;"&gt; 0.40 &lt;/td&gt;
@@ -866,7 +865,7 @@ In JAMOVI, an ANOVA table can be obtain alongside the coefficient table to obtai
  ───────────────────────────────────────────────────────────────────────────── 
                 Sum of Squares    df    Mean Square    F           p           
  ───────────────────────────────────────────────────────────────────────────── 
-   country           1340.8333     2      670.41667    14.37634    0.0084461   
+   location          1340.8333     2      670.41667    14.37634    0.0084461   
    Residuals          233.1667     5       46.63333                            
  ───────────────────────────────────────────────────────────────────────────── 
    Note. Type 3 sum of squares
@@ -874,22 +873,91 @@ In JAMOVI, an ANOVA table can be obtain alongside the coefficient table to obtai
 
 **ANOVA is only testing if all the group averages are the same or not, but it does not tell us which average is different and how.**
 
-In our example, the ANOVA table told us that there is a significant effect of the variable `country` on `math_results`.
+In our example, the ANOVA table told us that there is a significant effect of the variable `location` on `exam_mark`.
 
 However, the ANOVA test does not tell which group is different from the others. If your hypothesis states a specific difference for one or multiple groups there are two different ways to test it: **Post-hoc tests** or **Contrasts**.
 
 ---
 
+# ANOVA in our Example
+
+An hypothesis for a categorical predictor with 3 or more categories predicts that **at least one group among the 3 groups will have an average significantly different than the other averages**.
+
+### With `\(location\)` the hypothesis is the following
+
+&gt; The average `\(js\_score\)` of employees working in at least one specific `\(location\)` will be significantly different than the average `\(js\_score\)` of employees working in the other `\(location\)`.
+
+### In mathematical terms
+
+- `\(H_0\)`: it is true that `\(\mu_{Ireland} = \mu_{France} = \mu_{Australia}\)`
+- `\(H_a\)`: it is **not** true that `\(\mu_{Ireland} = \mu_{France} = \mu_{Australia}\)`
+
+This analysis is usually preformed using a one-way ANOVA but as ANOVA are special cases of the General Linear Model, let's keep this approach.
+
+---
+
+# ANOVA in our Example
+
+&lt;img src="lecture_4_files/figure-html/unnamed-chunk-31-1.png" width="504" style="display: block; margin: auto;" /&gt;
+
+---
+
+# ANOVA in our Example
+
+### In JAMOVI
+
+1. Open your file
+2. Set variables according their type
+3. Analyses &gt; Regression &gt; Linear Regression
+4. Set `\(js\_score\)` as DV and `\(location\)` as Factors
+5. In **Model Coefficients** option: select **Omnibus Test ANOVA test**
+
+&lt;img src="img/jamovi_lm_main_c32.png" width="40%" style="display: block; margin: auto;" /&gt;
+
+### Results
+
+&gt; The is a significant effect of employee's `\(location\)` on their average `\(js\_score\)` ( `\(F(2, 17) = 3.30\)`, `\(\mathit{MSE} = 2.37\)`, `\(p = .062\)`)
+
+---
+class: title-slide, middle
+
+## Live Demo
+
+---
+class: title-slide, middle
+
+## Exercise
+
+Using the dnd.csv dataset, test the following models:
+
+Model 1: `\(js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \epsilon\)`
+
+Model 2: `$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \beta_{4}.salary*location +$$`
+`$$\beta_{5}.perf*location + \beta_{6}.perf*salary + \beta_{7}.salary*location*perf + \epsilon$$`
+
+<div class="countdown" id="timer_60362dfb" style="right:0;bottom:0;" data-warnwhen="60">
+<code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
+
+---
+class: inverse, mline, left, middle
+
+# 3. Manipulating Contrast with Categorical Predictors
+
+---
+
 # Post-hoc Tests 
 
-The "Post-hoc" runs a separate `\(t\)`-test for all the pairwise modality comparison:
+&gt;How to obtain a test of specific categories when using a categorical variable with 3 or more categories?
+
+The "Post-hoc" runs a separate `\(t\)`-test for all the pairwise category comparison:
 
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; country1 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; location1 &lt;/th&gt;
    &lt;th style="text-align:left;"&gt; sep &lt;/th&gt;
-   &lt;th style="text-align:left;"&gt; country2 &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; location2 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; md &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; se &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; df &lt;/th&gt;
@@ -941,14 +1009,14 @@ Some corrections for multiple tests are available such as Tukey, Scheffe, Bonfer
 
 Actually, you are mastering Contrasts already. 
 
-With Contrasts you can test specific comparisons with modalities of a Categorical Predictor.
+With Contrasts you can test specific comparisons with categories of a Categorical Predictor.
 
 Contrasts is the name for the coding used to convert a categorical variable to continuous like Dummy Coding or Deviation Coding but there are many more type of Coding systems such as Treatment, Sum to zero, Polynomial ...
 
 Unfortunately Contrast have a couple of rules: 
-- **modalities with the same code are averaged together**
-- **the number of contrast is the number of categories - 1**
-- **the value 0 means the modality is not taken into account** (except treatment contrast)
+- **Categories with the same code are averaged together**
+- **The number of contrast is the number of categories - 1**
+- **The value 0 means the category is not taken into account** (except treatment contrast)
 
 The best way to understand the contrast is by manually creating new variable corresponding to your contrast.
 
@@ -961,7 +1029,7 @@ Also called "Simple" contrast, each contrast encodes the difference between one 
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Modality &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; category &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; Contrast1 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; Contrast2 &lt;/th&gt;
   &lt;/tr&gt;
@@ -1000,7 +1068,7 @@ Used to test linear and even non linear effect, they are the most powerful of al
 &lt;table&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Modality &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; category &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; Contrast_1 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; Contrast_2 &lt;/th&gt;
   &lt;/tr&gt;
@@ -1031,6 +1099,11 @@ In this example:
 If the hypothesis specified a linear increase, we would expect Contrast 1 to be significant but Contrast 2 to be non-significant
 
 ---
+class: title-slide, middle
+
+## Live Demo
+
+---
 
 # Comparison of Contrasts Results
 
@@ -1044,7 +1117,7 @@ Let's see what happens with different contrast to compare the average `\(js\_sco
 &lt;table class="table" style="font-size: 17px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Modality &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; category &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; sum_c1 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; sum_c2 &lt;/th&gt;
   &lt;/tr&gt;
@@ -1112,7 +1185,7 @@ Let's see what happens with different contrast to compare the average `\(js\_sco
 &lt;table class="table" style="font-size: 17px; margin-left: auto; margin-right: auto;"&gt;
  &lt;thead&gt;
   &lt;tr&gt;
-   &lt;th style="text-align:left;"&gt; Modality &lt;/th&gt;
+   &lt;th style="text-align:left;"&gt; category &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; poly_c1 &lt;/th&gt;
    &lt;th style="text-align:right;"&gt; poly_c2 &lt;/th&gt;
   &lt;/tr&gt;
@@ -1175,20 +1248,79 @@ Let's see what happens with different contrast to compare the average `\(js\_sco
 ]
 
 ---
+class: title-slide, middle
 
-# Many more Contrasts
+## Exercise
 
-**Deviation**: Compares the mean of each level (except a reference category) to the mean of all of the levels (grand mean)
+1. Using the dnd.csv dataset, create contrast variables to reproduce the results obtained with Sum to Zero Contrasts and Polynomial Contrasts
 
-**Simple**: Like the treatment contrasts, the simple contrast compares the mean of each level to the mean of a specified level. This type of contrast is useful when there is a control group. By default the first category is the reference. However, with a simple contrast the intercept is the grand mean of all the levels of the factors.
+2. When it's done explicit the hypotheses tested, the representation of the models and their corresponding equation
 
-**Difference**: Compares the mean of each level (except the first) to the mean of previous levels. (Sometimes called reverse Helmert contrasts)
+<div class="countdown" id="timer_60362cc1" style="right:0;bottom:0;" data-warnwhen="60">
+<code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
+</div>
 
-**Helmert**: Compares the mean of each level of the factor (except the last) to the mean of subsequent levels
+---
 
-**Repeated**: Compares the mean of each level (except the last) to the mean of the subsequent level
+# Solution - Sum to Zero Contrasts
 
-**Polynomial**: Compares the linear effect and quadratic effect. The first degree of freedom contains the linear effect across all Categories; the second degree of freedom, the quadratic effect. These contrasts are often used to estimate polynomial trends
+Variables:
+
+- Outcome = `\(js\_score\)` (from 0 to 10)
+- Predictor 1 = `\(sum\_c1\)` (France vs Ireland)
+- Predictor 2 = `\(sum\_c2\)` (France vs Spain)
+
+Hypotheses:
+
+- `\(H_{a_1}\)`: The average `\(js\_score\)` of French employees is different than the average `\(js\_score\)` of Spanish employees
+- `\(H_{0_1}\)`: The average `\(js\_score\)` of French employees is the same as the average `\(js\_score\)` of Spanish employees
+
+- `\(H_{a_1}\)`: The average `\(js\_score\)` of French and Spanish employees is different than the average `\(js\_score\)` of Irish employees
+- `\(H_{0_1}\)`: The average `\(js\_score\)` of French and Spanish is the same as the average `\(js\_score\)` of Irish employees
+
+---
+
+# Solution - Sum to Zero Contrasts
+
+Model:
+
+<div id="htmlwidget-44474b3e8cd160f85a98" style="width:500px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-44474b3e8cd160f85a98">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    js_score\n    node [shape = square]\n    sum_c1, sum_c2\n    \n    sum_c1 -> js_score [label= β1]\n    sum_c2 -> js_score [label= β2]\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+Equation:
+
+- `\(js\_score = \beta_{0} + \beta_{1}.sum\_c1 + \beta_{2}.sum\_c2 + \epsilon\)`
+
+---
+
+# Solution - Polynomial Contrasts
+
+Variables:
+
+- Outcome = `\(js\_score\)` (from 0 to 10)
+- Predictor 1 = `\(poly\_c1\)` (France vs Ireland)
+- Predictor 2 = `\(poly\_c2\)` (France vs Spain)
+
+Hypotheses:
+
+- `\(H_{a_1}\)`: The average `\(js\_score\)` of French employees is different than the average `\(js\_score\)` of Irish employees
+- `\(H_{0_1}\)`: The average `\(js\_score\)` of French employees is the same as the average `\(js\_score\)` of Irish employees
+
+- `\(H_{a_2}\)`: The average `\(js\_score\)` of French employees is different than the average `\(js\_score\)` of Spanish employees
+- `\(H_{0_2}\)`: The average `\(js\_score\)` of French employees is the same as the average `\(js\_score\)` of Spanish employees
+
+---
+
+# Solution - Polynomial Contrasts
+
+Model:
+
+<div id="htmlwidget-2514ce28ae593bde0f73" style="width:500px;height:200px;" class="grViz html-widget"></div>
+<script type="application/json" data-for="htmlwidget-2514ce28ae593bde0f73">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = circle]\n    js_score\n    node [shape = square]\n    poly_c1, poly_c2\n    \n    poly_c1 -> js_score [label= β1]\n    poly_c2 -> js_score [label= β2]\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
+
+Equation:
+
+- `\(js\_score = \beta_{0} + \beta_{1}.poly\_c1 + \beta_{2}.poly\_c2 + \epsilon\)`
 
 ---
 class: inverse, mline, left, middle

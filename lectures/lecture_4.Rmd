@@ -16,7 +16,10 @@ output:
 
 ```{r setup, include = FALSE}
 # general options --------------------------------------------------------------
-options(scipen = 999)
+options(
+  scipen = 999,
+  htmltools.preserve.raw = FALSE
+  )
 set.seed(123)
 # chunk options ----------------------------------------------------------------
 knitr::opts_chunk$set(
@@ -39,6 +42,7 @@ library(ggrepel)
 library(papaja)
 library(knitr)
 library(kableExtra)
+library(countdown)
 
 # data -------------------------------------------------------------------------
 dnd <- readr::read_csv(here::here("data/dnd.csv"))  
@@ -87,38 +91,49 @@ lm_c3 <- lm(js_score ~ location, data = dnd) %>% aov %>% apa_print
 
 ```
 
-class: inverse, mline, center, middle
-
-# 1. Hypotheses with Categorical Predictors having 2 Modalities
-
----
-
-# $t$-test vs. Linear Regression
-
-Why $t$-test and Linear Regression obtain the exact **same** results?
+# Previously in MT611 ...
 
 .pull-left[
+We have seen:
 
-Hypothesis Testing in $t$-test
-
-- H1: $\mu_{1} \neq \mu_{2}$
-- H0: $\mu_{1} = \mu_{2}$
+- How to perform linear regressions and multiple linear regressions analyses with Jamovi
+- How to analyse main and interaction effects with Jamovi
+- What are the main conditions to apply a linear regression model and how to test them
 ]
 
 .pull-right[
-
-Hypothesis Testing in Linear Regression
-
-- H1: $\beta_{1} \neq 0$
-- H0: $\beta_{1} = 0$
+```{r out.width='80%'}
+knitr::include_graphics("lecture_4_files/figure-html/unnamed-chunk-1-1.png")
+```
 
 ]
 
-If $\mu_{1} \neq \mu_{2}$ then the slope of the line between group averages is different than 0 ( $\beta_{1} \neq 0$ ).
+Let's see them again quickly with the "dnd.csv" file!
 
-If $\mu_{1} = \mu_{2}$ then the slope of the line between group averages is equal to 0 ( $\beta_{1} = 0$ ).
+---
+class: title-slide, middle
 
-What you don't know is that the Linear Regression automatically recode all Categorical variables to Continuous variables.
+## Live Demo
+
+---
+
+# Today in MT611
+
+We will have a deep dive in the processing of Categorical predictor variables with linear regressions:
+
+- How to analyse a Categorical predictor with only 2 categories?
+- How to analyse a Categorical predictor with more than 2 categories?
+- What are contrasts and how to manipulate them?
+
+```{r out.width = "50%"}
+knitr::include_graphics("https://memegenerator.net/img/instances/82194202/what-if-we-enter-a-categorical-variable-in-a-regression-model.jpg")
+```
+
+---
+
+class: inverse, mline, center, middle
+
+# 1. Hypotheses with Categorical Predictors having 2 Categories
 
 ---
 
@@ -136,7 +151,7 @@ df2 <-
   data.frame(
     participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6"), 
     gender = c("Female", "Male", "Male", "Female", "Male", "Female"),
-    math_results = c(89, 64, 72, 77, 78, 69)
+    exam_mark = c(89, 64, 72, 77, 78, 69)
   ) %>% 
   dplyr::mutate(
     gender_c = case_when(gender == "Female" ~ 1, gender == "Male" ~ 2)
@@ -152,31 +167,35 @@ df2 %>%
 
 # Example of Categorical Coding
 
-In fact, **comparing female vs. male** is the same as **comparing female coded 1 and male coded 2**
-
 .pull-left[
+
+.center[When using a Categorical variable having 2 category, **e.g., comparing female vs. male** ...]
+
 ```{r fig.height=5}
 df2 %>% 
-  ggplot(aes(x = gender, y = math_results)) +
+  ggplot(aes(x = gender, y = exam_mark)) +
   geom_point(color = "black", size = 5) +
   stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
   theme_bw() +
   theme(
-    text = element_text(size = 14)
+    text = element_text(size = 20)
   )
 ```
 ]
 
 .pull-right[
+
+.center[... is the same as **comparing female coded 1 and male coded 2**]
+
 ```{r fig.height=5}
 df2 %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
+  ggplot(aes(x = gender_c, y = exam_mark)) +
   geom_point(color = "black", size = 5) +
   stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
   scale_x_continuous(breaks = c(1, 2), limits = c(0.5, 2.5)) +
   theme_bw() +
   theme(
-    text = element_text(size = 14)
+    text = element_text(size = 20)
   )
 ```
 ]
@@ -185,7 +204,7 @@ df2 %>%
 
 # Categorical Coding in Linear Regression
 
-For Categorical variables having 2 modalities, **by default the Linear Regression recodes with the alphabetical order** (Female first then Male).
+For Categorical variables having 2 categories, **by default the Linear Regression recodes with the alphabetical order** (Female first then Male).
 
 However you can manually choose to recode the variable yourself by creating a new variable, such as...
 
@@ -227,33 +246,33 @@ If the distance between codes increases:
 
 .pull-left[
 
-Female = 1 and Male = 2
+.center[Female = 1 and Male = 2]
 
 ```{r fig.height=4}
 df2 %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
+  ggplot(aes(x = gender_c, y = exam_mark)) +
   geom_point(color = "black", size = 5) +
   stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
   scale_x_continuous(breaks = c(1, 2), limits = c(0.5, 2.5)) +
   theme_bw() +
   theme(
-    text = element_text(size = 14)
+    text = element_text(size = 20)
   )
 ```
 
 ```{r results='asis'}
 df2 %>% 
-  lm(data = ., formula = math_results ~ gender_c) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
   broom::tidy() %>% 
   dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
   knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
+  kable_styling(font_size = 16)
 ```
 ]
 
 .pull-right[
 
-Female = 2 and Male = 1
+.center[Female = 2 and Male = 1]
 
 ```{r fig.height=4}
 df2  %>% 
@@ -261,13 +280,13 @@ df2  %>%
     gender == "Female" ~ 2,
     gender == "Male" ~ 1
   )) %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
+  ggplot(aes(x = gender_c, y = exam_mark)) +
   geom_point(color = "black", size = 5) +
   stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
   scale_x_continuous(breaks = c(1, 2), limits = c(0.5, 2.5)) +
   theme_bw() +
   theme(
-    text = element_text(size = 14)
+    text = element_text(size = 20)
   )
 ```
 
@@ -277,11 +296,11 @@ df2 %>%
     gender == "Female" ~ 2,
     gender == "Male" ~ 1
   )) %>% 
-  lm(data = ., formula = math_results ~ gender_c) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
   broom::tidy() %>% 
   dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
   knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
+  kable_styling(font_size = 16)
 ```
 ]
 
@@ -291,33 +310,33 @@ df2 %>%
 
 .pull-left[
 
-Female = 1 and Male = 2
+.center[Female = 1 and Male = 2]
 
 ```{r fig.height=4}
 df2 %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
+  ggplot(aes(x = gender_c, y = exam_mark)) +
   geom_point(color = "black", size = 5) +
   stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
   scale_x_continuous(breaks = c(1, 2), limits = c(0.5, 2.5)) +
   theme_bw() +
   theme(
-    text = element_text(size = 14)
+    text = element_text(size = 20)
   )
 ```
 
 ```{r results='asis'}
 df2 %>% 
-  lm(data = ., formula = math_results ~ gender_c) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
   broom::tidy() %>% 
   dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
   knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
+  kable_styling(font_size = 16)
 ```
 ]
 
 .pull-right[
 
-Female = 1 and Male = 3
+.center[Female = 1 and Male = 3]
 
 ```{r fig.height=4}
 df2  %>% 
@@ -325,13 +344,13 @@ df2  %>%
     gender == "Female" ~ 1,
     gender == "Male" ~ 3
   )) %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
+  ggplot(aes(x = gender_c, y = exam_mark)) +
   geom_point(color = "black", size = 5) +
   stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
   scale_x_continuous(breaks = c(1, 3), limits = c(0.5, 3.5)) +
   theme_bw() +
   theme(
-    text = element_text(size = 14)
+    text = element_text(size = 20)
   )
 ```
 
@@ -341,17 +360,17 @@ df2 %>%
     gender == "Female" ~ 1,
     gender == "Male" ~ 3
   )) %>% 
-  lm(data = ., formula = math_results ~ gender_c) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
   broom::tidy() %>% 
   dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
   knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
+  kable_styling(font_size = 16)
 ```
 ]
 
 ---
 
-# Categorical Predictor with 2 Modalities
+# Categorical Predictor with 2 Categories
 
 Let's use another example with the `dnd` dataset!
 
@@ -367,12 +386,46 @@ The average $js\_score$ of employer having a **high** $salary\_c$ is higher than
 
 ### In mathematical terms
 
-$$H_a: \mu(js\_score)_{high\,salary} > \mu(js\_score)_{low\,salary}$$
+$$H_a: \mu(js\_score)_{high\,salary} \neq \mu(js\_score)_{low\,salary}$$
 $$H_0: \mu(js\_score)_{high\,salary} = \mu(js\_score)_{low\,salary}$$
 
 ---
+class: title-slide, middle
 
-# Categorical Predictor with 2 Modalities
+## Live Demo
+
+---
+
+# Categorical Predictor with 2 Categories
+
+Why $t$-test and Linear Regression obtain the exact **same** results?
+
+.pull-left[
+
+Hypothesis Testing in $t$-test
+
+- $H_a: \mu_{1} \neq \mu_{2}$
+- $H_0: \mu_{1} = \mu_{2}$
+]
+
+.pull-right[
+
+Hypothesis Testing in Linear Regression
+
+- $H_a: \beta_{1} \neq 0$
+- $H_0: \beta_{1} = 0$
+
+]
+
+If $\mu_{1} \neq \mu_{2}$ then the slope of the line between group averages is different than 0 ( $\beta_{1} \neq 0$ ).
+
+If $\mu_{1} = \mu_{2}$ then the slope of the line between group averages is equal to 0 ( $\beta_{1} = 0$ ).
+
+What you don't know is that the Linear Regression automatically recode all Categorical variables to Continuous variables.
+
+---
+
+# Categorical Predictor with 2 Categories
 
 ### The trick to remember
 
@@ -402,7 +455,7 @@ ggplot(dnd, aes(x = salary_c, y = js_score)) +
 
 ---
 
-# Categorical Predictor with 2 Modalities
+# Categorical Predictor with 2 Categories
 
 ### Warning
 
@@ -426,7 +479,7 @@ dnd %>%
 
 ---
 
-# Categorical Predictor with 2 Modalities
+# Categorical Predictor with 2 Categories
 
 The way how categorical variables are coded will influence:
 - The sign of the estimate (positive vs. negative)
@@ -438,7 +491,7 @@ Note: This test is usually done using a $t$-test but will produce the same resul
 
 ### To sum up
 
-**To test the influence of a categorical predictor** variable either nominal or ordinal **having two modalities** (e.g., high vs. low, male vs. female, France vs. Ireland), it is possible to **test if the $\beta$ associated to this predictor is significantly different, higher or lower than 0**.
+**To test the influence of a categorical predictor** variable either nominal or ordinal **having two categories** (e.g., high vs. low, male vs. female, France vs. Ireland), it is possible to **test if the $\beta$ associated to this predictor is significantly different than 0**.
 
 ### Equation
 
@@ -481,7 +534,7 @@ knitr::include_graphics("img/jamovi_lm_main_c2.png")
 
 Choosing 1 and 2 are **just arbitrary numerical values** but any other possibility will produce the same $p$-value
 
-However choosing codes separated by 1 is handy because it's easily interpretable, the **non-standardized estimate corresponds to the change from one modality to another**:
+However choosing codes separated by 1 is handy because it's easily interpretable, the **non-standardized estimate corresponds to the change from one category to another**:
 
 > When "low" is coded 1 and "high" coded 2, the average $js\_score$ for "high" $salary\_c$ employes is `r round(m_js_high - m_js_low, 2)` higher than the average $js\_score$ for "low" $salary\_c$ employees
 
@@ -489,15 +542,157 @@ However choosing codes separated by 1 is handy because it's easily interpretable
 
 # Coding of Categorical Predictors
 
-### Special case called **Dummy Coding** when a modality is coded 0 and the other 1:
-- Then the intercept, value of $js\_score$ when salary is 0 corresponds to the modality coded 0
-- The test of the intercept is the test of the average for the modality coded 0 against an average of 0
+### Special case called **Dummy Coding** when a category is coded 0 and the other 1:
+- Then the intercept, value of $js\_score$ when salary is 0 corresponds to the category coded 0
+- The test of the intercept is the test of the average for the category coded 0 against an average of 0
 - Is called simple effect
 
-### Special case called **Deviation Coding** when a modality is coded 1 and the other -1:
-- Then the intercept, corresponds to the average between the two modalities
+### Special case called **Deviation Coding** when a category is coded 1 and the other -1:
+- Then the intercept, corresponds to the average between the two categories
 - The test of the intercept is the test of the average for the variable
-- However, the distance between 1 and -1 is 2 units so the estimate is not as easy to interpret, therefore it is possible to choose modalities coded 0.5 vs. -0.5 instead
+- However, the distance between 1 and -1 is 2 units so the estimate is not as easy to interpret, therefore it is possible to choose categories coded 0.5 vs. -0.5 instead
+
+---
+
+# Dummy Coding in Linear Regression
+
+Dummy Coding is when a category is coded 0 and the other coded 1. For example:
+
+```
+# In JAMOVI, recode female as 0 and male as 1 (Dummy Coding)
+IF(gender == "female", 0, 1)
+```
+
+Dummy Coding is useful because one of the category becomes the intercept and is tested against 0.
+
+.pull-left[
+
+```{r fig.height=4}
+df2  %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ 0,
+    gender == "Male" ~ 1
+  )) %>% 
+  ggplot(aes(x = gender_c, y = exam_mark)) +
+  geom_point(color = "black", size = 5) +
+  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
+  scale_x_continuous(breaks = c(0, 1), limits = c(-0.5, 1.5)) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20)
+  )
+```
+]
+
+.pull-right[
+
+```{r results='asis'}
+df2 %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ 0,
+    gender == "Male" ~ 1
+  )) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 16)
+```
+]
+
+---
+
+# Deviation Coding in Linear Regression
+
+Deviation Coding is when the intercept is situated between the codes of the categories. For example:
+
+```
+# In JAMOVI, recode female as -1 and male as 1 (Deviation Coding)
+IF(gender == "female", -1, 1)
+```
+
+Deviation Coding is useful because the average of the categories becomes the intercept and is tested against 0.
+
+However, in the Deviation Coding using -1 vs. +1, the distance between the categories is 2 not 1. Therefore, even if the test of the slop is the exact same, the value of the slop (the estimate) is twice lower.
+
+Consequently it is possible to use a Deviation Coding with -0.5 vs. +0.5 to keep the distance of 1 between the categories.
+
+```
+# In JAMOVI, recode female as -0.5 and male as 0.5 (Deviation Coding)
+IF(gender == "female", -0.5, 0.5)
+```
+
+---
+
+# Deviation Coding in Linear Regression
+
+.pull-left[
+
+.center[Female = -1 and Male = 1]
+
+```{r fig.height=4}
+df2 %>%
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -1,
+    gender == "Male" ~ 1
+  )) %>% 
+  ggplot(aes(x = gender_c, y = exam_mark)) +
+  geom_point(color = "black", size = 5) +
+  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
+  scale_x_continuous(breaks = c(-1, 1), limits = c(-1.5, 1.5)) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20)
+  )
+```
+
+```{r results='asis'}
+df2 %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -1,
+    gender == "Male" ~ 1
+  )) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 16)
+```
+]
+
+.pull-right[
+
+.center[Female = -0.5 and Male = 0.5]
+
+```{r fig.height=4}
+df2  %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -0.5,
+    gender == "Male" ~ 0.5
+  )) %>% 
+  ggplot(aes(x = gender_c, y = exam_mark)) +
+  geom_point(color = "black", size = 5) +
+  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
+  scale_x_continuous(breaks = c(-0.5, 0.5), limits = c(-1, 1)) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20)
+  )
+```
+
+```{r results='asis'}
+df2 %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -0.5,
+    gender == "Male" ~ 0.5
+  )) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 16)
+```
+]
 
 ---
 
@@ -525,20 +720,39 @@ Note: The test of the interaction effect corresponds to the test of a variable r
 knitr::include_graphics("img/jamovi_lm_main_cint.png")
 ```
 
+---
+class: title-slide, middle
+
+## Live Demo
+
+---
+class: title-slide, middle
+
+## Exercise
+
+With the "dnd.csv" data, test the following models and conclude on each effect:
+
+Model 1: $js\_score = \beta_{0} + \beta_{1}.perf\_c + \beta_{2}.gender + \beta_{3}.perf\_c*gender + \epsilon$
+
+Model 2: $js\_score = \beta_{0} + \beta_{1}.perf\_c + \beta_{2}.location + \beta_{3}.perf\_c*location+ \epsilon$
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
 
 ---
 
 class: inverse, mline, center, middle
 
-# 2. Hypotheses with Categorical Predictor having 3+ Modalities
+# 2. Hypotheses with Categorical Predictor having 3+ Categories
 
 ---
 
-# Categorical Predictor with 3+ Modalities
+# Categorical Predictor with 3+ Categories
 
 ### Problem with more than 2 groups
 
-I would like to test the effect of the variable $location$ which has 3 modalities: "Ireland", "France" and "Australia".
+I would like to test the effect of the variable $location$ which has 3 categories: "Ireland", "France" and "Australia".
 
 ```{r}
 knitr::include_graphics("img/jamovi_lm_main_c31.png")
@@ -552,249 +766,23 @@ There is not 1 result for $location$ but 2!
 
 ---
 
-# Categorical Predictor with 3+ Modalities
+# Coding Predictors with 3+ categories
 
-An hypothesis for a categorical predictor with 3 or more modalities predicts that **at least one group among the 3 groups will have an average significantly different than the other averages**.
+Y/Outcome/DV = $exam\_mark$(Continuous variable from 0 to 100)
 
-### With $location$ the hypothesis is the following
-
-> The average $js\_score$ of employees working in at least one specific $location$ will be significantly different than the average $js\_score$ of employees working in the other $location$.
-
-### In mathematical terms
-
-- $H_0$: it is true that $\mu_{Ireland} = \mu_{France} = \mu_{Australia}$
-- $H_a$: it is **not** true that $\mu_{Ireland} = \mu_{France} = \mu_{Australia}$
-
-This analysis is usually preformed using a one-way ANOVA but as ANOVA are special cases of the General Linear Model, let's keep this approach.
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-```{r}
-dnd %>% 
-  ggplot(aes(x = location, y =  js_score)) + 
-  geom_jitter(width = 0.1) +
-  geom_hline(yintercept = mean(dnd$js_score), linetype = "dashed") +
-  stat_summary(fun = mean, geom = "errorbar", aes(ymax = ..y.., ymin = ..y..), lwd = 2, color = "blue") +
-  theme(
-    legend.position = "none",
-    text = element_text(size = 20)
-  )
-```
-
----
-
-# Categorical Predictor with 3+ Modalities
-
-### In JAMOVI
-
-1. Open your file
-2. Set variables according their type
-3. Analyses > Regression > Linear Regression
-4. Set $js\_score$ as DV and $location$ as Factors
-5. In **Model Coefficients** option: select **Omnibus Test ANOVA test**
-
-```{r out.width = "40%"}
-knitr::include_graphics("img/jamovi_lm_main_c32.png")
-```
-
-### Results
-
-> The is a significant effect of employee's $location$ on their average $js\_score$ ( `r lm_c3$statistic$location`)
-
----
-class: title-slide, middle
-
-## Exercise (10 min)
-
-Using the dnd.csv dataset, test the following models:
-
-1. $$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.location + \epsilon$$
-
-2. $$js\_score = \beta_{0} + \beta_{1}.salary\_c + \beta_{2}.location + \beta_{3}.salary\_c*location + \epsilon$$
-
-3. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \epsilon$$
-
-4. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.salary*location + \epsilon$$
-
-5. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \epsilon$$
-
-6. $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \beta_{4}.salary*location +$$
-$$\beta_{5}.perf*location + \beta_{6}.perf*salary + \beta_{7}.salary*location*perf + \epsilon$$
-
----
-class: inverse, mline, left, middle
-
-# 3. Manipulating Contrast with Categorical Predictors
-
----
-
-# Categorical Coding in Linear Regression
-
-Among the possibilities of recoding a Categorical variable to Continuous, there are some classics called "Dummy Coding" and "Deviation Coding".
-
----
-
-# Dummy Coding in Linear Regression
-
-Dummy Coding is when a modality is coded 0 and the other coded 1. For example:
-
-```
-# In JAMOVI, recode female as 0 and male as 1 (Dummy Coding)
-IF(gender == "female", 0, 1)
-```
-
-Dummy Coding is useful because one of the modality becomes the intercept and is tested against 0.
-
-.pull-left[
-
-```{r fig.height=4}
-df2  %>% 
-  dplyr::mutate(gender_c = case_when(
-    gender == "Female" ~ 0,
-    gender == "Male" ~ 1
-  )) %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
-  geom_point(color = "black", size = 5) +
-  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
-  scale_x_continuous(breaks = c(0, 1), limits = c(-0.5, 1.5)) +
-  theme_bw() +
-  theme(
-    text = element_text(size = 14)
-  )
-```
-]
-
-.pull-right[
-
-```{r results='asis'}
-df2 %>% 
-  dplyr::mutate(gender_c = case_when(
-    gender == "Female" ~ 0,
-    gender == "Male" ~ 1
-  )) %>% 
-  lm(data = ., formula = math_results ~ gender_c) %>% 
-  broom::tidy() %>% 
-  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
-  knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
-```
-]
-
----
-
-# Deviation Coding in Linear Regression
-
-Deviation Coding is when the intercept is situated between the codes of the modalities. For example:
-
-```
-# In JAMOVI, recode female as -1 and male as 1 (Deviation Coding)
-IF(gender == "female", -1, 1)
-```
-
-Deviation Coding is useful because the average of the modalities becomes the intercept and is tested against 0.
-
-However, in the Deviation Coding using -1 vs. +1, the distance between the modalities is 2 not 1. Therefore, even if the test of the slop is the exact same, the value of the slop (the estimate) is twice lower.
-
-Consequently it is possible to use a Deviation Coding with -0.5 vs. +0.5 to keep the distance of 1 between the modalities.
-
-```
-# In JAMOVI, recode female as -0.5 and male as 0.5 (Deviation Coding)
-IF(gender == "female", -0.5, 0.5)
-```
-
----
-
-# Deviation Coding in Linear Regression
-
-.pull-left[
-
-Female = -1 and Male = 1
-
-```{r fig.height=4}
-df2 %>%
-  dplyr::mutate(gender_c = case_when(
-    gender == "Female" ~ -1,
-    gender == "Male" ~ 1
-  )) %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
-  geom_point(color = "black", size = 5) +
-  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
-  scale_x_continuous(breaks = c(-1, 1), limits = c(-1.5, 1.5)) +
-  theme_bw() +
-  theme(
-    text = element_text(size = 14)
-  )
-```
-
-```{r results='asis'}
-df2 %>% 
-  dplyr::mutate(gender_c = case_when(
-    gender == "Female" ~ -1,
-    gender == "Male" ~ 1
-  )) %>% 
-  lm(data = ., formula = math_results ~ gender_c) %>% 
-  broom::tidy() %>% 
-  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
-  knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
-```
-]
-
-.pull-right[
-
-Female = -0.5 and Male = 0.5
-
-```{r fig.height=4}
-df2  %>% 
-  dplyr::mutate(gender_c = case_when(
-    gender == "Female" ~ -0.5,
-    gender == "Male" ~ 0.5
-  )) %>% 
-  ggplot(aes(x = gender_c, y = math_results)) +
-  geom_point(color = "black", size = 5) +
-  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
-  scale_x_continuous(breaks = c(-0.5, 0.5), limits = c(-1, 1)) +
-  theme_bw() +
-  theme(
-    text = element_text(size = 14)
-  )
-```
-
-```{r results='asis'}
-df2 %>% 
-  dplyr::mutate(gender_c = case_when(
-    gender == "Female" ~ -0.5,
-    gender == "Male" ~ 0.5
-  )) %>% 
-  lm(data = ., formula = math_results ~ gender_c) %>% 
-  broom::tidy() %>% 
-  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
-  knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
-```
-]
-
----
-
-# Coding Predictors with 3+ Modalities
-
-Y/Outcome/DV = $math\_results$(Continuous variable from 0 to 100)
-
-X/Predictor/IV = $country$ (Categorical variable with 3 modalities: *Ireland*, *France* and *Spain*)
+X/Predictor/IV = $location$ (Categorical variable with 3 categories: *Ireland*, *France* and *Spain*)
 
 .pull-left[
 ```{r}
 df4 <- data.frame(
   participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6", "ppt7", "ppt8"), 
-  country = c("Ireland", "France", "Spain", "Spain", "Ireland", "France", "Spain", "Ireland"),
-  math_results = c(89, 64, 71, 77, 96, 69, 59, 99)
+  location = c("Ireland", "France", "Spain", "Spain", "Ireland", "France", "Spain", "Ireland"),
+  exam_mark = c(89, 64, 71, 77, 96, 69, 59, 99)
 ) %>% 
-  dplyr::mutate(country_c = case_when(
-    country == "Ireland" ~ 1,
-    country == "France" ~ 2,
-    country == "Spain" ~ 3
+  dplyr::mutate(location_c = case_when(
+    location == "Ireland" ~ 1,
+    location == "France" ~ 2,
+    location == "Spain" ~ 3
   ))
 
 knitr::kable(df4, format = "html") %>% 
@@ -805,32 +793,32 @@ knitr::kable(df4, format = "html") %>%
 .pull-right[
 ```{r fig.height=5}
 df4 %>% 
-  ggplot(aes(x = factor(country, level = c("Ireland", "France", "Spain")), y = math_results)) +
+  ggplot(aes(x = factor(location, level = c("Ireland", "France", "Spain")), y = exam_mark)) +
   geom_point(color = "black", size = 5) +
   stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
-  scale_x_discrete("country") +
+  scale_x_discrete("location") +
   theme_bw() +
   theme(
-    text = element_text(size = 14)
+    text = element_text(size = 20)
   )
 ```
 ]
 
 ---
 
-# Coding Predictors with 3+ Modalities
+# Coding Predictors with 3+ categories
 
-$t$-test can only compare 2 modalities. Because Linear Regression Models are (kind of) $t$-test, modalities will be compared 2-by-2 with one modality as the reference to compare all the others.
+$t$-test can only compare 2 categories. Because Linear Regression Models are (kind of) $t$-test, categories will be compared 2-by-2 with one category as the reference to compare all the others.
 
-For example a linear regression of `country` on `math_results` will display not one effect for the `country` but the effect of the 2-by-2 comparison using a reference group by alphabetical order:
+For example a linear regression of `location` on `exam_mark` will display not one effect for the `location` but the effect of the 2-by-2 comparison using a reference group by alphabetical order:
 
 ```{r results='asis'}
 df4 %>% 
-  lm(data = ., formula = math_results ~ country) %>% 
+  lm(data = ., formula = exam_mark ~ location) %>% 
   broom::tidy() %>% 
   dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
   knitr::kable(digits = 2) %>%
-  kable_styling(font_size = 12)
+  kable_styling(font_size = 16)
 ```
 
 In our case the reference is the group "France" (first letter).
@@ -876,14 +864,14 @@ In JAMOVI, an ANOVA table can be obtain alongside the coefficient table to obtai
 ```{r}
 res <- jmv::linReg(
     data = df4,
-    dep = math_results,
-    factors = country,
+    dep = exam_mark,
+    factors = location,
     blocks = list(
         list(
-            "country")),
+            "location")),
     refLevels = list(
         list(
-            var="country",
+            var="location",
             ref="France")),
     anova = TRUE)
 
@@ -892,21 +880,102 @@ res$models[[1]][[1]]
 
 **ANOVA is only testing if all the group averages are the same or not, but it does not tell us which average is different and how.**
 
-In our example, the ANOVA table told us that there is a significant effect of the variable `country` on `math_results`.
+In our example, the ANOVA table told us that there is a significant effect of the variable `location` on `exam_mark`.
 
 However, the ANOVA test does not tell which group is different from the others. If your hypothesis states a specific difference for one or multiple groups there are two different ways to test it: **Post-hoc tests** or **Contrasts**.
 
 ---
 
+# ANOVA in our Example
+
+An hypothesis for a categorical predictor with 3 or more categories predicts that **at least one group among the 3 groups will have an average significantly different than the other averages**.
+
+### With $location$ the hypothesis is the following
+
+> The average $js\_score$ of employees working in at least one specific $location$ will be significantly different than the average $js\_score$ of employees working in the other $location$.
+
+### In mathematical terms
+
+- $H_0$: it is true that $\mu_{Ireland} = \mu_{France} = \mu_{Australia}$
+- $H_a$: it is **not** true that $\mu_{Ireland} = \mu_{France} = \mu_{Australia}$
+
+This analysis is usually preformed using a one-way ANOVA but as ANOVA are special cases of the General Linear Model, let's keep this approach.
+
+---
+
+# ANOVA in our Example
+
+```{r}
+dnd %>% 
+  ggplot(aes(x = location, y =  js_score)) + 
+  geom_jitter(width = 0.1) +
+  geom_hline(yintercept = mean(dnd$js_score), linetype = "dashed") +
+  stat_summary(fun = mean, geom = "errorbar", aes(ymax = ..y.., ymin = ..y..), lwd = 2, color = "blue") +
+  theme(
+    legend.position = "none",
+    text = element_text(size = 20)
+  )
+```
+
+---
+
+# ANOVA in our Example
+
+### In JAMOVI
+
+1. Open your file
+2. Set variables according their type
+3. Analyses > Regression > Linear Regression
+4. Set $js\_score$ as DV and $location$ as Factors
+5. In **Model Coefficients** option: select **Omnibus Test ANOVA test**
+
+```{r out.width = "40%"}
+knitr::include_graphics("img/jamovi_lm_main_c32.png")
+```
+
+### Results
+
+> The is a significant effect of employee's $location$ on their average $js\_score$ ( `r lm_c3$statistic$location`)
+
+---
+class: title-slide, middle
+
+## Live Demo
+
+---
+class: title-slide, middle
+
+## Exercise
+
+Using the dnd.csv dataset, test the following models:
+
+Model 1: $js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \epsilon$
+
+Model 2: $$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \beta_{4}.salary*location +$$
+$$\beta_{5}.perf*location + \beta_{6}.perf*salary + \beta_{7}.salary*location*perf + \epsilon$$
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: inverse, mline, left, middle
+
+# 3. Manipulating Contrast with Categorical Predictors
+
+---
+
 # Post-hoc Tests 
 
-The "Post-hoc" runs a separate $t$-test for all the pairwise modality comparison:
+>How to obtain a test of specific categories when using a categorical variable with 3 or more categories?
+
+The "Post-hoc" runs a separate $t$-test for all the pairwise category comparison:
 
 ```{r}
 res <- jmv::ANOVA(
-    formula = math_results ~ country,
+    formula = exam_mark ~ location,
     data = df4,
-    postHoc = ~ country)
+    postHoc = ~ location)
 
 res$postHoc[[1]] %>% 
   knitr::kable(digits = 2)
@@ -922,14 +991,14 @@ Some corrections for multiple tests are available such as Tukey, Scheffe, Bonfer
 
 Actually, you are mastering Contrasts already. 
 
-With Contrasts you can test specific comparisons with modalities of a Categorical Predictor.
+With Contrasts you can test specific comparisons with categories of a Categorical Predictor.
 
 Contrasts is the name for the coding used to convert a categorical variable to continuous like Dummy Coding or Deviation Coding but there are many more type of Coding systems such as Treatment, Sum to zero, Polynomial ...
 
 Unfortunately Contrast have a couple of rules: 
-- **modalities with the same code are averaged together**
-- **the number of contrast is the number of categories - 1**
-- **the value 0 means the modality is not taken into account** (except treatment contrast)
+- **Categories with the same code are averaged together**
+- **The number of contrast is the number of categories - 1**
+- **The value 0 means the category is not taken into account** (except treatment contrast)
 
 The best way to understand the contrast is by manually creating new variable corresponding to your contrast.
 
@@ -941,7 +1010,7 @@ Also called "Simple" contrast, each contrast encodes the difference between one 
 
 ```{r}
 tibble::tribble(
-  ~Modality, ~Contrast1, ~Contrast2,
+  ~category, ~Contrast1, ~Contrast2,
   "Placebo",  -1, -1,
   "Vaccine 1",  1,  0,
   "Vaccine 2",    0,  1
@@ -963,7 +1032,7 @@ Used to test linear and even non linear effect, they are the most powerful of al
 
 ```{r}
 tibble::tribble(
-  ~Modality, ~Contrast_1, ~Contrast_2,
+  ~category, ~Contrast_1, ~Contrast_2,
   "Low",  -1,  1,
   "Medium",  0, -2,
   "High",    1,  1
@@ -978,18 +1047,23 @@ In this example:
 If the hypothesis specified a linear increase, we would expect Contrast 1 to be significant but Contrast 2 to be non-significant
 
 ---
+class: title-slide, middle
+
+## Live Demo
+
+---
 
 # Comparison of Contrasts Results
 
 ```{r}
 df5 <- df4 %>% 
   dplyr::mutate(
-    treatment_c1 = case_when( country == "Ireland" ~ 1, country == "France" ~ 0, country == "Spain" ~ 0),
-    treatment_c2 = case_when( country == "Ireland" ~ 0, country == "France" ~ 0, country == "Spain" ~ 1),
-    sum_c1 = case_when( country == "Ireland" ~ 1, country == "France" ~ -1, country == "Spain" ~ 0),
-    sum_c2 = case_when( country == "Ireland" ~ 0, country == "France" ~ -1, country == "Spain" ~ 1),
-    poly_c1 = case_when( country == "Ireland" ~ 0, country == "France" ~ -1, country == "Spain" ~ 1),
-    poly_c2 = case_when( country == "Ireland" ~ -2, country == "France" ~ 1, country == "Spain" ~ 1)
+    treatment_c1 = case_when( location == "Ireland" ~ 1, location == "France" ~ 0, location == "Spain" ~ 0),
+    treatment_c2 = case_when( location == "Ireland" ~ 0, location == "France" ~ 0, location == "Spain" ~ 1),
+    sum_c1 = case_when( location == "Ireland" ~ 1, location == "France" ~ -1, location == "Spain" ~ 0),
+    sum_c2 = case_when( location == "Ireland" ~ 0, location == "France" ~ -1, location == "Spain" ~ 1),
+    poly_c1 = case_when( location == "Ireland" ~ 0, location == "France" ~ -1, location == "Spain" ~ 1),
+    poly_c2 = case_when( location == "Ireland" ~ -2, location == "France" ~ 1, location == "Spain" ~ 1)
     )
 ```
 
@@ -1000,7 +1074,7 @@ Let's see what happens with different contrast to compare the average $js\_score
 .pull-left[
 ```{r}
 tibble::tribble(
-  ~Modality, ~sum_c1, ~sum_c2,
+  ~category, ~sum_c1, ~sum_c2,
   "France",  -1,  -1,
   "Ireland",  1,   0,
   "Spain",    0,   1
@@ -1013,7 +1087,7 @@ tibble::tribble(
 .pull-right[
 ```{r results='asis'}
 df5 %>% 
-  lm(data = ., formula = math_results ~ sum_c1 + sum_c2) %>% 
+  lm(data = ., formula = exam_mark ~ sum_c1 + sum_c2) %>% 
   broom::tidy() %>% 
   dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
   knitr::kable(digits = 2) %>%
@@ -1026,7 +1100,7 @@ df5 %>%
 .pull-left[
 ```{r}
 tibble::tribble(
-  ~Modality, ~poly_c1, ~poly_c2,
+  ~category, ~poly_c1, ~poly_c2,
   "France",  -1,   1,
   "Ireland",  0,  -2,
   "Spain",    1,   1
@@ -1039,7 +1113,7 @@ tibble::tribble(
 .pull-right[
 ```{r results='asis'}
 df5 %>% 
-  lm(data = ., formula = math_results ~ poly_c1 + poly_c2) %>% 
+  lm(data = ., formula = exam_mark ~ poly_c1 + poly_c2) %>% 
   broom::tidy() %>% 
   dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
   knitr::kable(digits = 2) %>%
@@ -1048,20 +1122,101 @@ df5 %>%
 ]
 
 ---
+class: title-slide, middle
 
-# Many more Contrasts
+## Exercise
 
-**Deviation**: Compares the mean of each level (except a reference category) to the mean of all of the levels (grand mean)
+1. Using the dnd.csv dataset, create contrast variables to reproduce the results obtained with Sum to Zero Contrasts and Polynomial Contrasts
 
-**Simple**: Like the treatment contrasts, the simple contrast compares the mean of each level to the mean of a specified level. This type of contrast is useful when there is a control group. By default the first category is the reference. However, with a simple contrast the intercept is the grand mean of all the levels of the factors.
+2. When it's done explicit the hypotheses tested, the representation of the models and their corresponding equation
 
-**Difference**: Compares the mean of each level (except the first) to the mean of previous levels. (Sometimes called reverse Helmert contrasts)
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
 
-**Helmert**: Compares the mean of each level of the factor (except the last) to the mean of subsequent levels
+---
 
-**Repeated**: Compares the mean of each level (except the last) to the mean of the subsequent level
+# Solution - Sum to Zero Contrasts
 
-**Polynomial**: Compares the linear effect and quadratic effect. The first degree of freedom contains the linear effect across all Categories; the second degree of freedom, the quadratic effect. These contrasts are often used to estimate polynomial trends
+Variables:
+
+- Outcome = $js\_score$ (from 0 to 10)
+- Predictor 1 = $sum\_c1$ (France vs Ireland)
+- Predictor 2 = $sum\_c2$ (France vs Spain)
+
+Hypotheses:
+
+- $H_{a_1}$: The average $js\_score$ of French employees is different than the average $js\_score$ of Spanish employees
+- $H_{0_1}$: The average $js\_score$ of French employees is the same as the average $js\_score$ of Spanish employees
+
+- $H_{a_1}$: The average $js\_score$ of French and Spanish employees is different than the average $js\_score$ of Irish employees
+- $H_{0_1}$: The average $js\_score$ of French and Spanish is the same as the average $js\_score$ of Irish employees
+
+---
+
+# Solution - Sum to Zero Contrasts
+
+Model:
+
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    js_score
+    node [shape = square]
+    sum_c1, sum_c2
+    
+    sum_c1 -> js_score [label= β1]
+    sum_c2 -> js_score [label= β2]
+  }", height = 200, width = 500)
+```
+
+Equation:
+
+- $js\_score = \beta_{0} + \beta_{1}.sum\_c1 + \beta_{2}.sum\_c2 + \epsilon$
+
+---
+
+# Solution - Polynomial Contrasts
+
+Variables:
+
+- Outcome = $js\_score$ (from 0 to 10)
+- Predictor 1 = $poly\_c1$ (France vs Ireland)
+- Predictor 2 = $poly\_c2$ (France vs Spain)
+
+Hypotheses:
+
+- $H_{a_1}$: The average $js\_score$ of French employees is different than the average $js\_score$ of Irish employees
+- $H_{0_1}$: The average $js\_score$ of French employees is the same as the average $js\_score$ of Irish employees
+
+- $H_{a_2}$: The average $js\_score$ of French employees is different than the average $js\_score$ of Spanish employees
+- $H_{0_2}$: The average $js\_score$ of French employees is the same as the average $js\_score$ of Spanish employees
+
+---
+
+# Solution - Polynomial Contrasts
+
+Model:
+
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    js_score
+    node [shape = square]
+    poly_c1, poly_c2
+    
+    poly_c1 -> js_score [label= β1]
+    poly_c2 -> js_score [label= β2]
+  }", height = 200, width = 500)
+```
+
+Equation:
+
+- $js\_score = \beta_{0} + \beta_{1}.poly\_c1 + \beta_{2}.poly\_c2 + \epsilon$
 
 ---
 class: inverse, mline, left, middle

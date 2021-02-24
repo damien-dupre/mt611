@@ -305,6 +305,28 @@ Type II tests have some clear advantages over Type I and Type III tests. They do
 
 As a consequence, it's usually easier to interpret the results of a Type II test than the results of a Type I or Type III test. For this reason, if you can't think of any obvious model comparisons that directly map onto your research questions but you still want to run an ANOVA in an unbalanced design, Type II tests are probably a better choice than Type I or Type III.
 
+---
+
+class: inverse, mline, center, middle
+
+# Section to improve
+
+---
+
+# Many more Contrasts
+
+**Deviation**: Compares the mean of each level (except a reference category) to the mean of all of the levels (grand mean)
+
+**Simple**: Like the treatment contrasts, the simple contrast compares the mean of each level to the mean of a specified level. This type of contrast is useful when there is a control group. By default the first category is the reference. However, with a simple contrast the intercept is the grand mean of all the levels of the factors.
+
+**Difference**: Compares the mean of each level (except the first) to the mean of previous levels. (Sometimes called reverse Helmert contrasts)
+
+**Helmert**: Compares the mean of each level of the factor (except the last) to the mean of subsequent levels
+
+**Repeated**: Compares the mean of each level (except the last) to the mean of the subsequent level
+
+**Polynomial**: Compares the linear effect and quadratic effect. The first degree of freedom contains the linear effect across all Categories; the second degree of freedom, the quadratic effect. These contrasts are often used to estimate polynomial trends
+
 
 ---
 class: inverse, mline, left, middle

@@ -99,10 +99,10 @@ A variable itself is a subtle concept, but basically it comes down to finding so
 
 - **My age is** *36 years*.
 - *I do* **like anchovies**.
-- My **chromosomal gender is** *male*.
-- My **self-identified gender is** *male*.
+- My **chromosomal gender** is *male*.
+- My **self-identified gender** is *male*.
 
-The bold part is "the thing that varies", and the italicised part is "the value of the variable".
+The **bold part is "the thing that varies"**, and the *italicised part is "the value of the variable"*.
 
 ---
 
@@ -148,6 +148,7 @@ Variables can be converted to either Categorical and Continuous but it is always
 - Example, Likert item (Opinion question from disagree to agree) are Categorical Ordinal but are analysed as Continuous.
 
 ---
+
 # Latent Variables
 
 Questionnaires/survey are made of multiple questions (also called items)
@@ -735,6 +736,7 @@ knitr::include_graphics("img/ex1_title.png")
 ```{r out.width = "50%"}
 knitr::include_graphics("img/ex1_hyp.png")
 ```
+
 ---
 
 # Example of Hypotheses in Research Papers
