@@ -676,7 +676,7 @@ Model 1: `\(js\_score = \beta_{0} + \beta_{1}.perf\_c + \beta_{2}.gender + \beta
 
 Model 2: `\(js\_score = \beta_{0} + \beta_{1}.perf\_c + \beta_{2}.location + \beta_{3}.perf\_c*location+ \epsilon\)`
 
-<div class="countdown" id="timer_60362df8" style="right:0;bottom:0;" data-warnwhen="60">
+<div class="countdown" id="timer_603924f6" style="right:0;bottom:0;" data-warnwhen="60">
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -916,7 +916,7 @@ This analysis is usually preformed using a one-way ANOVA but as ANOVA are specia
 
 ### Results
 
-&gt; The is a significant effect of employee's `\(location\)` on their average `\(js\_score\)` ( `\(F(2, 17) = 3.30\)`, `\(\mathit{MSE} = 2.37\)`, `\(p = .062\)`)
+&gt; Dispite what we have seen in the figur, there is no significant effect of employee's `\(location\)` on employees' average `\(js\_score\)` ( `\(F(2, 17) = 3.30\)`, `\(\mathit{MSE} = 2.37\)`, `\(p = .062\)`)
 
 ---
 class: title-slide, middle
@@ -935,7 +935,7 @@ Model 1: `\(js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \bet
 Model 2: `$$js\_score = \beta_{0} + \beta_{1}.salary + \beta_{2}.location + \beta_{3}.perf + \beta_{4}.salary*location +$$`
 `$$\beta_{5}.perf*location + \beta_{6}.perf*salary + \beta_{7}.salary*location*perf + \epsilon$$`
 
-<div class="countdown" id="timer_60362dfb" style="right:0;bottom:0;" data-warnwhen="60">
+<div class="countdown" id="timer_603922f8" style="right:0;bottom:0;" data-warnwhen="60">
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1256,7 +1256,7 @@ class: title-slide, middle
 
 2. When it's done explicit the hypotheses tested, the representation of the models and their corresponding equation
 
-<div class="countdown" id="timer_60362cc1" style="right:0;bottom:0;" data-warnwhen="60">
+<div class="countdown" id="timer_6039237b" style="right:0;bottom:0;" data-warnwhen="60">
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
 
@@ -1267,16 +1267,16 @@ class: title-slide, middle
 Variables:
 
 - Outcome = `\(js\_score\)` (from 0 to 10)
-- Predictor 1 = `\(sum\_c1\)` (France vs Ireland)
-- Predictor 2 = `\(sum\_c2\)` (France vs Spain)
+- Predictor 1 = `\(sum\_c1\)` (Australia vs France)
+- Predictor 2 = `\(sum\_c2\)` (Australia vs Ireland)
 
 Hypotheses:
 
-- `\(H_{a_1}\)`: The average `\(js\_score\)` of French employees is different than the average `\(js\_score\)` of Spanish employees
-- `\(H_{0_1}\)`: The average `\(js\_score\)` of French employees is the same as the average `\(js\_score\)` of Spanish employees
+- `\(H_{a_1}\)`: The average `\(js\_score\)` of Australian employees is different than the average `\(js\_score\)` of French employees
+- `\(H_{0_1}\)`: The average `\(js\_score\)` of Australian employees is the same as the average `\(js\_score\)` of French employees
 
-- `\(H_{a_1}\)`: The average `\(js\_score\)` of French and Spanish employees is different than the average `\(js\_score\)` of Irish employees
-- `\(H_{0_1}\)`: The average `\(js\_score\)` of French and Spanish is the same as the average `\(js\_score\)` of Irish employees
+- `\(H_{a_2}\)`: The average `\(js\_score\)` of Australia employees is different than the average `\(js\_score\)` of Irish employees
+- `\(H_{0_2}\)`: The average `\(js\_score\)` of Australia employees is the same as the average `\(js\_score\)` of Irish employees
 
 ---
 
@@ -1298,16 +1298,16 @@ Equation:
 Variables:
 
 - Outcome = `\(js\_score\)` (from 0 to 10)
-- Predictor 1 = `\(poly\_c1\)` (France vs Ireland)
-- Predictor 2 = `\(poly\_c2\)` (France vs Spain)
+- Predictor 1 = `\(poly\_c1\)` (Linear)
+- Predictor 2 = `\(poly\_c2\)` (Quadratic)
 
 Hypotheses:
 
-- `\(H_{a_1}\)`: The average `\(js\_score\)` of French employees is different than the average `\(js\_score\)` of Irish employees
-- `\(H_{0_1}\)`: The average `\(js\_score\)` of French employees is the same as the average `\(js\_score\)` of Irish employees
+- `\(H_{a_1}\)`: The average `\(js\_score\)` of low performance employees is different than the average `\(js\_score\)` of high performance employees
+- `\(H_{0_1}\)`: The average `\(js\_score\)` of low performance employees is the same as the average `\(js\_score\)` of high performance employees
 
-- `\(H_{a_2}\)`: The average `\(js\_score\)` of French employees is different than the average `\(js\_score\)` of Spanish employees
-- `\(H_{0_2}\)`: The average `\(js\_score\)` of French employees is the same as the average `\(js\_score\)` of Spanish employees
+- `\(H_{a_2}\)`: The average `\(js\_score\)` of low performance and high performance employees is different than the average `\(js\_score\)` of medium performance employees
+- `\(H_{0_2}\)`: The average `\(js\_score\)` of low performance and high performance employees is the same as the average `\(js\_score\)` of medium performance employees
 
 ---
 

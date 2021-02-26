@@ -935,7 +935,7 @@ knitr::include_graphics("img/jamovi_lm_main_c32.png")
 
 ### Results
 
-> The is a significant effect of employee's $location$ on their average $js\_score$ ( `r lm_c3$statistic$location`)
+> Dispite what we have seen in the figur, there is no significant effect of employee's $location$ on employees' average $js\_score$ ( `r lm_c3$statistic$location`)
 
 ---
 class: title-slide, middle
@@ -1141,16 +1141,16 @@ countdown(minutes = 10, warn_when = 60)
 Variables:
 
 - Outcome = $js\_score$ (from 0 to 10)
-- Predictor 1 = $sum\_c1$ (France vs Ireland)
-- Predictor 2 = $sum\_c2$ (France vs Spain)
+- Predictor 1 = $sum\_c1$ (Australia vs France)
+- Predictor 2 = $sum\_c2$ (Australia vs Ireland)
 
 Hypotheses:
 
-- $H_{a_1}$: The average $js\_score$ of French employees is different than the average $js\_score$ of Spanish employees
-- $H_{0_1}$: The average $js\_score$ of French employees is the same as the average $js\_score$ of Spanish employees
+- $H_{a_1}$: The average $js\_score$ of Australian employees is different than the average $js\_score$ of French employees
+- $H_{0_1}$: The average $js\_score$ of Australian employees is the same as the average $js\_score$ of French employees
 
-- $H_{a_1}$: The average $js\_score$ of French and Spanish employees is different than the average $js\_score$ of Irish employees
-- $H_{0_1}$: The average $js\_score$ of French and Spanish is the same as the average $js\_score$ of Irish employees
+- $H_{a_2}$: The average $js\_score$ of Australia employees is different than the average $js\_score$ of Irish employees
+- $H_{0_2}$: The average $js\_score$ of Australia employees is the same as the average $js\_score$ of Irish employees
 
 ---
 
@@ -1183,16 +1183,16 @@ Equation:
 Variables:
 
 - Outcome = $js\_score$ (from 0 to 10)
-- Predictor 1 = $poly\_c1$ (France vs Ireland)
-- Predictor 2 = $poly\_c2$ (France vs Spain)
+- Predictor 1 = $poly\_c1$ (Linear)
+- Predictor 2 = $poly\_c2$ (Quadratic)
 
 Hypotheses:
 
-- $H_{a_1}$: The average $js\_score$ of French employees is different than the average $js\_score$ of Irish employees
-- $H_{0_1}$: The average $js\_score$ of French employees is the same as the average $js\_score$ of Irish employees
+- $H_{a_1}$: The average $js\_score$ of low performance employees is different than the average $js\_score$ of high performance employees
+- $H_{0_1}$: The average $js\_score$ of low performance employees is the same as the average $js\_score$ of high performance employees
 
-- $H_{a_2}$: The average $js\_score$ of French employees is different than the average $js\_score$ of Spanish employees
-- $H_{0_2}$: The average $js\_score$ of French employees is the same as the average $js\_score$ of Spanish employees
+- $H_{a_2}$: The average $js\_score$ of low performance and high performance employees is different than the average $js\_score$ of medium performance employees
+- $H_{0_2}$: The average $js\_score$ of low performance and high performance employees is the same as the average $js\_score$ of medium performance employees
 
 ---
 
