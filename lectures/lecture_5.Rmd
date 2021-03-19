@@ -42,6 +42,7 @@ library(DiagrammeR)
 library(patchwork)
 library(ggrepel)
 library(papaja)
+library(palmerpenguins)
 # data -------------------------------------------------------------------------
 ```
 
@@ -384,6 +385,43 @@ These control variables are called "Random Effects" (by opposition to predictor 
 They are included in the model in order to take into account their variability but they are not tested. **Control variables included as "Random Effects" are variables for which you suppose there are differences but you have no specific hypothesis about them.**
 
 Examples of these "Random Effects" can be location of measurement, days of the measurement, differences between individuals ...
+
+---
+
+# Linear Mixed Models
+
+Classic example: Palmer's penguins
+
+.pull-left[
+
+```{r}
+penguins %>%
+  ggplot(aes(bill_length_mm, flipper_length_mm)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(limits = c(170, 240)) +
+  theme_bw() +
+  theme(text = element_text(size = 20))
+```
+
+]
+
+.pull-right[
+
+```{r fig.height=7.5}
+penguins %>%
+  ggplot(aes(bill_length_mm, flipper_length_mm, color = species)) +
+  geom_point() +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(limits = c(170, 240)) +
+  theme_bw() +
+  theme(
+    legend.position = "bottom",
+    text = element_text(size = 20)
+  )
+```
+
+]
 
 ---
 
