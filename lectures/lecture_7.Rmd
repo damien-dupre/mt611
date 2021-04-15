@@ -1,6 +1,6 @@
 ---
 title: "MT611 - Quantitative Research Methods"
-subtitle: "Lecture 7: Transformations and Visualisations in R with the {tidyverse}"
+subtitle: "Lecture 7: Transformations and Visualisations in R"
 author: "Damien Dupré"
 date: "Dublin City University"
 output:
