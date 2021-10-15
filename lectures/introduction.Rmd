@@ -107,7 +107,7 @@ This paper will have **a maximum of 10 pages** and **a publication ready design*
 
 Appendices are possible, specially if they includes codes to reproduce the results. They are not included in the page count.
 
-**The deadline is June 21st, 2021.**
+**The deadline is June 21st, 2022.**
 
 ---
 class: title-slide, middle
