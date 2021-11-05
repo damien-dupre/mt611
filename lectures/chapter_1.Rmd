@@ -1,0 +1,1834 @@
+---
+title: "MT611 - Quantitative Research Methods"
+subtitle: "Chapter 1: Understanding Variables, Hypotheses, Models, and Equations"
+author: "Damien Dupré"
+date: "Dublin City University"
+output:
+  xaringan::moon_reader:
+    css: ["default", "metropolis", "metropolis-fonts", "css/custom_design.css"]
+    lib_dir: libs
+    nature:
+      beforeInit: "libs/cols_macro.js"
+      highlightStyle: zenburn
+      highlightLines: true
+      countIncrementalSlides: false
+---
+
+```{r setup, include = FALSE}
+# general options --------------------------------------------------------------
+options(scipen = 999)
+set.seed(123)
+# chunk options ----------------------------------------------------------------
+knitr::opts_chunk$set(
+  cache.extra = knitr::rand_seed, 
+  message = FALSE, 
+  warning = FALSE, 
+  error = FALSE, 
+  echo = FALSE,
+  cache = FALSE,
+  comment = "", 
+  fig.align = "center", 
+  fig.retina = 3
+  )
+# libraries --------------------------------------------------------------------
+library(tidyverse)
+library(knitr)
+library(kableExtra)
+library(emo)
+library(nomnoml)
+library(DiagrammeR)
+library(ggrepel)
+library(fontawesome)
+library(tweetrmd)
+library(plotly)
+library(gapminder)
+library(patchwork)
+library(webshot2)
+library(VennDiagram)
+library(countdown)
+```
+
+# Essential Concepts to Master
+
+In Academic Reports, all sections are linked:
+
+.center[**Introduction `r ji("right_arrow")` Literature Review `r ji("right_arrow")` Method `r ji("right_arrow")` Results `r ji("right_arrow")` Discussion & Conclusion**]
+
+--
+
+To understand the statistics in the results section, it is essential to identify the concepts presented in each section:
+
+```{nomnoml, fig.width=12, fig.height=3}
+#stroke: black
+#direction: right
+#align: center
+[Introduction | Variables]->[Literature Review | Hypotheses]
+[Literature Review | Hypotheses]->[Method | Model & Equation]
+[Method | Model & Equation]->[Results | Statistical Test]
+[Results | Statistical Test]->[Discussion & Conclusion | Interpretation]
+```
+
+---
+class: inverse, mline, center, middle
+
+# 1. Declare your Variables in the Introduction
+
+---
+
+# Academic Papers' Introduction
+
+An introduction is a section **presenting your variables and why you investigate them**.
+
+There is little reference to previous academic research, just a description of actual facts.
+
+It should end with your **Research Question**, a question that includes all the main variables investigated which wonders about a potential relationship between them.
+
+For example:
+- "What is the relationship between Job Satisfaction, Salary and Gender?"
+- "How does sales experience influence the performance of sales managers and sales representatives?"
+
+```{r out.width='25%'}
+knitr::include_graphics("https://memegenerator.net/img/instances/65219961/there-will-come-a-day-i-easily-write-an-introduction-to-a-paper-but-it-is-not-this-day.jpg")
+```
+
+---
+
+# What is a Variable?
+
+A variable itself is a subtle concept, but basically it comes down to finding some way of assigning *numbers or characters* to **labels**.
+
+For example:
+
+- My **height** is *183 cm*
+- This morning, I had a *large* **coffee**
+- My **gender** is *male*
+
+The **bold part is "the thing that varies"** and the *italicised part is "the value of the variable"*.
+
+> Let's collect more data about our classmates on these three variables: height, coffee and gender!
+
+--
+
+### Important!
+
+- The variable **variability** corresponds to how numbers or characters according each observation.
+- Each variable has a **Role** and a **Type**, it is essential to learn how to identify them.
+
+---
+
+# Latent Variables
+
+A questionnaire/survey is made of multiple questions (also called items)
+
+All items that are related to the measurement of a same theoretical construct are constituting a scale.
+
+#### The theoretical construct measured by the scale is called Latent Variable.
+
+To be analysed a scale has some requirements:
+
+1. All the items must have the same range of possibilities/modalities
+2. All the items must correlate together (scale reliability)
+3. A unique theoretical construct score has to be calculated from all the items even if it contains subscales.
+
+There are two way to obtain the score of a Latent Variable: 
+
+- Average of all items (reversed if necessary)
+- Factor/Component analysis
+
+---
+
+# Latent Variables
+
+Scale to measure the "Perceived Ease-of-use" of MS Excel in 4 items were measured from 1 "totally disagree" to 7 "totally agree":
+
+.pull-left[
+- q1. I think learning MS Excel is easy
+- q2. Understanding MS Excel is easy
+- q3. I am good at using MS Excel
+- q4. I think using MS Excel is easy
+]
+
+.pull-right[
+```{r}
+DiagrammeR::grViz("
+digraph rmarkdown {
+  graph [rankdir = RL]
+  
+  node [shape = oval]
+  'Perceived Ease-of-use
+  of MS Excel'
+  
+  node [shape = box]
+  q1; q2; q3; q4
+  
+  'Perceived Ease-of-use
+  of MS Excel'-> {q1 q2 q3 q4}   
+
+}
+", height = 200)
+```
+]
+
+--
+
+Here are the results with 3 students. The score of the "Perceived Ease-of-use of MS Excel" latent variable is calculated using the average of all items.
+
+```{r}
+tribble(
+  ~employee, ~q1, ~q2, ~q3, ~q4,
+  "Sinead",   7,  5,   7,   7,
+  "Patrick",   5,  4,   6,   6, 
+  "Damien",   3,  1,   2,   3
+) %>% 
+  rowwise() %>% 
+  mutate(peo_score = mean(c(q1, q2, q3, q4))) %>% 
+  kable()
+```
+
+---
+
+# Validity and Reliability
+
+**Validity = is my variable measuring the construct that I think I am measuring?**
+- Does the measurement make sense? 
+- Would the results be reproduced with another scale measuring the same latent variable?
+- Are the results correlated to latent variables that are related?
+
+Validity test is only performed when a scale is created (no need for existing scales)
+
+**Reliability = consistency of items inside a measurement**
+- Test-retest reliability
+- Inter-rater reliability
+- Correlation inter-item (Cronbach's alpha)
+
+Reliability test is performed every time a scale is used but only using Cronbach's alpha
+
+---
+
+# Validity and Reliability
+
+```{r out.width = "50%"}
+knitr::include_graphics("https://www.publichealthnotes.com/wp-content/uploads/2018/08/560px-Reliability_and_validity.svg_.png")
+```
+
+---
+class: title-slide, middle
+
+## Type of Variables
+
+---
+
+# Type of Variables
+
+Variables can have different types:
+
+- **Categorical**: If the variable's possibilities are words or sentences (character string)
+
+  - if the possibilities cannot be ordered: Categorical Nominal (*e.g.*, $gender$ male, female, other)
+  
+  - if the possibilities can be ordered: Categorical Ordinal (*e.g.*, $size$ S, M, L)
+  
+- **Continuous**: If the variable's possibilities are numbers (*e.g.*, $age$, $temperature$, ...) 
+
+> Warning: Variables can be converted to either Categorical and Continuous but it is always better to keep them in their correct scale.
+
+```{r out.width='30%'}
+knitr::include_graphics("img/jamovi_icons.png")
+```
+
+---
+class: title-slide, middle
+
+## Role of Variables
+
+---
+
+# Predictors, Outcomes and Controls
+
+It's important to keep the two roles "variable doing the explaining" and "variable being explained" distinct.
+
+Let's denote the:
+ - **Outcome**: "variable to be explained" (also called $Y$, Dependent Variable, or DV)
+ - **Predictor**: "variable doing the explaining" (also called $X$, Independent Variable, or IV)
+ 
+--
+
+Statistics is only about identifying relationship between Predictor and Outcome variables also called **effect**
+
+> An effect between 2 variables means that the changes in the values of a predictor variable are related to changes in the values of an outcome variable.
+
+> The aim of an Academic Report is to investigate if the **Variability of the Outcome Variable** is related to the variability of Predictor Variables.
+
+---
+
+# Predictors, Outcomes and Controls
+
+Imagine a the variability of the Outcome Variable is a birthday cake. 
+
+Now, imagine each predictor is a guest having a slice of the cake:
+
+- **Case 1:** There is only one guest eating all the cake.
+
+  - Then the predictor explains all the variability of the outcome variable. 
+
+- **Case 2:** There is only one guest eating a slice which is not the all cake.
+
+  - The predictor explains some of the outcome's variability. A statistical test is required to know if the predictor explains a significant part of the outcome's variability.
+  
+- **Case 3:** There is more than one guest, they will take their slices of the cake which can be small or big. 
+
+   - Each predictor will explains more or less variability of the outcome. However, the more guest there is, the smaller the slices.
+
+---
+
+# Predictors, Outcomes and Controls
+
+An effect between a predictor variable and an outcome variable corresponds to the following model:
+
+```{nomnoml, fig.width=12, fig.height=3}
+#stroke: black
+#direction: right
+#align: center
+
+[Predictor]->[Outcome]
+```
+
+This arrow does not suggest causation but indicate correlation between $Predictor$ and $Outcome$, there is no assumption of one causing the other. **An "effect" is reciprocal and does not involves causality**.
+
+Causality analysis is an other kind of test that involves:
+- To be sure that 2 variables are correlated
+- That one variable is the antecedent of the other
+- That no other variable is explaining this relationship
+
+---
+
+# Predictors, Outcomes and Controls
+
+A significant effect of a $Predictor$ on an $Outcome$ variable means that **a predictor is explaining enough variance of the outcome** variable to show a significant relationship.
+
+.pull-left[
+
+- If there is no effect between the variables, they are not sharing enough of their variability
+
+```{r, fig.height=5}
+venn.plot <- draw.pairwise.venn(
+  100, 100, 10, c("Predictor", "Outcome"), ind = FALSE, cex = 5, cat.cex	= 2, cat.pos	
+= c(0,0))
+grid.draw(venn.plot)
+```
+
+]
+
+.pull-right[
+
+- If there is an effect between the variables, they are sharing a big part of their variability
+
+```{r, fig.height=5}
+venn.plot <- draw.pairwise.venn(
+  100, 100, 40, c("Predictor", "Outcome"), ind = FALSE, cex = 5, cat.cex	= 2, cat.pos	
+= c(0,0))
+grid.draw(venn.plot)
+```
+]
+
+To decide, if the part of the shared variability is big enough, a statistical test is required.
+
+---
+
+# Predictors, Outcomes and Controls
+
+## Correlation not Causation
+
+Hypothesis testing evaluates how two or more variable are related or correlated, there is no assumption of one causing the other:
+
+* An "effect" is reciprocal and does not involves causality
+* Causality analysis is an other kind of test that involves:
+  1. To be sure that 2 variables are correlated
+  2. That one variable is the antecedent of the other
+  3. That no other variable is explaining this relationship
+
+## Control Variables
+
+The only difference for **control variables** is that they are not included in the model and in the hypotheses but they are in the equation.
+
+They are used to remove an irrelevant explanation of the variable changes.
+
+---
+class: title-slide, middle
+
+## Exercise
+
+**In the research paper you have selected, identify the variables that are used to produce statistical results (e.g. $p-values$).**
+
+Indicate their Type and Role by using the following table:
+
+|variable_name|variable_type|variable_role|
+|-------------|-------------|-------------|
+|var 1        |type         |role         |
+|...          |...          |...          |
+|var n        |type         |role         |
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
+
+---
+class: inverse, mline, center, middle
+
+# 2. Formulate your Hypotheses from your Literature Review
+
+---
+
+# Hypotheses in a Nutshell
+
+Hypotheses are:
+1. Predictions supported by theory/literature
+2. Affirmations designed to precisely describe the relationships between variables
+
+> *“Hypothesis statements contain two or more variables that are measurable or potentially measurable and that specify how the variables are related”* (Kerlinger, 1986)
+
+Hypotheses include:
+
+- Predictor(s) / Independent Variable(s)
+- Outcome / Dependent Variable (DV)
+- Direction of the outcome if the predictor increases
+
+**Warning:** Hypothesis cannot test equality between groups or modalities, they can only test differences or effects
+
+---
+
+# Alternative *vs.* Null Hypotheses
+
+Every hypothesis has to state a difference (between groups or according values) also called $H_a$ (for alternative hypothesis) or $H_1$
+
+Every alternative hypothesis has a null hypothesis counterpart (no difference between groups or according values) also called $H_0$ (pronounce H naught or H zero)
+
+$H_a$ is viewed as a “challenger” hypothesis to the null hypothesis $H_0$.
+  
+> **Statistics are used to test the probability of obtaining your results if the Null Hypothesis is true. If this probability is low, then we reject the Null Hypothesis (and consider the Alternative Hypothesis as credible).**
+
+But there is only two kind of alternative hypotheses: **Main Effect Hypotheses** and **Interaction Effect Hypotheses**
+
+---
+
+# Main Effect Hypothesis
+
+Is the **predicted relationship between one $Predictor$ and one $Outcome$ variable**
+
+The $Outcome$ needs to be Continuous (but some models can use a Categorical Outcome)
+
+The $Predictor$ can be either Continuous or Categorical but the hypothesis formulation will change with its type
+
+- Effect representation:
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+    
+    'Predictor' -> 'Outcome'
+  }", height = 200)
+```
+
+- Warning: 
+
+> The direction of the arrow does not involve causality, only correlation.
+
+---
+
+# Main Effect Hypothesis Templates
+
+In the following formulation templates, **replace the variable names with yours** and *select the direction of the effect expected* ...
+
+- #### Case 1: Predictor is Continuous 
+
+.small[{**outcome**} {*increases/decreases/changes*} when {**predictor**} increases]
+
+> .small[**Job satisfaction** *increases* when **salary** increases]
+
+--
+
+- #### Case 2: Predictor is Categorical (2 Categories)
+
+.small[The {**outcome**} of {**predictor category 1**} is {*higher/lower/different*} than the {**outcome**} of {**predictor category 2**}]
+
+> .small[The **Job satisfaction** of **EU employees** is *higher* than the **job satisfaction** of **Non-EU employees**]
+
+--
+
+- #### Case 3: Predictor is Categorical (3 or more Categories)
+
+.small[The {**outcome**} of at least one of the {**predictor**} is {*higher/lower/different*} than the {**outcome**} of the other {**predictor**}]
+
+> .small[The **Job satisfaction** of at least one of the **company's departments** is *higher* than the **Job satisfaction** of the other **company's departments**]
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+
+- Outcome = Exam Results (continuous from 0 to 100)
+- Predictor = Sleep Time (continuous from 0h to 24h)
+
+Effect representation:
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+  
+    'Sleep Time' -> 'Exam Results'
+  }", height = 200)
+```
+
+Main Effect Hypothesis: 
+
+- $H_a$: **Exam results** *increase* when students’ **sleep time** increases
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+- Outcome = Exam Results (continuous from 0 to 100)
+- Predictor = Breakfast (categorical *yes* or *no*)
+
+Effect representation:
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+    
+    'Breakfast' -> 'Exam Results'
+  }", height = 200)
+```
+
+Main Effect Hypothesis: 
+
+- $H_a$: **Exam results** of students **who eat breakfast** will be *higher* than **exam results** of students **who do not eat breakfast** 
+
+---
+
+# Main Effect Hypothesis Examples
+
+Variables:
+- Outcome = Driving Errors (continuous from 0 to Inf.)
+- Predictor = Talking on the Phone while Driving (categorical *yes* or *no*)
+
+Effect representation:
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+    
+    'Talking on the Phone while Driving' -> 'Driving Errors'
+  }", height = 200)
+```
+
+Main Effect Hypothesis: 
+
+- $H_a$: **Driving errors** of **motorists who do not talk on the phone while driving** will be *lower* than **driving errors** of **motorists who do not talk on the phone while driving**
+
+---
+
+# Interaction Effect Hypothesis
+
+**It predicts the influence of a second predictor on the relationship between a first predictor and an outcome variable**
+
+Notes:
+
+- The second predictor is also called moderator.
+- The main effect of each predictor must be hypothesised as well
+- The role of first and second predictors can be inverted with the exact same statistical results
+
+.pull-left[
+Effects representation:
+
+```{r}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Predictor 1'; 'Predictor 2'; Outcome
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    'Predictor 2' -> ''
+    'Predictor 1' -> '' [arrowhead = none]
+    ''-> Outcome
+    
+    subgraph {
+      rank = same; 'Predictor 2'; '';
+    }
+  }", height = 200, width = 400)
+```
+]
+
+.pull-right[
+
+Exactly the same results:
+```{r}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+
+    
+    'Predictor 1' -> Outcome
+    'Predictor 2' -> Outcome
+    'Predictor 1 X Predictor 2' -> Outcome
+  }", height = 200, width = 400)
+```
+]
+
+---
+
+# Interaction Effect Hypothesis
+
+.pull-left[
+Imagine a first effect where Job Satisfaction increases when Salary increases
+
+```{r fig.height=3.5, fig.width=5}
+tribble(
+  ~employee, ~salary, ~q1, ~q2, ~q3, ~q4,
+  1,         45000,   1,   5,   3,   2, 
+  2,         55000,   5,   4,   6,   6,
+  3,         70000,   3,   1,   2,   3,
+  4,         80000,   8,   5,   2,   7, 
+  5,         95000,   8,   9,   6,   5,
+  6,         75000,   3,   1,   2,   1,
+  7,         50000,   5,   2,   7,   7, 
+  8,         45000,   1,   4,   6,   9,
+  9,         65000,   3,   1,   2,   3
+) %>% 
+  rowwise() %>% 
+  mutate(js_score = mean(q1, q2, q3, q4)) %>% 
+  ggplot(aes(salary, js_score)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE) +
+  scale_y_continuous(limits = c(0, 10)) +
+  theme_bw() +
+  theme(text = element_text(size = 20))
+```
+]
+
+.pull-right[
+This effect can change according to the values of a second predictor
+
+```{r fig.height=4, fig.width=5}
+tribble(
+  ~employee, ~salary, ~q1, ~q2, ~q3, ~q4, ~origin,
+  1,         45000,   1,   5,   3,   2,   "Irish",
+  2,         55000,   5,   4,   6,   6,   "Irish",
+  3,         70000,   3,   1,   2,   3,   "Irish",
+  4,         80000,   8,   5,   2,   7,   "Irish",
+  5,         95000,   8,   9,   6,   5,   "French",
+  6,         75000,   3,   1,   2,   1,   "French",
+  7,         50000,   5,   2,   7,   7,   "French",
+  8,         45000,   1,   4,   6,   9,   "French",
+  9,         65000,   3,   1,   2,   3,   "French"
+) %>% 
+  rowwise() %>% 
+  mutate(js_score = mean(q1, q2, q3, q4)) %>% 
+  ggplot(aes(salary, js_score, color = origin)) +
+  geom_point(size = 3) +
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE) +
+  scale_y_continuous(limits = c(0, 10)) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20),
+    legend.position = "bottom"
+    )
+```
+
+]
+
+Here, the effect of **Salary** on **Job Satisfaction** is *higher* for **Irish employees** than it is for **French employees** because their line is steeper.
+
+---
+
+# Interaction Effect Hypothesis Templates
+
+In the following formulation templates, **replace the variable names with yours** and *select the direction of the effect expected* ...
+
+--
+
+- #### Case 1: Predictor 2 is Continuous
+
+.small[The effect of {**predictor 1**} on {**outcome**} is {*higher/lower/different*} when {**predictor 2**} increases]
+
+--
+
+- #### Case 2: Predictor 2 is Categorical (2 Categories)
+
+.small[The effect of {**predictor 1**} on {**outcome**} is {*higher/lower/different*} for {**predictor 2 category 1**} than for {***predictor 2 category 2**}]
+
+--
+
+- #### Case 3: Predictor 2 is Categorical (3 or more Categories)
+
+.small[The effect of {**predictor 1**} on {**outcome**} is {*higher/lower/different*} for at least one of {**predictor 2**}]
+
+--
+
+#### Notes:
+1. An interaction effect hypothesis is also called moderation effect
+2. By default, an interaction effect involves the test of the main effect hypotheses of all Predictors involved
+3. Predictor 1 and 2 are commutable (can be inverted and produce the same hypothesis)
+
+---
+
+# Interaction Effect Hypothesis Examples
+
+Variables:
+
+- Outcome = Exam Results (continuous from 0 to 100)
+- Predictor 1 = Sleep Deprivation (categorical low, medium, high)
+- Predictor 2 = Gender (categorical male vs. female)
+
+Effects representation:
+
+```{r}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Sleep Deprivation'; 'Exam Results'; Gender
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    Gender -> ''
+    'Sleep Deprivation' -> '' [arrowhead = none]
+    ''-> 'Exam Results'
+    
+    subgraph {
+      rank = same; Gender; '';
+    }
+  }", height = 100)
+```
+
+Interaction Effect Hypothesis: 
+- $H_a$: The effect of **sleep deprivation** on **exam results** is *higher* for **Males students** than it is for **Females students**
+
+Note: The main effect hypotheses of the two predictors also have to be formulated
+
+---
+
+# Interaction Effect Hypothesis Examples
+
+Variables:
+- Outcome = Road Accidents (continuous from 0 to Inf.)
+- Predictor 1 = Alcohol Consumption (continuous from 0 to Inf.)
+- Predictor 2 = Driving Experience (categorical low, high)
+
+Effects representation:
+
+```{r fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Alcohol Consumption'; 'Road Accidents'; 'Driving Experience'
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    'Driving Experience' -> ''
+    'Alcohol Consumption' -> '' [arrowhead = none]
+    ''-> 'Road Accidents'
+    
+    subgraph {
+      rank = same; 'Driving Experience' ; '';
+    }
+  }", height = 100)
+```
+
+Interaction Effect Hypothesis: 
+- $H_a$: The effect of **alcohol consumption** on **road accidents** is *lower* for **experienced drivers** than it is for **inexperienced drivers**
+
+Note: The main effect hypotheses of the two predictors also have to be formulated
+
+---
+
+# Example of Hypotheses in Research Papers
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex1_title.png")
+```
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex1_hyp.png")
+```
+
+---
+
+# Example of Hypotheses in Research Papers
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex2_title.png")
+```
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex2_hyp1.png")
+```
+
+```{r out.width = "50%"}
+knitr::include_graphics("img/ex2_hyp2.png")
+```
+
+---
+
+# The Hypothesis Checklist
+
+When formulating an hypothesis:
+
+- Is your hypothesis a prediction and not a question?
+- Does your hypothesis include both Predictor and Outcome variables?
+- Are these variables included in your dataset?
+
+Note about hypotheses in academic papers:
+
+- Don't trust research papers, most of them have incorrect formulations.
+- Use the template shown previously.
+
+---
+
+# Special Case: Mediation Hypothesis
+
+Remember the birthday cake metaphor: it symbolise the variability of the outcome variable to be explained by the predictors.
+
+Now imagine one guest take a slice, but the birthday person arrives and take the slice from the guest to eat it.
+
+**A mediation is when a Predictor called mediator, explains part of the variability of the outcome already explained by a first predictor.** It is usually used to highlight the influence of psychological features. 
+
+Effect representation:
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Predictor 1'; 'Predictor 2'; Outcome
+    
+    'Predictor 1' -> {'Predictor 2' Outcome}
+    'Predictor 2' -> Outcome
+
+  }", height = 200)
+```
+
+---
+
+# Special Case: Mediation Hypothesis
+
+Formulation structure:
+
+.center[The effect of {**predictor 1**} on {**outcome**} is explained by the {**predictor 2**}]
+
+Warning: A mediation effect involves 3 requirements:
+1. Predictor 1 needs to have a main effect on the Outcome
+2. Predictor 1 needs to have a main effect on the Predictor 2
+3. The main effect of Predictor 1 on the Outcome needs to disappear when Predictor 2 is taken into account
+
+> Example: 
+- The effect of **employee's age** on **job satisfaction** is explained by their **salary**
+
+> Here, the requirements are:
+1. Employee's age needs to have a main effect on job satisfaction
+2. Employee's age needs to have a main effect on their salary
+3. The main effect of Employee's age on the job satisfaction needs to disappear when salary is taken into account
+
+---
+
+# Mediation Effect Hypothesis Example
+
+Variables:
+- Outcome = Happiness (continuous from 0 to 7)
+- Predictor 1 = Exam Results (continuous from 0 to 100)
+- Predictor 2 = Self-Esteem (continuous from 0 to 7)
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Self-Esteem'; 'Exam Results'; Happiness
+    
+    'Exam Results' -> {Happiness 'Self-Esteem'}
+    'Self-Esteem' -> Happiness
+
+  }", height = 200)
+```
+
+Mediation Effect Hypothesis: 
+
+- $H_a$: The effect of **grades** on **happiness** is explained by **self-esteem**
+
+---
+class: title-slide, middle
+
+## Exercise: Find the variables in these hypotheses
+
+In the following hypotheses, find the outcome variable and the predictor(s):
+
+1. Overweight adults who value longevity are more likely than other overweight adults to lose their excess weight
+
+2. Larger animals of the same species expend more energy than smaller animals of the same type.
+
+3. Rainbow trout suffer more lice when water levels are low than other trout.
+
+4. Professors who use a student-centered teaching method will have a greater positive rapport with their graduate students than professors who use a teacher-centered teaching method.
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+
+# Solution
+
+Hypothesis 1:
+- Outcome = Excess weight
+- Predictor = The valuation of longevity (yes *vs* no)
+
+Hypothesis 2:
+- Outcome = Energy expended
+- Predictor = Animal size (larger *vs* smaller)
+
+Hypothesis 3:
+- Outcome = Suffering lice
+- Predictor = Trout type (rainbow *vs* other)
+
+Hypothesis 3:
+- Outcome = Rapport with graduate students
+- Predictor = Teaching method (student-centered *vs* teacher-centered)
+
+---
+class: title-slide, middle
+
+## Exercise: Make your own Hypothesis
+
+|Outcome|Predictor 1|Predictor 2|Hypothesis Type|
+|--|---|---|---|
+|Work motivation|Gender(Female/Male)||Main Effect|
+|Work motivation|Gender(Female/Male)|Origin(French/Irish)|Interaction Effect|
+|Work motivation|Gender(Female/Male)|Origin(French/Irish/Italians)|Interaction Effect|
+|Job Satisfaction|Stress(from 0 to 10)||Main Effect|
+|Job Satisfaction|Stress(from 0 to 10)|Age(Millennials/Baby boomers)|Interaction Effect|
+|Job Satisfaction|Stress(from 0 to 10)|Age(in year)|Interaction Effect|
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+
+# Solution
+
+- 1. The **work motivation** of **female employees** is *higher* than the **work motivation** of **male employees**
+
+- 2. The effect of **gender** on **work motivation** is *higher* for **Irish employees** than it is for **French employees**
+
+- 3. The effect of **employee origin** on **work motivation** is *higher* for **female employees** than it is for **male employees**
+
+- 4. **Job satisfaction** *decreases* when **stress** increases
+
+- 5. The effect of **stress** on **job satisfaction** is *higher* for **Millennials** than it is for **Baby boomers**
+
+- 6. The effect of **stress** on **job satisfaction** *increases* when **employee's age** increases
+
+---
+class: title-slide, middle
+
+## Exercise
+
+In the research paper that you have selected:
+
+- If you can identify already formulated hypotheses, reformulate them using the templates presented earlier in these slides
+
+- If you can't identify already formulated hypotheses, formulate them using the role of variables that you have previously determined
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
+
+---
+class: inverse, mline, center, middle
+
+# 3. Model Representation in the Method Section of Academic Reseach Paper
+
+---
+
+# Method Section in Academic Papers
+
+The method section is always structured in the same way:
+
+#### 1. Observations
+
+> Short section presenting where the data are coming from. If they are coming from human participants, then their average age and gender is indicated.
+
+#### 2. Variables
+
+> Short section presenting each variable as well as their type and role.
+
+#### 3. Procedure
+
+> Short section presenting how data were collected.
+
+#### 4. Data Analytics
+
+> Short section to display how the hypotheses are tested by displaying a graphical representation of the Model and its corresponding Equation(s).
+
+**While 1, 2, and 3 are straight forward, we will focus on the last point "Data Analytics" as it is uses rules that can be tricky.**
+
+---
+
+# Model Representation
+
+Models are an overview of the predicted relationship between variables stated in the hypotheses
+
+You must follow these rules:
+- Rule 1: All the arrows correspond to an hypothesis to be tested
+- Rule 2: All the tested hypotheses have to be represented with an arrow
+- Rule 3: Hypotheses using the same Outcome variable should be included in the same model
+- Rule 4: Only one Outcome variable is included in each model (except for SEM model)
+
+---
+
+# Model Representation
+
+.pull-left[
+.center[**A simple arrow is a main effect**]
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+digraph rmarkdown {
+  graph [rankdir = LR]
+  
+  node [shape = box]
+  Predictor; Outcome
+        
+  Predictor -> Outcome [label= b1]
+}
+", width = 400, height = 200)
+```
+
+]
+
+.pull-right[
+
+.center[**A crossing arrow is an interaction effect**]
+
+```{r}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Predictor 1'; Outcome; 'Predictor 2'
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    'Predictor 2' -> '' [label= b2]
+    'Predictor 1' -> '' [arrowhead = none] [label= b1]
+    ''-> Outcome [label= b3]
+    
+    subgraph {
+      rank = same; 'Predictor 2'; '';
+    }
+  }", height = 200, width = 400)
+```
+
+.center[Note: By default, an interaction effect involves the test of the main effect hypotheses of all Predictors involved]
+
+]
+
+---
+
+# Structure of Models
+
+Distinguish square and circles
+- **squares** are actual **measures/items**
+- **circles** are **latent variables** related to measures/items
+
+Example:
+- $Salary$ is directly measured (in $, €, or £) so it's a square.
+- $Job\,Satisfaction$ is a latent variable with several questions so it's a circle.
+
+Items used for latent variables can be omitted in a model, variables are the most important.
+
+We can distinguish 2 types of relationship in a model:
+- Main effect relationship
+- Interaction effect relationship
+
+---
+
+# Main Effect Relationship
+
+.pull-left[
+.center[Relationship between one Predictor and one Outcome variable]
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+    
+    Predictor -> Outcome
+  }", height = 200, width = 400)
+```
+
+This model tests one hypothesis:
+- 1 main effect
+
+]
+.pull-right[
+.center[Relationship between two Predictors and one Outcome variable]
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+    
+    'Predictor 1' -> Outcome
+    'Predictor 2' -> Outcome
+  }", height = 200, width = 400)
+```
+
+This model tests two hypotheses:
+- 2 main effects
+]
+
+---
+
+# Interaction Effect Relationship
+
+An interaction means that **the effect of a Predictor 1 on the Outcome variable will be different according the possibilities of a Predictor 2** (also called Moderation).
+
+.pull-left[
+classic representation:
+```{r}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Predictor 1'; 'Predictor 2'; Outcome
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    'Predictor 2' -> ''
+    'Predictor 1' -> '' [arrowhead = none]
+    ''-> Outcome
+    
+    subgraph {
+      rank = same; 'Predictor 2'; '';
+    }
+  }", height = 200, width = 400)
+```
+]
+
+.pull-right[
+is the same as:
+```{r}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+
+    
+    'Predictor 1' -> Outcome
+    'Predictor 2' -> Outcome
+    'Predictor 1 X Predictor 2' -> Outcome
+  }", height = 200, width = 400)
+```
+]
+
+This model tests three hypotheses:
+- 2 main effects
+- 1 interaction effect
+
+---
+
+# Types of Model
+
+## Simple Model
+
+- One or more predictors
+- Only one outcome
+- Made of main or/and interaction effects
+
+## Mediation Model (simple or moderated)
+
+- At least 2 predictors (one call Mediator)
+- Only one outcome
+- Made of main effects only for simple mediation / main and interaction effects for moderated mediation
+
+## Structural Equation Model (SEM)
+
+- At least 2 predictors (usually latent variables)
+- One or more outcome
+- Made of main or/and interaction effects
+
+---
+
+# Simple Model
+
+Simple Models are the most statistically powerful, easy to test and reliable models. Always prefer a simple model compared to a more complicated solution.
+
+Warning, including interaction effect requires a significantly higher sample size.
+
+Example:
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Salary'; 'Gender'; 'Age'
+    node [shape = circle]
+    'Job Satisfaction'
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    'Age' -> 'Job Satisfaction'
+    'Gender' -> ''
+    'Salary' -> '' [arrowhead = none]
+    '' -> 'Job Satisfaction'
+    
+    subgraph {
+      rank = same; 'Gender'; '';
+    }
+    subgraph {
+      rank = same; 'Age'; 'Salary';
+    }
+  }", height = 200, width = 800)
+```
+
+This model tests four hypotheses:
+- 3 main effects
+- 1 interaction effect
+
+---
+
+# Mediation Models
+
+A Mediation model is a complex path analysis between 3 variables, where one of them explains the relationship between the other two. It is usually used to identify cognitive process in psychology.
+
+Example:
+
+```{r eval=TRUE, fig.align="left"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Exam Results'
+    node [shape = oval]
+    'Self-Esteem'; Happiness
+    
+    'Exam Results' -> {Happiness 'Self-Esteem'}
+    'Self-Esteem' -> Happiness
+
+  }", height = 200, width = 800)
+```
+
+This model tests one hypothesis:
+- 1 mediation effect
+- but it requires 2 main effects
+
+---
+
+# Structural Equation Model
+
+A Structural Equation Model (SEM) is a complex path analysis between multiple variables including multiple Outcomes and using factor analysis for latent variable estimation.
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+digraph rmarkdown {
+  graph [rankdir = LR]
+  
+  node [shape = oval]
+  'Perceived Ease-of-use'; 'Perceived Usefulness'; 'Intention to Use'
+  
+  node [shape = box]
+  PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2; 'Actual Use'
+  
+  {PU1 PU2 PU3 PU4 PU5} -> 'Perceived Usefulness' [arrowhead = none]
+  {PEOU1 PEOU2 PEOU3 PEOU4} -> 'Perceived Ease-of-use' [arrowhead = none]
+  {BI1 BI2} -> 'Intention to Use' [arrowhead = none]
+  
+  'Perceived Usefulness' -> 'Intention to Use'
+  'Perceived Ease-of-use' -> {'Perceived Usefulness' 'Intention to Use'}
+  'Intention to Use' -> 'Actual Use'
+  
+  subgraph {
+      rank = same; 'Perceived Usefulness'; 'Perceived Ease-of-use';
+  }
+  
+  subgraph {
+      rank = same; PU1; PU2; PU3; PU4; PU5; PEOU1; PEOU2; PEOU3; PEOU4; BI1; BI2;
+  }
+
+}
+", height = 300, width = 800)
+```
+
+This model tests four hypotheses:
+- 4 main effects
+- because the relationship between items of a scale and their corresponding latent variable is considered as significant by default if the scale is valid
+
+---
+
+# A Good Model
+
+- Comprehensiveness: Explains a wide range of phenomena
+- Internal Consistency: Propositions and assumptions are consistent and fit together in a coherent manner
+- Parsimony: Contains only those concepts and assumptions essential for the explanation of a phenomenon
+- Testability: Concepts and relational statements are precise.
+- Empirical Validity: Holds up when tested in the real world.
+
+Example: 
+
+```{r eval=TRUE}
+DiagrammeR::grViz("
+digraph rmarkdown {
+  graph [rankdir = LR]
+  
+  node [shape = oval]
+  'Perceived Ease-of-use'; 'Perceived Usefulness'; 'Intention to Use'
+  
+  node [shape = box]
+  'Actual Use'
+  
+  'Perceived Usefulness' -> 'Intention to Use'
+  'Perceived Ease-of-use' -> {'Perceived Usefulness' 'Intention to Use'}
+  'Intention to Use' -> 'Actual Use'
+  
+  subgraph {
+      rank = same; 'Perceived Usefulness'; 'Perceived Ease-of-use';
+  }
+}
+", height = 300, width = 800)
+```
+
+---
+
+# A Bad Theory/Model
+
+- Too complicated
+- Does not explain many things
+- Cannot be tested
+
+Is it bad?
+
+![](https://d3i71xaburhd42.cloudfront.net/2a3e4a3024bfc4df27db07a1d48f77a6f371b0c3/8-Figure1-1.png)
+
+---
+class: title-slide, middle
+
+## Exercise
+
+**In the research paper you have selected, draw the model(s) tested.**
+
+Remember, there is only 1 Outcome variable per model and it is not possible to draw two model with the same Outcome variable.
+
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
+
+---
+class: inverse, mline, center, middle
+
+# 4. Understanding the Equation used to Test Hypotheses
+
+---
+
+# Relationship between Variables
+
+Relationship between a $Predictor$ and an $Outcome$ variable (stated in a main effect hypothesis or in an interaction effect hypothesis) is analysed in terms of:
+
+.center[**"How many units of the Outcome variable increases/decreases/changes when the Predictor increases by 1 unit?"**]
+
+For example:
+> How much Job Satisfaction increases when the Salary increases by €1?
+
+The value of how much of the Outcome variable changes:
+- Is called the **Estimate** (also called Unstandardised Estimate)
+- Uses the letter $b$ in equations (e.g., $b_1$, $b_2$, $b_3$, ...)
+
+For example:
+> If Job Satisfaction increases by 0.1 on a scale from 0 to 5 when the Salary increases by €1, then *b* associated to Salary is 0.1
+
+---
+
+# Significance of Relationships
+
+To evaluate if the strength of the relationship $b$ between a Predictor and an Outcome variable is significant, an equation is statistically tested using all the predictors related to the same Outcome.
+
+The basic equation of a statistical model is:
+
+$$Outcome = Model + Error$$
+
+where the $Model$ is a series of predictors that are expressed in hypotheses.
+
+This expresses the idea that:
+- The Outcome can be described by a statistical model, which expresses what we expect to occur in the Outcome according to each Predictor.
+- The remaining part of the Outcome's variability that is not explained by the model is call the Error.
+
+---
+
+# A Basic Equation
+
+```{r}
+df <- 
+  data.frame(
+    Observation = letters[1:11],
+    Outcome = 10:0, 
+    Predictor = 10:0
+  ) 
+```
+
+Let's imagine the perfect scenario: **your predictor Predictor variable explains perfectly the outcome variable**.
+
+The corresponding equation is: $Outcome = Predictor$
+
+.pull-left[
+```{r}
+df %>% 
+  kable(align = "ccc") %>%
+  kable_styling(bootstrap_options = "striped", font_size = 14)
+```
+]
+
+.pull-right[
+```{r fig.height=7}
+df %>% 
+  ggplot(aes(Predictor, Outcome, label = Observation)) +
+  geom_point(color = "black", size = 5) +
+  geom_smooth(method = "lm") +
+  scale_x_continuous(limits = c(0,10)) +
+  scale_y_continuous(limits = c(0,10)) +
+  theme_bw() +
+  theme(text = element_text(size = 20))
+```
+]
+
+---
+
+# A Basic Equation
+
+In the equation $Outcome = Predictor$, three coefficients are hidden because they are unused:
+- the **intercept coefficient** $b_{0}$ (i.e., the value of the Outcome when the Predictor = 0) which is 0 in our case
+- the **estimate coefficient** $b_{1}$  (i.e., how much the Outcome increases when the Predictor increases by 1) which is 1 in our case
+- the **error coefficient** $e$ (i.e., how far from the prediction line the values of the Outcome are) which is 0 in our case
+
+So in general, the relation between a predictor and an outcome can be written as:
+$$Outcome = b_{0} + b_{1}.Predictor + e$$
+
+which is in our case:
+
+$$Outcome = 0 + 1 * Predictor + 0$$
+
+---
+
+# A Basic Equation
+
+The equation $Outcome = b_{0} + b_{1}.Predictor + e$ is the same as the good old $y = ax + b$ (here ordered as $y = b + ax$) where $b_{0}$ is $b$ and $b_{1}$ is $a$.
+
+It is very important to know that under **EVERY** statistical test, a similar equation is used (t-test, ANOVA, Chi-square are all linear regressions).
+
+```{r fig.width=5.5, fig.height=5.5, fig.align='center'}
+plot0 <- data.frame(Predictor = 0:10, Outcome = 0:10) %>%
+  ggplot(aes(Predictor, Outcome)) +
+  geom_point(color = "black", size = 5) +
+  geom_smooth(method = "lm") +
+  geom_hline(yintercept = 0, color = 'black', size = 0.5, linetype = 'dotted') +
+  annotate("text", x = 5, y = 0.2, label = "Intercept b\u2080") +
+  annotate('segment', x = 5, xend = 6, y = 5, yend = 5, color = 'red') +
+  annotate('segment', x = 6, xend = 6, y = 5, yend = 6, color = 'red') +
+  annotate("text", x = 7.5, y = 5.5, label = "Estimate b\u2081") +
+  scale_x_continuous(breaks = seq(0:10)) +
+  scale_y_continuous(breaks = seq(0:10)) +
+  theme_bw()
+
+plotly::ggplotly(plot0)
+```
+
+---
+
+# Equations, Variables and Effect Types
+
+Except in special cases:
+- An Outcome (or Dependent Variable) has to be Continuous
+- A Predictor can be Continuous or Categorical 
+
+Example: $Job\,Satisfaction = b_{0} + b_{1}.Salary + b_{2}.Origin + e$
+
+In this equation:
+- $Salary$ is continuous with a main effect on $Job\,Satisfaction$ ( $b_{1}$)
+- $Origin$ is categorical with a main effect on $Job\,Satisfaction$ ( $b_{2}$)
+
+---
+
+# Equations, Variables and Effect Types
+
+An interaction effect is represented by multiplying the 2 predictors involved:
+
+$$Job\,Satisfaction = b_{0} + b_{1}.Salary + b_{2}.Origin + b_{3}.Salary*Origin + e$$
+
+In this equation:
+- $Salary$ is continuous with a main effect on $Job\,Satisfaction$ ( $b_{1}$)
+- $Origin$ is categorical with a main effect on $Job\,Satisfaction$ ( $b_{2}$)
+- $Salary$ and $Origin$ have an interaction effect on $Job\,Satisfaction$ ( $b_{3}$)
+
+---
+
+# Relevance of the Intercept
+
+To test hypotheses, only the $b$ values associated to Predictors / Independent Variables are important.
+
+The intercept is always included in an equation but its result is useless for hypothesis testing.
+
+Let's see why the intercept is always included but discarded most of the time.
+
+Imagine we want to test the relationship between GDP per Capita and Life Expectancy of countries in the world. Let's compare a model without and a model with intercept:
+
+- Without intercept: $Life\,Expectancy = b_{1}.GDP\,per\,Capita + e$
+
+- With intercept: $Life\,Expectancy = b_{0} + b_{1}.GDP\,per\,Capita + e$
+
+---
+
+# Relevance of the Intercept
+
+```{r}
+p1 <- gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  scale_y_continuous(limits = c(0, 90)) +
+  labs(
+    title = "A: Original Data",
+    x = "GDP per Capita ($)",
+    y = "Life Expectancy"
+  )
+
+p2 <- gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE, formula = "y ~ x + 0 ") +
+  scale_y_continuous(limits = c(0, 90)) +
+  labs(
+    title = "B: Model without intercept",
+    x = "GDP per Capita ($)",
+    y = "Life Expectancy"
+  )
+
+p3 <- gapminder %>% 
+  filter(year == 2007) %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp)) +
+  geom_point() +
+  geom_smooth(method = lm, se = FALSE, fullrange = TRUE, formula = "y ~ x") +
+  scale_y_continuous(limits = c(0, 90)) +
+  labs(
+    title = "C: Model with intercept",
+    x = "GDP per Capita ($)",
+    y = "Life Expectancy"
+  )
+
+p1 / (p2 + p3)
+```
+
+If the intercept is not included, the intercept is zero and can lead to estimation errors
+
+---
+class: title-slide, middle
+
+## Exercise: Predicates of Statistical Analyses
+
+**Using the results obtained, identify the role of variables, formulate the tested hypotheses, draw the corresponding model, and translate it in an equation**
+
+---
+
+# Example 1
+
+**Using the results obtained, identify the role of variables, formulate the tested hypotheses, draw the corresponding model, and translate it in an equation**
+
+.pull-left[
+
+.center[Data]
+
+```{r}
+  tibble(
+    Participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6"), 
+    `Sleep Time` = c(9, 5, 8.5, 7, 6.5, 5.5),
+    `Exam Results` = c(89, 64, 71, 77, 78, 69)
+  ) %>% 
+  kable()
+```
+]
+.pull-right[
+
+.center[Visualisation]
+
+```{r fig.height=6}
+  tibble(
+    Participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6"), 
+    `Sleep Time` = c(9, 5, 8.5, 7, 6.5, 5.5),
+    `Exam Results` = c(89, 64, 71, 77, 78, 69)
+  ) |> 
+  ggplot(aes(`Sleep Time`, `Exam Results`, label = Participant)) +
+  geom_point(color = "black", size = 5) +
+  geom_text_repel(size = 10) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20)
+  )
+```
+]
+
+```{r}
+countdown(minutes = 5, warn_when = 60, right =  1)
+```
+
+---
+
+# Example 1
+
+Variables:
+- Outcome = Exam Results (from 0 to 100)
+- Predictor = Sleep Time (from 0 to Inf.)
+
+Alternative Hypothesis:
+- $H_a$: **Exam Results** *increases* when **Sleep Time** increases
+- ( $H_0$: **Exam Results** *stay the same* when **Sleep Time** increases)
+
+Model:
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+    
+    'Sleep Time' -> 'Exam Results' [label= b1]
+  }", height = 100, width = 500)
+```
+
+Equation:
+- $Exam\,Results = b_{0} + b_{1}.Sleep\,Time + e$
+
+---
+
+# Example 2
+
+**Using the results obtained, identify the role of variables, formulate the tested hypotheses, draw the corresponding model, and translate it in an equation**
+
+.pull-left[
+
+.center[Data]
+
+```{r, eval=TRUE}
+df4 <- tibble(
+  Participant = c("ppt1", "ppt2", "ppt3", "ppt4", "ppt5", "ppt6"), 
+  `Sleep Time` = c(9, 5, 8.5, 7, 6.5, 5.5),
+  Age = c(50, 60, 70, 20, 30, 40),
+  `Exam Results` = c(89, 64, 71, 77, 52, 69),
+  Age_c = c("experienced", "experienced", "experienced", "beginner", "beginner", "beginner")
+)
+
+df4 %>% 
+  select(-Age) %>% 
+  kable()
+```
+]
+.pull-right[
+
+.center[Visualisation]
+
+```{r fig.height=6}
+df4 %>% 
+  ggplot(aes(x = `Sleep Time`, y = `Exam Results`, color = Age_c)) +
+  geom_point(size = 5) +
+  geom_smooth(method = "lm", se = FALSE, fullrange = TRUE) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 14),
+    legend.position = "bottom"
+  )
+```
+]
+
+```{r}
+countdown(minutes = 5, warn_when = 60, right =  1)
+```
+
+---
+
+# Example 2
+
+Variables:
+- Outcome = Exam Results (from 0 to 100)
+- Predictor 1 = Sleep Time (from 0 to Inf.)
+- Predictor 2 = Age (experienced vs beginner)
+
+Alternative Hypotheses: 
+- $H_{a_{1}}$: **Exam Results** *increases* when **Sleep Time** increases
+
+- $H_{a_{2}}$: **Exam Results** of **experienced students** are *higher* than for **beginner students**
+
+- $H_{a_{3}}$: The effect of **Sleep Time** on **Exam Results** is *higher* for **experienced** than for **beginner students**
+
+---
+
+# Example 2
+
+Model:
+
+.pull-left[
+
+.center[Classic Representation]
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Sleep Time'; 'Exam Results'; Age
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    Age -> ''
+    'Sleep Time' -> '' [arrowhead = none]
+    ''-> 'Exam Results'
+    
+    subgraph {
+      rank = same; Age; '';
+    }
+  }", height = 300, width = 400)
+```
+]
+
+.pull-right[
+
+.center[Effects Correspondence]
+```{r eval=TRUE}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    'Sleep Time'; 'Exam Results'; Age; 'Sleep Time * Age'
+
+    Age -> 'Exam Results' [label= b2]
+    'Sleep Time' -> 'Exam Results' [label= b1]
+    'Sleep Time * Age' -> 'Exam Results' [label= b3]
+    
+  }", height = 300, width = 300)
+```
+]
+
+Equations:
+
+- $Exam\,Results = b_{0} + b_{1}.Sleep\,Time + b_{2}.Age + b_{3}.Interaction + e$
+
+which corresponds to: $Exam\,Results = b_{0} + b_{1}.Sleep\,Time + b_{2}.Age + b_{3}.Sleep\,Time*Age + e$ 
+
+---
+class: title-slide, middle
+
+## Exercise
+
+**In the research paper you have selected, write the equation corresponding to the model(s)**
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
+
+---
+
+class: inverse, mline, center, middle
+
+# Conclusion
+
+---
+
+# Follow the Rules
+
+- Variables
+  - Identify the role and type of each of your variables
+- Hypotheses
+  - Formulate your alternative hypotheses by using the proposed templates
+  - Any other formulation, even if it make sense, is not good practice (e.g. using the terms "has an impact", "is related to", "influences", ...)
+  - An interaction hypothesis requires the formulation of the main effect hypothesis of each predictor involved
+- Model
+  - A model should represent all your hypotheses and only your hypotheses
+  - Draw only model per Outcome variable (except is doing SEM analyses)
+  - Use the same names or acronyms as your hypotheses
+- Equation
+  - Formulate your equation(s) in every paper that you want to submit (if reviewers want to remove it, they will tell you)
+
+---
+
+# Understand your Analyses
+
+```{r out.width="50%"}
+# tweetrmd::tweet_screenshot(
+#   tweetrmd::tweet_url("dan_a_chapman", "1326647958314622977"),
+#   maxwidth = 300,
+#   hide_media = FALSE,
+#   theme = "dark"
+#   )
+```
+
+---
+
+# Understand your Analyses
+
+```{r out.width="50%"}
+# tweetrmd::tweet_screenshot(
+#   tweetrmd::tweet_url("JeffRouder", "1326938465938726915"),
+#   maxwidth = 300,
+#   hide_media = FALSE,
+#   theme = "dark"
+#   )
+```
+
+---
+
+# The General Linear Model
+
+```{r out.width="50%"}
+tweetrmd::tweet_screenshot(
+  tweetrmd::tweet_url("kylehamilton", "1349225426669817856"),
+  maxwidth = 300,
+  hide_media = FALSE,
+  theme = "dark"
+  )
+```
+
+---
+class: inverse, mline, left, middle
+
+<img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
+
+# Thanks for your attention and don't hesitate if you have any question!
+
+[`r fa(name = "twitter")` @damien_dupre](http://twitter.com/damien_dupre)  
+[`r fa(name = "github")` @damien-dupre](http://github.com/damien-dupre)  
+[`r fa(name = "link")` damien-datasci-blog.netlify.app](https://damien-datasci-blog.netlify.app)  
+[`r fa(name = "paper-plane")` damien.dupre@dcu.ie](mailto:damien.dupre@dcu.ie)

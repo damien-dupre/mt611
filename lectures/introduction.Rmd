@@ -32,6 +32,8 @@ knitr::opts_chunk$set(
   )
 # libraries --------------------------------------------------------------------
 library(fontawesome)
+library(emo)
+library(countdown)
 ```
 
 # Who am I?
@@ -114,11 +116,18 @@ class: title-slide, middle
 
 ## Exercise
 
-If you haven't done it already, can you look for the quantitative academic journal paper which is the closest to your PhD (10min). 
+If you haven't done it already, can you look for the quantitative academic journal paper which is the closest to your PhD. 
 
 You need to download the pdf version of this paper and to send it to my email damien.dupre@dcu.ie . 
 
-Note this paper should not be one of yours if you already have published some.
+Notes: 
+
+- This paper should not be one of yours if you already have published some
+- This paper should include a statistical analysis (i.e., Regression analysis, ANOVA, t-test) and if possible their corresponding $p-values$
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
 
 ---
 class: inverse, mline, center, middle
@@ -131,9 +140,9 @@ class: inverse, mline, center, middle
 
 Statistics usually triggers negative emotions to those who do not know anything about it, as well as to those who are experienced but:
 
-– Simple methods to summarise data
-– Essential for writing the result section of scientific communications/papers
-– Replaced by data analytics/ data science
+- Simple methods to summarise data
+- Essential for writing the result section of scientific communications/papers
+- Replaced by data analytics/ data science
 
 --
 
@@ -157,11 +166,11 @@ The shape of the contents of the research paper resembles an hourglass: Starts w
 
 The idea of the hourglass is interesting but basic, it needs some precisions:
 
-1. **The Title** is your research question and includes the variables that you will investigate.
+1. **The Introduction** introduce your research question (which can be your title too) and includes the variables that you will investigate.
 
 --
 
-2. **The Introduction** indicates how the variables are related (model) and finishes with your hypotheses. The model includes all hypotheses that will be tested and only the tested hypotheses.
+2. **The Literature Review** indicates how the variables are related (model) and finishes with your hypotheses. The model includes all hypotheses that will be tested and only the tested hypotheses.
 
 --
 
@@ -180,6 +189,22 @@ The idea of the hourglass is interesting but basic, it needs some precisions:
 # Essential Concepts to Master
 
 Everything is related in a paper: Variables, Model, Hypotheses, Equations and Statistical tests.
+
+In Academic Reports, all sections are linked:
+
+.center[**Introduction `r ji("right_arrow")` Literature Review `r ji("right_arrow")` Method `r ji("right_arrow")` Results `r ji("right_arrow")` Discussion & Conclusion**]
+
+To understand the statistics in the results section it is essential to identify the concepts presented in each section:
+
+```{nomnoml, fig.width=12, fig.height=3}
+#stroke: black
+#direction: right
+#align: center
+[Introduction | Variables]->[Literature Review | Hypotheses]
+[Literature Review | Hypotheses]->[Method | Model & Equation]
+[Method | Model & Equation]->[Results | Statistical Test]
+[Results | Statistical Test]->[Discussion & Conclusion | Interpretation]
+```
 
 Thus, to understand Statistics, it is essential to master the concepts of **Variable**, **Model**, **Hypothesis** and **Equation**.
 
