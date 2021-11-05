@@ -1,6 +1,6 @@
 ---
 title: "MT611 - Quantitative Research Methods"
-subtitle: "Lecture 2: Collect, clean and transform data"
+subtitle: "Lecture 2: How to Collect, Clean, and Transform Data before Statistical Analyses"
 author: "Damien Dupré"
 date: "Dublin City University"
 output:
@@ -32,6 +32,7 @@ knitr::opts_chunk$set(
   )
 # libraries --------------------------------------------------------------------
 library(tidyverse)
+library(knitr)
 library(fontawesome)
 library(DiagrammeR)
 ```
@@ -45,7 +46,7 @@ class: inverse, mline, center, middle
 # Data Everywhere
 
 ```{r out.width = "35%"}
-knitr::include_graphics("https://interworks.com.mk/wp-content/uploads/2019/12/12.jpg")
+knitr::include_graphics("https://www.memesmonkey.com/images/memesmonkey/f1/f1a0708d5337e2afa78b515520c6c5fd.jpeg")
 ```
 
 Big Data?
@@ -65,12 +66,6 @@ A tool is required to collect data, but there are tools to measure anything:
 - Economic Status
 - Social Events
 - Psychological States
-
-A tool, like a model, needs to be valid and reliable
-
-```{r out.width = "35%"}
-knitr::include_graphics("https://www.publichealthnotes.com/wp-content/uploads/2018/08/560px-Reliability_and_validity.svg_.png")
-```
 
 ---
 
@@ -127,6 +122,103 @@ Payed participants:
 - Prolific Academic (https://www.prolific.co/ world wide)
 - Qualtrics
 - Survey Monkey
+
+---
+
+# Latent Variables
+
+A questionnaire/survey is made of multiple questions (also called items)
+
+All items that are related to the measurement of a same theoretical construct are constituting a scale.
+
+#### The theoretical construct measured by the scale is called Latent Variable.
+
+To be analysed a scale has some requirements:
+
+1. All the items must have the same range of possibilities/modalities
+2. All the items must correlate together (scale reliability)
+3. A unique theoretical construct score has to be calculated from all the items even if it contains subscales.
+
+There are two way to obtain the score of a Latent Variable: 
+
+- Average of all items (reversed if necessary)
+- Factor/Component analysis
+
+---
+
+# Latent Variables
+
+Scale to measure the "Perceived Ease-of-use" of MS Excel in 4 items were measured from 1 "totally disagree" to 7 "totally agree":
+
+.pull-left[
+- q1. I think learning MS Excel is easy
+- q2. Understanding MS Excel is easy
+- q3. I am good at using MS Excel
+- q4. I think using MS Excel is easy
+]
+
+.pull-right[
+```{r}
+DiagrammeR::grViz("
+digraph rmarkdown {
+  graph [rankdir = RL]
+  
+  node [shape = oval]
+  'Perceived Ease-of-use
+  of MS Excel'
+  
+  node [shape = box]
+  q1; q2; q3; q4
+  
+  'Perceived Ease-of-use
+  of MS Excel'-> {q1 q2 q3 q4}   
+
+}
+", height = 200)
+```
+]
+
+--
+
+Here are the results with 3 students. The score of the "Perceived Ease-of-use of MS Excel" latent variable is calculated using the average of all items.
+
+```{r}
+tribble(
+  ~employee, ~q1, ~q2, ~q3, ~q4,
+  "Sinead",   7,  5,   7,   7,
+  "Patrick",   5,  4,   6,   6, 
+  "Damien",   3,  1,   2,   3
+) %>% 
+  rowwise() %>% 
+  mutate(peo_score = mean(c(q1, q2, q3, q4))) %>% 
+  kable()
+```
+
+---
+
+# Validity and Reliability
+
+**Validity = is my variable measuring the construct that I think I am measuring?**
+- Does the measurement make sense? 
+- Would the results be reproduced with another scale measuring the same latent variable?
+- Are the results correlated to latent variables that are related?
+
+Validity test is only performed when a scale is created (no need for existing scales)
+
+**Reliability = consistency of items inside a measurement**
+- Test-retest reliability
+- Inter-rater reliability
+- Correlation inter-item (Cronbach's alpha)
+
+Reliability test is performed every time a scale is used but only using Cronbach's alpha
+
+---
+
+# Validity and Reliability
+
+```{r out.width = "50%"}
+knitr::include_graphics("https://www.publichealthnotes.com/wp-content/uploads/2018/08/560px-Reliability_and_validity.svg_.png")
+```
 
 ---
 
@@ -564,7 +656,7 @@ class: inverse, mline, left, middle
 
 <img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
 
-# Thanks for your attention and don't hesitate if you have any question!
+# Thanks for your attention and don't hesitate to ask if you have any question!
 
 [`r fa(name = "twitter")` @damien_dupre](http://twitter.com/damien_dupre)  
 [`r fa(name = "github")` @damien-dupre](http://github.com/damien-dupre)  
