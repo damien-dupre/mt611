@@ -1784,33 +1784,9 @@ class: inverse, mline, center, middle
 
 ---
 
-# Understand your Analyses
-
-```{r out.width="50%"}
-# tweetrmd::tweet_screenshot(
-#   tweetrmd::tweet_url("dan_a_chapman", "1326647958314622977"),
-#   maxwidth = 300,
-#   hide_media = FALSE,
-#   theme = "dark"
-#   )
-```
-
----
-
-# Understand your Analyses
-
-```{r out.width="50%"}
-# tweetrmd::tweet_screenshot(
-#   tweetrmd::tweet_url("JeffRouder", "1326938465938726915"),
-#   maxwidth = 300,
-#   hide_media = FALSE,
-#   theme = "dark"
-#   )
-```
-
----
-
 # The General Linear Model
+
+Now time has come to test these hypotheses by using our equation(s)! 
 
 ```{r out.width="50%"}
 tweetrmd::tweet_screenshot(
