@@ -259,9 +259,9 @@ They are used to remove an irrelevant explanation of the variable changes.
 ---
 class: title-slide, middle
 
-## Exercise
+## Homework Exercise
 
-**In the research paper you have selected, identify the variables that are used to produce statistical results (e.g. $p-values$).**
+In the research paper you have selected, **identify the variables that are used to produce statistical results (e.g. p-values).**
 
 Indicate their Type and Role by using the following table:
 
@@ -271,9 +271,7 @@ Indicate their Type and Role by using the following table:
 |...          |...          |...          |
 |var n        |type         |role         |
 
-```{r}
-countdown(minutes = 10, warn_when = 60)
-```
+Send me the table by email at damien.dupre@dcu.ie **before the next lecture.**
 
 ---
 class: inverse, mline, center, middle
@@ -437,7 +435,7 @@ DiagrammeR::grViz("
 
 Main Effect Hypothesis: 
 
-- $H_a$: **Driving errors** of **motorists who do not talk on the phone while driving** will be *lower* than **driving errors** of **motorists who do not talk on the phone while driving**
+- $H_a$: **Driving errors** of **motorists who do not talk on the phone while driving** will be *lower* than **driving errors** of **motorists who talk on the phone while driving**
 
 ---
 
@@ -484,7 +482,6 @@ DiagrammeR::grViz("
     graph [rankdir = LR]
     node [shape = box]
 
-    
     'Predictor 1' -> Outcome
     'Predictor 2' -> Outcome
     'Predictor 1 X Predictor 2' -> Outcome
@@ -853,17 +850,11 @@ countdown(minutes = 5, warn_when = 60)
 ---
 class: title-slide, middle
 
-## Exercise
+## Homework Exercise
 
-In the research paper that you have selected:
+In the research paper that you have selected, **formulate the tested hypotheses using the templates seen in the slide of the lecture and the variables that you have previously determined**
 
-- If you can identify already formulated hypotheses, reformulate them using the templates presented earlier in these slides
-
-- If you can't identify already formulated hypotheses, formulate them using the role of variables that you have previously determined
-
-```{r}
-countdown(minutes = 10, warn_when = 60)
-```
+Send me your hypotheses by email at damien.dupre@dcu.ie **before the next lecture.**
 
 ---
 class: inverse, mline, center, middle
@@ -1242,55 +1233,18 @@ Is it bad?
 ---
 class: title-slide, middle
 
-## Exercise
+## Homework Exercise
 
-**In the research paper you have selected, draw the model(s) tested.**
+In the research paper you have selected, **draw the model(s) tested.**
 
-Remember, there is only 1 Outcome variable per model and it is not possible to draw two model with the same Outcome variable.
+Remember, there is only 1 Outcome variable per model and it is not possible to draw two models with the same Outcome variable.
 
-
-```{r}
-countdown(minutes = 10, warn_when = 60)
-```
+Send me your figure by email at damien.dupre@dcu.ie **before the next lecture.**
 
 ---
 class: inverse, mline, center, middle
 
 # 4. Understanding the Equation used to Test Hypotheses
-
----
-
-# Relationship between Variables
-
-Relationship between a $Predictor$ and an $Outcome$ variable (stated in a main effect hypothesis or in an interaction effect hypothesis) is analysed in terms of:
-
-.center[**"How many units of the Outcome variable increases/decreases/changes when the Predictor increases by 1 unit?"**]
-
-For example:
-> How much Job Satisfaction increases when the Salary increases by €1?
-
-The value of how much of the Outcome variable changes:
-- Is called the **Estimate** (also called Unstandardised Estimate)
-- Uses the letter $b$ in equations (e.g., $b_1$, $b_2$, $b_3$, ...)
-
-For example:
-> If Job Satisfaction increases by 0.1 on a scale from 0 to 5 when the Salary increases by €1, then *b* associated to Salary is 0.1
-
----
-
-# Significance of Relationships
-
-To evaluate if the strength of the relationship $b$ between a Predictor and an Outcome variable is significant, an equation is statistically tested using all the predictors related to the same Outcome.
-
-The basic equation of a statistical model is:
-
-$$Outcome = Model + Error$$
-
-where the $Model$ is a series of predictors that are expressed in hypotheses.
-
-This expresses the idea that:
-- The Outcome can be described by a statistical model, which expresses what we expect to occur in the Outcome according to each Predictor.
-- The remaining part of the Outcome's variability that is not explained by the model is call the Error.
 
 ---
 
@@ -1334,7 +1288,7 @@ df %>%
 
 # A Basic Equation
 
-In the equation $Outcome = Predictor$, three coefficients are hidden because they are unused:
+In the equation $Outcome = Predictor$, **three coefficients are hidden** because they are unused:
 - the **intercept coefficient** $b_{0}$ (i.e., the value of the Outcome when the Predictor = 0) which is 0 in our case
 - the **estimate coefficient** $b_{1}$  (i.e., how much the Outcome increases when the Predictor increases by 1) which is 1 in our case
 - the **error coefficient** $e$ (i.e., how far from the prediction line the values of the Outcome are) which is 0 in our case
@@ -1370,6 +1324,40 @@ plot0 <- data.frame(Predictor = 0:10, Outcome = 0:10) %>%
 
 plotly::ggplotly(plot0)
 ```
+
+---
+
+# Relationship between Variables
+
+Relationship between a $Predictor$ and an $Outcome$ variable (stated in a main effect hypothesis or in an interaction effect hypothesis) is analysed in terms of:
+
+.center[**"How many units of the Outcome variable increases/decreases/changes when the Predictor increases by 1 unit?"**]
+
+For example:
+> How much Job Satisfaction increases when the Salary increases by €1?
+
+The value of how much of the Outcome variable changes:
+- Is called the **Estimate** (also called Unstandardised Estimate)
+- Uses the letter $b$ in equations (e.g., $b_1$, $b_2$, $b_3$, ...)
+
+For example:
+> If Job Satisfaction increases by 0.1 on a scale from 0 to 5 when the Salary increases by €1, then *b* associated to Salary is 0.1
+
+---
+
+# Significance of Relationships
+
+To evaluate if the strength of the relationship $b$ between a Predictor and an Outcome variable is significant, an equation is statistically tested using all the predictors related to the same Outcome.
+
+The basic equation of a statistical model is:
+
+$$Outcome = b_0 + b_n \,Predictors + Error$$
+
+where the $Predictors$ includes all the $n$ variables used as predictor in formulated hypotheses using this specific $Outcome$ variable and being associated to a specific $b$ estimate.
+
+This expresses the idea that:
+- The Outcome can be described by one or multiple predictors.
+- The remaining part of the Outcome's variability that is not explained by the predictors is call the Error.
 
 ---
 
@@ -1654,13 +1642,11 @@ which corresponds to: $Exam\,Results = b_{0} + b_{1}.Sleep\,Time + b_{2}.Age + b
 ---
 class: title-slide, middle
 
-## Exercise
+## Homework Exercise
 
-**In the research paper you have selected, write the equation corresponding to the model(s)**
+In the research paper you have selected, **write the equation(s) corresponding to the model(s)**
 
-```{r}
-countdown(minutes = 10, warn_when = 60)
-```
+Send me your equation(s) by email at damien.dupre@dcu.ie **before the next lecture**
 
 ---
 
