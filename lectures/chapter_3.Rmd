@@ -999,6 +999,11 @@ organisation_beta %>%
 $$js\_score = b_{0} + b_{1}\,salary\_c + e$$
 
 ---
+class: title-slide, middle
+
+## Testing Main Effects with Categorical Predictors
+
+---
 
 # Testing Categorical Predictors
 
@@ -1041,7 +1046,168 @@ However, choosing codes separated by 1 is handy because it's easily interpretabl
 
 ---
 
-# Interaction with Categorical Variables
+# Coding of Categorical Predictors
+
+### Special case called **Dummy Coding** when a category is coded 0 and the other 1:
+- Then the intercept, value of $js\_score$ when salary is 0 corresponds to the category coded 0
+- The test of the intercept is the test of the average for the category coded 0 against an average of 0
+- Is called simple effect
+
+### Special case called **Deviation Coding** when a category is coded 1 and the other -1:
+- Then the intercept, corresponds to the average between the two categories
+- The test of the intercept is the test of the average for the variable
+- However, the distance between 1 and -1 is 2 units so the estimate is not as easy to interpret, therefore it is possible to choose categories coded 0.5 vs. -0.5 instead
+
+--
+
+# Dummy Coding in Linear Regression
+
+Dummy Coding is when a category is coded 0 and the other coded 1. For example:
+
+```
+# In JAMOVI, recode female as 0 and male as 1 (Dummy Coding)
+IF(gender == "female", 0, 1)
+```
+
+Dummy Coding is useful because one of the category becomes the intercept and is tested against 0.
+
+.pull-left[
+
+```{r fig.height=4}
+df2  %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ 0,
+    gender == "Male" ~ 1
+  )) %>% 
+  ggplot(aes(x = gender_c, y = exam_mark)) +
+  geom_point(color = "black", size = 5) +
+  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
+  scale_x_continuous(breaks = c(0, 1), limits = c(-0.5, 1.5)) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20)
+  )
+```
+]
+
+.pull-right[
+
+```{r results='asis'}
+df2 %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ 0,
+    gender == "Male" ~ 1
+  )) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 16)
+```
+]
+
+---
+
+# Deviation Coding in Linear Regression
+
+Deviation Coding is when the intercept is situated between the codes of the categories. For example:
+
+```
+# In JAMOVI, recode female as -1 and male as 1 (Deviation Coding)
+IF(gender == "female", -1, 1)
+```
+
+Deviation Coding is useful because the average of the categories becomes the intercept and is tested against 0.
+
+However, in the Deviation Coding using -1 vs. +1, the distance between the categories is 2 not 1. Therefore, even if the test of the slop is the exact same, the value of the slop (the estimate) is twice lower.
+
+Consequently it is possible to use a Deviation Coding with -0.5 vs. +0.5 to keep the distance of 1 between the categories.
+
+```
+# In JAMOVI, recode female as -0.5 and male as 0.5 (Deviation Coding)
+IF(gender == "female", -0.5, 0.5)
+```
+
+---
+
+# Deviation Coding in Linear Regression
+
+.pull-left[
+
+.center[Female = -1 and Male = 1]
+
+```{r fig.height=4}
+df2 %>%
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -1,
+    gender == "Male" ~ 1
+  )) %>% 
+  ggplot(aes(x = gender_c, y = exam_mark)) +
+  geom_point(color = "black", size = 5) +
+  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
+  scale_x_continuous(breaks = c(-1, 1), limits = c(-1.5, 1.5)) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20)
+  )
+```
+
+```{r results='asis'}
+df2 %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -1,
+    gender == "Male" ~ 1
+  )) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 16)
+```
+]
+
+.pull-right[
+
+.center[Female = -0.5 and Male = 0.5]
+
+```{r fig.height=4}
+df2  %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -0.5,
+    gender == "Male" ~ 0.5
+  )) %>% 
+  ggplot(aes(x = gender_c, y = exam_mark)) +
+  geom_point(color = "black", size = 5) +
+  stat_summary(fun = "mean", colour = "blue", size = 6, geom = "point") +
+  scale_x_continuous(breaks = c(-0.5, 0.5), limits = c(-1, 1)) +
+  theme_bw() +
+  theme(
+    text = element_text(size = 20)
+  )
+```
+
+```{r results='asis'}
+df2 %>% 
+  dplyr::mutate(gender_c = case_when(
+    gender == "Female" ~ -0.5,
+    gender == "Male" ~ 0.5
+  )) %>% 
+  lm(data = ., formula = exam_mark ~ gender_c) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 16)
+```
+]
+
+---
+class: title-slide, middle
+
+## Testing Interaction Effects with Categorical Predictors
+
+---
+
+# Interaction with Categorical Predictors
 
 ### In JAMOVI
 
@@ -1060,7 +1226,7 @@ Note: The test of the interaction effect corresponds to the test of a variable r
 
 ---
 
-# Interaction with Categorical Variables
+# Interaction with Categorical Predictors
 
 ```{r out.width = "100%"}
 knitr::include_graphics("img/jamovi_lm_main_cint.png")
@@ -1277,10 +1443,270 @@ countdown(minutes = 5, warn_when = 60)
 ```
 
 ---
+class: inverse, mline, left, middle
+
+# 5. Manipulating Contrast with Categorical Predictors
+
+---
+
+# Post-hoc Tests 
+
+>How to obtain a test of specific categories when using a categorical variable with 3 or more categories?
+
+The "Post-hoc" runs a separate $t$-test for all the pairwise category comparison:
+
+```{r}
+res <- jmv::ANOVA(
+    formula = exam_mark ~ location,
+    data = df4,
+    postHoc = ~ location)
+
+res$postHoc[[1]] %>% 
+  knitr::kable(digits = 2)
+```
+
+Even if it looks useful, "Post-hoc" test can be considered as $p$-Hacking because **there is no specific hypothesis testing, everything is compared**.
+
+Some corrections for multiple tests are available such as Tukey, Scheffe, Bonferroni or Holm, but they are still very close to the bad science boundary.
+
+---
+
+# Contrasts or Factorial ANOVA
+
+Actually, you are mastering Contrasts already. 
+
+With Contrasts you can test specific comparisons with categories of a Categorical Predictor.
+
+Contrasts is the name for the coding used to convert a categorical variable to continuous like Dummy Coding or Deviation Coding but there are many more type of Coding systems such as Treatment, Sum to zero, Polynomial ...
+
+Unfortunately Contrast have a couple of rules: 
+- **Categories with the same code are averaged together**
+- **The number of contrast is the number of categories - 1**
+- **The value 0 means the category is not taken into account** (except treatment contrast)
+
+The best way to understand the contrast is by manually creating new variable corresponding to your contrast.
+
+---
+
+# Sum to Zero Contrasts
+
+Also called "Simple" contrast, each contrast encodes the difference between one of the groups and a baseline category, which in this case corresponds to the first group:
+
+```{r}
+tibble::tribble(
+  ~category, ~Contrast1, ~Contrast2,
+  "Placebo",  -1, -1,
+  "Vaccine 1",  1,  0,
+  "Vaccine 2",    0,  1
+) %>% 
+  knitr::kable()
+```
+
+In this example:
+- Contrast 1 compares Placebo with Vaccine 1
+- Contrast 2 compares Placebo with Vaccine 2
+
+However I won't be able to compare Vaccine 1 and Vaccine 2
+
+---
+
+# Polynomial Contrasts
+
+Used to test linear and even non linear effect, they are the most powerful of all the contrasts: Contrast 1 is called Linear, Contrast 2 is Quadratic, Contrast 3 is Cubic, Contrast 4 is Quartic ...
+
+```{r}
+tibble::tribble(
+  ~category, ~Contrast_1, ~Contrast_2,
+  "Low",  -1,  1,
+  "Medium",  0, -2,
+  "High",    1,  1
+) %>% 
+  knitr::kable()
+```
+
+In this example:
+- Contrast 1 checks the linear increase between **Low**, **Medium**, **High**
+- Contrast 2 checks the quadratic change between **Low**, **Medium**, **High** 
+
+If the hypothesis specified a linear increase, we would expect Contrast 1 to be significant but Contrast 2 to be non-significant
+
+---
+class: title-slide, middle
+
+## Live Demo
+
+---
+
+# Comparison of Contrasts Results
+
+```{r}
+df5 <- df4 %>% 
+  dplyr::mutate(
+    treatment_c1 = case_when( location == "Ireland" ~ 1, location == "France" ~ 0, location == "Spain" ~ 0),
+    treatment_c2 = case_when( location == "Ireland" ~ 0, location == "France" ~ 0, location == "Spain" ~ 1),
+    sum_c1 = case_when( location == "Ireland" ~ 1, location == "France" ~ -1, location == "Spain" ~ 0),
+    sum_c2 = case_when( location == "Ireland" ~ 0, location == "France" ~ -1, location == "Spain" ~ 1),
+    poly_c1 = case_when( location == "Ireland" ~ 0, location == "France" ~ -1, location == "Spain" ~ 1),
+    poly_c2 = case_when( location == "Ireland" ~ -2, location == "France" ~ 1, location == "Spain" ~ 1)
+    )
+```
+
+Let's see what happens with different contrast to compare the average $js\_score$ according employee's $location$: **France**, **Ireland**, **Spain**
+
+### Sum to Zero Contrasts
+
+.pull-left[
+```{r}
+tibble::tribble(
+  ~category, ~sum_c1, ~sum_c2,
+  "France",  -1,  -1,
+  "Ireland",  1,   0,
+  "Spain",    0,   1
+) %>% 
+  knitr::kable() %>%
+  kable_styling(font_size = 17)
+```
+]
+
+.pull-right[
+```{r results='asis'}
+df5 %>% 
+  lm(data = ., formula = exam_mark ~ sum_c1 + sum_c2) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 17)
+```
+]
+
+### Polynomial Contrasts
+
+.pull-left[
+```{r}
+tibble::tribble(
+  ~category, ~poly_c1, ~poly_c2,
+  "France",  -1,   1,
+  "Ireland",  0,  -2,
+  "Spain",    1,   1
+) %>% 
+  knitr::kable() %>%
+  kable_styling(font_size = 17)
+```
+]
+
+.pull-right[
+```{r results='asis'}
+df5 %>% 
+  lm(data = ., formula = exam_mark ~ poly_c1 + poly_c2) %>% 
+  broom::tidy() %>% 
+  dplyr::mutate(p.value = format.pval(round(p.value, 3), eps = 0.001)) %>% 
+  knitr::kable(digits = 2) %>%
+  kable_styling(font_size = 17)
+```
+]
+
+---
+class: title-slide, middle
+
+## Exercise
+
+1. Using the dnd.csv dataset, create contrast variables to reproduce the results obtained with Sum to Zero Contrasts and Polynomial Contrasts
+
+2. When it's done explicit the hypotheses tested, the representation of the models and their corresponding equation
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
+
+---
+
+# Solution - Sum to Zero Contrasts
+
+Variables:
+
+- Outcome = $js\_score$ (from 0 to 10)
+- Predictor 1 = $sum\_c1$ (Australia vs France)
+- Predictor 2 = $sum\_c2$ (Australia vs Ireland)
+
+Hypotheses:
+
+- $H_{a_1}$: The average $js\_score$ of Australian employees is different than the average $js\_score$ of French employees
+- $H_{0_1}$: The average $js\_score$ of Australian employees is the same as the average $js\_score$ of French employees
+
+- $H_{a_2}$: The average $js\_score$ of Australia employees is different than the average $js\_score$ of Irish employees
+- $H_{0_2}$: The average $js\_score$ of Australia employees is the same as the average $js\_score$ of Irish employees
+
+---
+
+# Solution - Sum to Zero Contrasts
+
+Model:
+
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    js_score
+    node [shape = square]
+    sum_c1, sum_c2
+    
+    sum_c1 -> js_score [label= β1]
+    sum_c2 -> js_score [label= β2]
+  }", height = 200, width = 500)
+```
+
+Equation:
+
+- $js\_score = \beta_{0} + \beta_{1}.sum\_c1 + \beta_{2}.sum\_c2 + \epsilon$
+
+---
+
+# Solution - Polynomial Contrasts
+
+Variables:
+
+- Outcome = $js\_score$ (from 0 to 10)
+- Predictor 1 = $poly\_c1$ (Linear)
+- Predictor 2 = $poly\_c2$ (Quadratic)
+
+Hypotheses:
+
+- $H_{a_1}$: The average $js\_score$ of low performance employees is different than the average $js\_score$ of high performance employees
+- $H_{0_1}$: The average $js\_score$ of low performance employees is the same as the average $js\_score$ of high performance employees
+
+- $H_{a_2}$: The average $js\_score$ of low performance and high performance employees is different than the average $js\_score$ of medium performance employees
+- $H_{0_2}$: The average $js\_score$ of low performance and high performance employees is the same as the average $js\_score$ of medium performance employees
+
+---
+
+# Solution - Polynomial Contrasts
+
+Model:
+
+```{r eval=TRUE, fig.align="center"}
+DiagrammeR::grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = circle]
+    js_score
+    node [shape = square]
+    poly_c1, poly_c2
+    
+    poly_c1 -> js_score [label= β1]
+    poly_c2 -> js_score [label= β2]
+  }", height = 200, width = 500)
+```
+
+Equation:
+
+- $js\_score = \beta_{0} + \beta_{1}.poly\_c1 + \beta_{2}.poly\_c2 + \epsilon$
+
+---
 
 class: inverse, mline, center, middle
 
-# 5. Assumptions of Regression Model
+# 6. Assumptions of Regression Model
 
 ---
 
@@ -1466,7 +1892,7 @@ countdown(minutes = 10, warn_when = 60)
 ---
 class: inverse, mline, center, middle
 
-# 6. More Assumptions
+# 7. More Assumptions
 
 ---
 
@@ -1663,7 +2089,7 @@ countdown(minutes = 5, warn_when = 60)
 ---
 class: inverse, mline, center, middle
 
-# 7. Model Selection
+# 8. Model Selection
 
 ---
 
@@ -1796,7 +2222,7 @@ countdown(minutes = 5, warn_when = 60)
 ---
 class: inverse, mline, center, middle
 
-# 8. Power Analysis for Sample Size and Effect Size Estimations
+# 9. Power Analysis for Sample Size and Effect Size Estimations
 
 ---
 
@@ -2034,7 +2460,7 @@ Notes:
 ---
 class: inverse, mline, center, middle
 
-# 9. Resonable Statistics
+# 10. Resonable Statistics
 
 ---
 
