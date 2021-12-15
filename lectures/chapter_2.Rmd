@@ -123,9 +123,10 @@ Online Survey Software are replacing the paper-pencil method. Here is a list of 
 
 - Google Form (from your google drive, DCU hosted)
 - Qualtrics (https://dcubusinessschool.eu.qualtrics.com, DCU Business School account)
-- Survey Monkey (https://www.surveymonkey.com/, freemium)
-- LimeSurvey (https://www.limesurvey.org/, freemium)
-- Gorilla Experiment (https://gorilla.sc, pay per participants)
+- Survey Monkey (https://www.surveymonkey.com/, 40 participants free)
+- LimeSurvey (https://www.limesurvey.org/, 25 participants free/month )
+- Zoho (https://www.zoho.com, 100 participants free)
+- Gorilla Experiment (https://gorilla.sc, €1 per participants)
 
 --
   
@@ -139,8 +140,8 @@ Online Survey Software are replacing the paper-pencil method. Here is a list of 
 Platforms to find and reward participants:
 - Amazon MTurk (https://www.mturk.com/ mainly US and India)
 - Prolific Academic (https://www.prolific.co/ world wide)
-- Qualtrics
-- Survey Monkey
+- Qualtrics (https://www.qualtrics.com/uk/research-services/online-sample/)
+- Survey Monkey (https://www.surveymonkey.com/mp/find-survey-participants/)
 
 ---
 
@@ -448,7 +449,7 @@ In MS Excel:
 
 ### For numeric values
   - Numeric operator ( + - / *)
-  - $ (fixed parameter)
+  - $ (freeze row and/or column)
   - COUNT(), MIN(), MAX(), SUM(), AVERAGE (), STDEV()
 
 ### For character strings
@@ -649,7 +650,7 @@ knitr::include_graphics("img/reshape_excel.gif")
 
 # Repeat Action Automatically
 
-In Excel, the Macro button allows to record a sequence of  actions and to reproduce these actions:
+In Excel, the Macro button allows to record a sequence of actions and to reproduce these actions:
 
 - VBA Code automatically recorded
 - Useful to process similar data files

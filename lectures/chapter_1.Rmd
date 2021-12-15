@@ -1379,7 +1379,7 @@ In this equation:
 
 An interaction effect is represented by multiplying the 2 predictors involved:
 
-$$Job\,Satisfaction = b_{0} + b_{1}.Salary + b_{2}.Origin + b_{3}.Salary*Origin + e$$
+$$Job\,Satisfaction = b_{0} + b_{1}\,Salary + b_{2}\,Origin + b_{3}\,Salary*Origin + e$$
 
 In this equation:
 - $Salary$ is continuous with a main effect on $Job\,Satisfaction$ ( $b_{1}$)
@@ -1398,9 +1398,9 @@ Let's see why the intercept is always included but discarded most of the time.
 
 Imagine we want to test the relationship between GDP per Capita and Life Expectancy of countries in the world. Let's compare a model without and a model with intercept:
 
-- Without intercept: $Life\,Expectancy = b_{1}.GDP\,per\,Capita + e$
+- Without intercept: $Life\,Expectancy = b_{1}\,GDP\,per\,Capita + e$
 
-- With intercept: $Life\,Expectancy = b_{0} + b_{1}.GDP\,per\,Capita + e$
+- With intercept: $Life\,Expectancy = b_{0} + b_{1}\,GDP\,per\,Capita + e$
 
 ---
 
@@ -1542,7 +1542,7 @@ DiagrammeR::grViz("
 ```
 
 Equation:
-- $Exam\,Results = b_{0} + b_{1}.Sleep\,Time + e$
+- $Exam\,Results = b_{0} + b_{1}\,Sleep\,Time + e$
 
 ---
 
@@ -1656,9 +1656,9 @@ DiagrammeR::grViz("
 
 Equations:
 
-- $Exam\,Results = b_{0} + b_{1}.Sleep\,Time + b_{2}.Age + b_{3}.Interaction + e$
+- $Exam\,Results = b_{0} + b_{1}\,Sleep\,Time + b_{2}\,Age + b_{3}\,Interaction + e$
 
-which corresponds to: $Exam\,Results = b_{0} + b_{1}.Sleep\,Time + b_{2}.Age + b_{3}.Sleep\,Time*Age + e$ 
+which corresponds to: $Exam\,Results = b_{0} + b_{1}\,Sleep\,Time + b_{2}\,Age + b_{3}\,Sleep\,Time*Age + e$ 
 
 ---
 class: title-slide, middle
