@@ -767,7 +767,7 @@ Open the file `organisation_beta.csv` in JAMOVI and  ...
   - $js\_score = b_{0} + b_{1}\,salary + e$
   - $js\_score = b_{0} + b_{1}\,salary + b_{2}\,perf + b_{3}\,salary*perf + e$
 2. Test the following model:
-$$js\_score = b_{0} + b_{1}\,age + b_{2}\,perf + b_{3}\,age*perf + e$$
+$$js\_score = b_{0} + b_{1}\,gender + b_{2}\,perf + b_{3}\,gender*perf + e$$
 
 ```{r}
 countdown(minutes = 10, warn_when = 60)
@@ -851,7 +851,7 @@ organisation_beta |>
 ```
 ]
 
-By default, Categorical variables **are recoded using the alphabetical order** (e.g., here Female first then Male) using 1, 2, 3 and so on.
+By default, Categorical variables **are coded using the alphabetical order** (e.g., here Female first then Male) using 1, 2, 3 and so on.
 
 However, you can recode the variable yourself with your own order by creating a new variable using IF statement (e.g., `IF(gender == "female", 2, 1)` in Jamovi)
 
