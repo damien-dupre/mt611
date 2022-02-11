@@ -2320,12 +2320,12 @@ Remember, the null hypothesis $H_0$ is the hypothesis that there is no relations
 This means that four possible situations can occur when we run hypothesis tests:
 
 - We reject $H_0$ ...
-  - and in fact $H_a$ is true. This is a good outcome and one which is most often the motivation for the hypothesis test in the first place.
-  - but in fact $H_a$ is false. This is known as a **Type I error**.
+  - and in fact $H_a$ is true. This is a good outcome and one which is most often the motivation for the hypothesis test in the first place (True Positive)
+  - but in fact $H_a$ is false. This is known as a **Type I error** (False Positive)
 
 - We fail to reject $H_0$ ...
-  - and in fact $H_a$ is false. This is a good outcome.
-  - but in fact $H_a$ is true. This is known as a **Type II error**.
+  - and in fact $H_a$ is false. This is a good outcome (True Negative)
+  - but in fact $H_a$ is true. This is known as a **Type II error** (False Negative)
 
 > Statistical power refers to the fourth situation and is the probability that we are able to detect the effect that we are looking for.
 
@@ -2617,15 +2617,19 @@ In order to avoid any kind of $p$-Hacking or $p$-HARKing, new possibilities for 
 
 # Always more homework
 
-**For next lecture, read Chapter 12 of "Learning Statistics with JAMOVI"**
-https://www.learnstatswithjamovi.com/
+.center[**For next lecture, read Chapter 12 of "Learning Statistics with JAMOVI"**]
+.center[https://www.learnstatswithjamovi.com/]
+
+```{r out.width='40%'}
+include_graphics("https://blog.jamovi.org/assets/images/lsj_cover.png")
+```
 
 ---
 class: inverse, mline, left, middle
 
 <img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
 
-# Thanks for your attention and don't hesitate if you have any question!
+# Thanks for your attention and don't hesitate to ask if you have any question!
 
 [`r fa(name = "twitter")` @damien_dupre](http://twitter.com/damien_dupre)  
 [`r fa(name = "github")` @damien-dupre](http://github.com/damien-dupre)  
