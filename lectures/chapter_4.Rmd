@@ -445,7 +445,7 @@ class: inverse, mline, left, middle
 
 <img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
 
-# Thanks for your attention and don't hesitate if you have any question!
+# Thanks for your attention and don't hesitate to ask if you have any question!
 
 [`r fa(name = "twitter")` @damien_dupre](http://twitter.com/damien_dupre)  
 [`r fa(name = "github")` @damien-dupre](http://github.com/damien-dupre)  
