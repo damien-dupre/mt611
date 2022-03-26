@@ -15,15 +15,22 @@ output:
 ---
 
 ```{r setup, include = FALSE}
+# libraries --------------------------------------------------------------------
+library(DiagrammeR)
+library(fontawesome)
+library(ggrepel)
+library(kableExtra)
+library(knitr)
+library(palmerpenguins)
+library(papaja)
+library(patchwork)
+library(tidyverse)
 # general options --------------------------------------------------------------
-options(
-  scipen = 999,
-  htmltools.preserve.raw = FALSE
-)
+options(scipen = 999, htmltools.preserve.raw = FALSE)
 set.seed(42)
 # chunk options ----------------------------------------------------------------
-knitr::opts_chunk$set(
-  cache.extra = knitr::rand_seed, 
+opts_chunk$set(
+  cache.extra = rand_seed, 
   message = FALSE, 
   warning = FALSE, 
   error = FALSE, 
@@ -33,17 +40,6 @@ knitr::opts_chunk$set(
   fig.align = "center", 
   fig.retina = 3
   )
-# libraries --------------------------------------------------------------------
-library(tidyverse)
-library(knitr)
-library(kableExtra)
-library(fontawesome)
-library(DiagrammeR)
-library(patchwork)
-library(ggrepel)
-library(papaja)
-library(palmerpenguins)
-# data -------------------------------------------------------------------------
 ```
 
 # Many More Types of Model
@@ -75,7 +71,7 @@ class: inverse, mline, center, middle
 See everything that has been said until now
 
 ```{r out.width='70%'}
-knitr::include_graphics("https://miro.medium.com/max/1400/1*guak1sQTh5sAf46NMzbQig.jpeg")
+include_graphics("https://miro.medium.com/max/1400/1*guak1sQTh5sAf46NMzbQig.jpeg")
 ```
 
 ---
@@ -115,13 +111,13 @@ DiagrammeR::grViz("
 Imagine that previous studies have suggested that higher grades predict higher happiness. This is called **Direct Effect**.
 
 ```{r out.width="50%"}
-knitr::include_graphics("https://data.library.virginia.edu/files/mediation_ex1.png")
+include_graphics("https://data.library.virginia.edu/files/mediation_ex1.png")
 ```
 
 However, grades are not the real reason that happiness increases. Let's hypothesize that good grades boost one’s self-esteem and then high self-esteem boosts one’s happiness. This is the **Indirect Effect**.
 
 ```{r out.width="50%"}
-knitr::include_graphics("https://data.library.virginia.edu/files/mediation_ex2.png")
+include_graphics("https://data.library.virginia.edu/files/mediation_ex2.png")
 ```
 
 Self-esteem is a mediator that explains the underlying mechanism of the relationship between grades (or $X$) and happiness (or $Y$).
@@ -133,40 +129,40 @@ A mediation analysis is comprised of **three sets of regression**: $X$ → $Y$, 
 # Analyse Mediation Effects - Step 1
 
 ```{r out.width = "70%"}
-knitr::include_graphics("https://data.library.virginia.edu/files/mediation_step1.png")
+include_graphics("https://data.library.virginia.edu/files/mediation_step1.png")
 ```
 
-$$Y = \beta_{0} + \beta_{1}.X + \epsilon$$
+$$Y = b_{0} + b_{1}.X + e$$
 
-Is $\beta_{1}$ significant? We want $X$ to affect $Y$ (Direct Effect). If there is no relationship between $X$ and $Y$, there is nothing to mediate.
+Is $b_{1}$ significant? We want $X$ to affect $Y$ (Direct Effect). If there is no relationship between $X$ and $Y$, there is nothing to mediate.
 
 ---
 
 # Analyse Mediation Effects - Step 2
 
 ```{r out.width = "70%"}
-knitr::include_graphics("https://data.library.virginia.edu/files/mediation_step2.png")
+include_graphics("https://data.library.virginia.edu/files/mediation_step2.png")
 ```
 
-$$M = \beta_{0} + \beta_{2}.X + \epsilon$$
+$$M = b_{0} + b_{2}.X + e$$
 
-Is $\beta_{2}$ significant? We want $X$ to affect $M$. If $X$ and $M$ have no relationship, $M$ is just a third variable that may or may not be associated with $Y$. A mediation makes sense only if $X$ affects $M$.
+Is $b_{2}$ significant? We want $X$ to affect $M$. If $X$ and $M$ have no relationship, $M$ is just a third variable that may or may not be associated with $Y$. A mediation makes sense only if $X$ affects $M$.
 
 ---
 
 # Analyse Mediation Effects - Step 3
 
 ```{r out.width = "70%"}
-knitr::include_graphics("https://data.library.virginia.edu/files/mediation_step3.png")
+include_graphics("https://data.library.virginia.edu/files/mediation_step3.png")
 ```
 
-$$Y = \beta_{0} + \beta_{4}.X + \beta_{3}.M + \epsilon$$
+$$Y = b_{0} + b_{4}.X + b_{3}.M + e$$
 
-Is $\beta_{4}$ non-significant or smaller than before? We want $M$ to affect $Y$, but $X$ to no longer affect $Y$ (or $X$ to still affect $Y$ but in a smaller magnitude).
+Is $b_{4}$ non-significant or smaller than before? We want $M$ to affect $Y$, but $X$ to no longer affect $Y$ (or $X$ to still affect $Y$ but in a smaller magnitude).
 
 If the effect of $X$ on $Y$ completely disappears, $M$ fully mediates between $X$ and $Y$. If the effect of X on Y still exists, but in a smaller magnitude, M partially mediates between $X$ and $Y$.
 
-To see if this mediation effect is statistically significant (different from zero or not). To do so, a specific test to compare $\beta_{1}$ and $\beta_{4}$ is performed (called Sobel or bootstrapping).
+To see if this mediation effect is statistically significant (different from zero or not). To do so, a specific test to compare $b_{1}$ and $b_{4}$ is performed (called Sobel or bootstrapping).
 
 ---
 
@@ -179,7 +175,7 @@ To do it, install the jAMM module by clicking on the cross "Modules" at top righ
 Then follow the example described here: https://jamovi-amm.github.io/glm_example1.html
 
 ```{r out.width="70%"}
-knitr::include_graphics("https://jamovi-amm.github.io/pics/logosm.png")
+include_graphics("https://jamovi-amm.github.io/pics/logosm.png")
 ```
 
 ---
@@ -189,7 +185,7 @@ knitr::include_graphics("https://jamovi-amm.github.io/pics/logosm.png")
 ## Is X → Y significant?
 
 ```{r out.width='100%'}
-knitr::include_graphics("img/med_1.png")
+include_graphics("img/med_1.png")
 ```
 
 $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $Y$.
@@ -201,7 +197,7 @@ $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $Y$.
 ## Is X → M significant?
 
 ```{r out.width='100%'}
-knitr::include_graphics("img/med_2.png")
+include_graphics("img/med_2.png")
 ```
 
 $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $M$.
@@ -210,15 +206,15 @@ $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $M$.
 
 # Mediation Effect Test in JAMOVI
 
-## Is $\beta_{4}$ non significant?
+## Is $b_{4}$ non significant?
 
 Module medmod > GLM Mediation Model
 
 ```{r out.width="70%"}
-knitr::include_graphics("img/med_3.png")
+include_graphics("img/med_3.png")
 ```
 
-$p = 0.714$ for $\beta_{4}$ while $\beta_{1}$ was significant, therefore M (self-esteem) mediate the relationship between X (grades) and Y (happiness).
+$p = 0.714$ for $b_{4}$ while $b_{1}$ was significant, therefore M (self-esteem) mediate the relationship between X (grades) and Y (happiness).
 
 ---
 
@@ -227,7 +223,7 @@ $p = 0.714$ for $\beta_{4}$ while $\beta_{1}$ was significant, therefore M (self
 See: https://jamovi-amm.github.io/glm_example2.html
 
 ```{r out.width="70%"}
-knitr::include_graphics("https://jamovi-amm.github.io/examples/muller/moderator2.png")
+include_graphics("https://jamovi-amm.github.io/examples/muller/moderator2.png")
 ```
 
 ---
@@ -286,17 +282,17 @@ digraph rmarkdown {
 
 Example:
 
-$Perceived\,Usefulness = \alpha_1.PU1 + \alpha_2.PU2 + \alpha_3.PU3 + \alpha_4.PU4 + \alpha_5.PU5 + \epsilon$
-$Perceived\,Ease\,of\,use = \alpha_1.PEOU1 + \alpha_2.PEOU2 + \alpha_3.PEOU3 + \alpha_4.PEOU4 + \epsilon$
-$Intention\,to\,Use = \alpha_1.BI1 + \alpha_2.BI2 + \epsilon$
+$Perceived\,Usefulness = \alpha_1.PU1 + \alpha_2.PU2 + \alpha_3.PU3 + \alpha_4.PU4 + \alpha_5.PU5 + e$
+$Perceived\,Ease\,of\,use = \alpha_1.PEOU1 + \alpha_2.PEOU2 + \alpha_3.PEOU3 + \alpha_4.PEOU4 + e$
+$Intention\,to\,Use = \alpha_1.BI1 + \alpha_2.BI2 + e$
 
 **A Linear Regression is performed for each outcome variable**
 
 Example:
 
-$Perceived\,Usefulness = \beta_0 + \beta_1.Perceived\,Ease\,of\,use + \epsilon$
-$Intention\,to\,Use = \beta_0 + \beta_1.Perceived\,Usefulness + \beta_2.Perceived\,Ease\,of\,use + \epsilon$
-$Actual\,Use = \beta_0 + \beta_1.Intention\,to\,Use + \epsilon$
+$Perceived\,Usefulness = b_0 + b_1.Perceived\,Ease\,of\,use + e$
+$Intention\,to\,Use = b_0 + b_1.Perceived\,Usefulness + b_2.Perceived\,Ease\,of\,use + e$
+$Actual\,Use = b_0 + b_1.Intention\,to\,Use + e$
 
 ---
 
@@ -328,7 +324,7 @@ All of them are using the package "Lavaan" which provides a specific coding stru
 
 .pull-right[
 ```{r out.width='100%'}
-knitr::include_graphics("https://lavaan.ugent.be/tutorial/figure/sem.png")
+include_graphics("https://lavaan.ugent.be/tutorial/figure/sem.png")
 ```
 ]
 
@@ -361,7 +357,7 @@ Because this outcome variable is Categorical (even if coded with numbers), we ca
 In JAMOVI, a Generalized Linear Model with logistic distribution can be computed using the **GAMLj** Module as follow:
 
 ```{r out.width = '70%'}
-knitr::include_graphics("img/logistic_regression.png")
+include_graphics("img/logistic_regression.png")
 ```
 
 ---
@@ -432,7 +428,7 @@ Let's use the titanic dataset example. We want to test that Age has an effect on
 In our linear mixed model, `Age` will be a Fixed Effect and `Embarked` the Random Effect. In JAMOVI, linear mixed model can be computed using the **GAMLj** Module as follow:
 
 ```{r out.width='70%'}
-knitr::include_graphics("img/linear_mixed_model.png")
+include_graphics("img/linear_mixed_model.png")
 ```
 
 ---
