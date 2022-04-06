@@ -20,6 +20,7 @@ library(anicon)
 library(countdown)
 library(fontawesome)
 library(gapminder)
+library(here)
 library(knitr)
 library(tidyverse)
 library(tweetrmd)
@@ -31,6 +32,17 @@ colorize <- function(x, color) {sprintf("<span style='color: %s;'>%s</span>", co
 # options ----------------------------------------------------------------------
 options(scipen = 999, htmltools.preserve.raw = FALSE)
 opts_chunk$set(echo = FALSE, fig.align = "center", fig.retina = 3)
+theme_update(text = element_text(size = 24))
+
+# data -------------------------------------------------------------------------
+organisation_beta <- read_csv(here("data/organisation_beta.csv"))
+```
+
+```{r xaringan-extra-styles, echo=FALSE}
+xaringanExtra::use_extra_styles(
+  hover_code_line = TRUE, 
+  mute_unhighlighted_code = TRUE
+)
 ```
 
 # Brief Introduction
@@ -172,9 +184,9 @@ include_graphics("img/r_console.png")
 ```
 ]
 
-You can execute code by typing it directly into the Console. However, it won’t be saved. And if you make a mistake you will have to re-type everything all over again. 
+You can execute code by typing it directly into the Console. __However, it will not be saved__. And if you make a mistake you will have to re-type everything all over again. 
 
-Instead, it’s better to write all your code in a document called the **Code Editor**.
+Instead, it is better to write all your code in a document (R script or R Markdown) in the **Code Editor**.
 
 ---
 
@@ -415,7 +427,7 @@ All object assignments have the same form:
 object_name <- object_content
 ```
 
-You want your object names to be descriptive, so you’ll need a convention for multiple words. I recommend **snake_case** where you separate lowercase words with `_`.
+You want your object names to be descriptive, so you will need a convention for multiple words. I recommend **snake_case** where you separate lower-case words with `_`.
 
 ```{r, eval=FALSE, echo=TRUE}
 numeric_value <- 1
@@ -444,16 +456,14 @@ class: title-slide, middle
 
 ## Exercise
 
-In the same R Script in RStudio, **Copy and Paste** the following code and **display the content** of each object by typing and running the name of the object on separate lines:
+In the same R Script in RStudio, **Copy and Paste and Run** the following code:
 
 ```
 my_power <- c(0.5, 99.5)
 
 my_knowledge <- c("without R", "with R")
 
-my_data <- data.frame(power = my_power, cases = my_knowledge)
-
-easy_viz <- barplot(height = my_power, names.arg = my_knowledge)
+barplot(height = my_power, names.arg = my_knowledge)
 ```
 
 ```{r}
@@ -749,17 +759,10 @@ Importantly, Column/Variable names are not between quotation marks in the Tidyve
 
 To use filtering effectively, you have to know how to select the observations that you want using the comparison operators. R provides the standard suite: `>`, `>=`, `<`, `<=`, `!=` (not equal), and `==` (exactly equal).
 
-When you’re starting out with R, the easiest mistake to make is to use `=` instead of `==` when testing for equality. When this happens you’ll get an informative error:
+When you are starting out with R, the easiest mistake to make is to use `=` instead of `==` when testing for equality. When this happens you will get an informative error:
 
-```{r eval=FALSE, echo=TRUE}
+```{r echo=TRUE, error=TRUE}
 filter(gapminder, country = "Ireland")
-```
-
-```out
-Error: Problem with `filter()` input `..1`.
-x Input `..1` is named.
-ℹ This usually means that you've used `=` instead of `==`.
-ℹ Did you mean `country == "Ireland"`?
 ```
 
 ---
@@ -803,7 +806,7 @@ class: title-slide, middle
 
 # The select() function
 
-It’s not uncommon to get datasets with hundreds or even thousands of variables. In this case, the first challenge is often narrowing in on the variables you’re actually interested in. 
+It is not uncommon to get datasets with hundreds or even thousands of variables. In this case, the first challenge is often narrowing in on the variables you are actually interested in. 
 
 `select()` allows you to rapidly zoom in on a useful subset using operations based on the names of the variables. 
 
@@ -880,7 +883,7 @@ class: title-slide, middle
 
 # The mutate() function
 
-Besides selecting sets of existing columns, it’s often useful to add new columns that are functions of existing columns. That’s the job of `mutate()`. 
+Besides selecting sets of existing columns, it is often useful to add new columns that are functions of existing columns. That is the job of `mutate()`. 
 
 Once again the first argument is the name of the data frame object to modify, then the second argument is the name of the column to create followed by the `=` sign and the condition creating the new values.
 
@@ -1001,6 +1004,67 @@ class: title-slide, middle
 
 ---
 
+# The Pipe Operator %>% (1)
+
+We have seen how to create a sequence of numbers from 1 to 10 using the function `seq()`:
+
+```{r echo=TRUE, eval=FALSE}
+seq(1, 10)
+#  [1]  1  2  3  4  5  6  7  8  9 10
+```
+
+If you want to know the sum of the numbers from 1 to 10, you might write some code like:
+
+```{r echo=TRUE, eval=FALSE}
+sum(c(1, 2, 3, 4, 5, 6, 7, 8, 9, 10))
+```
+
+To make the code shorter you could do instead:
+
+```{r echo=TRUE, eval=FALSE}
+sum(seq(1, 10))
+```
+
+The **tidyverse** makes heavy use of the pipe operator (`%>%`), which __takes whatever is on the left-hand-side of the pipe and makes it the first argument of whatever function is on the right-hand-side of the pipe__. 
+
+Therefore `seq(1, 10) %>% sum()` is equivalent to `sum(seq(1, 10))`.
+
+```{r echo=TRUE, eval=FALSE}
+seq(1, 10) %>% sum()
+```
+
+---
+
+# The Pipe Operator %>% (2)
+
+Imagine you have a dataset made of 2 columns and you want to create a 3rd column which is the result of the addition of column 1 and column 2. Then you want to keep only the observations lower than 10, you might write code like this:
+
+```{r echo=TRUE, eval=FALSE}
+data_with_third_column <- mutate(data, column_3 = column_1 + column_2)
+
+data_filter_third_column <- filter(data_with_third_column, column_3 < 10)
+```
+
+--
+
+There’s another way to tackle the same problem with the pipe, `%>%`:
+
+```{r echo=TRUE, eval=FALSE}
+data_filter_third_column <- data %>% 
+  mutate(column_3 = column_1 + column_2) %>% 
+  filter(column_3 < 10)
+```
+
+--
+
+You can read it as a series of imperative statements: 
+
+> Create a new object call `data_filter_third_column` which takes the object `data`, **then** create a new column called `column_3`, **then** filter this column by keeping only the values lower than 10.
+
+A good way to pronounce the pipe `%>%` when reading code is **“then”**.
+
+---
+
 # The pipe operator %>%
 
 Imagine that we want to summarise the population average and standard deviation only of Europe. Using what you know about {dplyr}, you might write code like this:
@@ -1009,18 +1073,16 @@ Imagine that we want to summarise the population average and standard deviation 
 gapminder_europe <- filter(gapminder, continent == "Europe")
 
 gapminder_summary_europe <- summarise(gapminder_europe, 
-  m_pop = mean(pop),
-  sd_pop = sd(pop)
-)
+    m_pop = mean(pop),
+    sd_pop = sd(pop)
+  )
 ```
 
 This code is a little frustrating to write because we have to give each intermediate data frame a name, even though we don’t care about it. Naming things is hard, so this slows down our analysis.
 
----
+--
 
-# The pipe operator %>% 
-
-There’s another way to tackle the same problem with the pipe, `%>%`:
+There is another way to tackle the same problem with the pipe, `%>%`:
 
 ```{r eval=FALSE, echo=TRUE}
 gapminder_summary_europe <- gapminder %>% 
@@ -1031,8 +1093,6 @@ gapminder_summary_europe <- gapminder %>%
 ---
 
 # The pipe operator %>%
-
-You can read it as a series of imperative statements: group, then summarise, then filter in the first example and: filter, then summarise in the second example. As suggested by this reading, a good way to pronounce `%>%` when reading code is **“then”**.
 
 ```{r eval=FALSE, echo=TRUE}
 gapminder_summary_europe <- gapminder %>% 
@@ -1049,30 +1109,31 @@ Becomes
 > Summarise the average population as "m_pop" and the standard deviation as "sd_pop".
 
 ---
+class: title-slide, middle
 
-# The pipe operator %>%
-
-Behind the scenes, `x %>% f()` turns into `f(x)`, and `x %>% f() %>% g()` turns into `g(f(x))` and so on.
-
-The following sequence can be read as:
-1. Take `x` then
-2. Use it as the input to the function `f()` then
-3. Use `f(x)` as the input to the function `g()` then
-4. Use `g(f(x))` as the input to the function `h()`
-
-```{r eval=FALSE, echo=TRUE}
-x %>% 
-  f() %>% 
-  g() %>% 
-  h()
-```
-
-Working with the pipe is one of the key criteria for belonging to the tidyverse. The only exception is {ggplot2}.
+## Live Demo
 
 ---
 class: title-slide, middle
 
-## Live Demo
+## Exercise
+
+1. If it hasn't been done already, load the tidyverse package
+
+2. Execute the following code:
+
+```{r eval=FALSE}
+starwars %>%
+  select(name, height, mass, homeworld) %>%
+  mutate(height = height * 0.0328084) %>% # overwrite height values to feet
+  group_by(homeworld) %>%
+  filter(height == max(height)) %>%
+  arrange(desc(height))
+```
+
+```{r}
+countdown(minutes = 3, warn_when = 60)
+```
 
 ---
 class: title-slide, middle
@@ -1106,29 +1167,51 @@ class: inverse, mline, center, middle
 
 ---
 
+# Disable Scientific Number Format
+
+By __default R uses scientific number format__ to display values when they are too long, which usually append in visualisations.
+
+For example `1000000` is printed as:
+
+```{r echo=FALSE}
+format(1000000, scientific = TRUE)
+```
+
+To disable this scientific number format, include and __run the following code__ at the beginning of every script (ideally after loading the libraries) every time you restart R:
+
+```{r echo=TRUE}
+options(scipen = 999)
+```
+
+Now, `1000000` is printed as:
+
+```{r echo=FALSE}
+1000000
+```
+
+And your visualisations will not use the scientific number format anymore
+
+---
+
 # Using {ggplot2} in the {tidyverse}
 
-The {ggplot2} package, as it provides an easy way to customise your plots.
-
-{ggplot2} is rooted in the data visualisation theory known as the grammar of graphics (Wilkinson 2005).
+The {ggplot2} package, as it provides an **easy way to create and to customise your plots**.
 
 As a part of the {tidyverse} package, {ggplot2} is loaded when {tidyverse} is loaded as well:
 
-```{r eval=FALSE}
+```{r eval=FALSE, echo=TRUE}
 # install.packages("tidyverse") if not done already (check list of packages)
 library(tidyverse)
 ```
 
----
-
-# The grammar of graphics
+--
 
 **“the grammar of graphics”** (the “gg” in ggplot) defines a set of rules for constructing statistical graphics by combining different types of layers. 
 
-From the last to the first, the layers are :
+From the first (bottom) to the last (top), the mandatory layers are :
 
-```{r, echo=FALSE}
-include_graphics("http://www.lucaliebi.ch/r_books/images/ggplot2.png")
+```{r out.width='50%'}
+include_graphics("https://englelab.gatech.edu/useRguide/images/dataviz/ge_geom.png")
 ```
 
 ---
@@ -1139,14 +1222,16 @@ In {ggplot2}, the **data** layer is the name of the object that contains the var
 
 The visualisation is initiated with the function `ggplot()`
 
-```{r eval=FALSE}
-ggplot(data = my_dataframe)
+```{r eval=FALSE, echo=TRUE}
+ggplot(data = my_dataframe) # the argument name can be omitted too
 ```
+
+--
 
 Let's try to use the gapminder data:
 
-```{r fig.height=3}
-ggplot(data = gapminder)
+```{r echo=TRUE, fig.height=2}
+ggplot(data = gapminder) # or ggplot(gapminder)
 ```
 
 Only a grey frame is displayed: we need to define the axes (aesthetic mapping) and their corresponding layers.
@@ -1155,13 +1240,13 @@ Only a grey frame is displayed: we need to define the axes (aesthetic mapping) a
 
 ---
 
-# Aesthetic mapping
+# Aesthetic Mapping
 
 The **aesthetic mapping** refers to the frame of the plot, `x` for the variable in the x-axis and `y` for the variable in the y-axis. There are many more aesthetics such as `color`, `fill` and `group` but let's focus on the x and y axes for the moment. The mapping is performed by a function in {ggplot2} called `aes()` for aesthetics. 
 
 This is an essential concept to remember, the mapping of a plot (frame axes) is built from aesthetics.
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 ggplot(data = my_dataframe) +
   aes(x = my_xaxis_variable, y = my_yaxis_variable)
 ```
@@ -1170,7 +1255,7 @@ ggplot(data = my_dataframe) +
 
 Again, the arguments names of the `ggplot()` function and layers can be omitted if filled in the right order:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 ggplot(my_dataframe) +
   aes(my_xaxis_variable, my_yaxis_variable)
 ```
@@ -1179,37 +1264,46 @@ Obviously, some type of layers are not suitable for all aesthetics, it depends o
 
 ---
 
-# Aesthetic mapping
+# Aesthetic Mapping
 
 .pull-left[
-Aesthetic mapping represents not only the variables defined as x-axis and y-axis but also, colours of borders (colors), colours of shapes (fill), shapes ...
+**Aesthetic mapping represents** not only the variables defined as **x-axis** and **y-axis** but also, **colours** of borders (colors), colours of shapes (fill), **shapes**, **size**, ...
 ]
 
 .pull-right[
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 ggplot(data = my_dataframe) +
  aes(
-    x = my_xaxis_variable, 
-    y = my_yaxis_variable,
-    color = my_color_variable,
-    fill = my_fill_variable,
-    shape = my_shape_variable,
-    size = my_size_variable
+   x = my_xaxis_variable, 
+   y = my_yaxis_variable,
+   color = my_color_variable,
+   fill = my_fill_variable,
+   shape = my_shape_variable,
+   size = my_size_variable
   )
-)
 ```
 ]
 
----
-
-# Aesthetic mapping
+--
 
 For example, the following code is adding not only a x- and y-axis to a scatter plot, but also colours to the points:
 
-```{r fig.height=4}
+.pull-left[
+```{r aesthetic, echo=TRUE, fig.height=3, fig.show="hide"}
 ggplot(data = gapminder) +
-  aes(x = gdpPercap, y = lifeExp, color = continent)
+  aes(
+    x = gdpPercap, 
+    y = lifeExp, 
+    color = continent
+  )
 ```
+]
+
+.pull-right[
+```{r, echo=FALSE}
+include_graphics(fig_chunk("aesthetic", "png"))
+```
+]
 
 ---
 
@@ -1234,7 +1328,7 @@ The list is very long but here are the main ones. Multiple **geometries** can be
 
 Example for scatter plots:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 ggplot(data = my_dataframe) +
   aes(x = my_xaxis_variable, y = my_yaxis_variable) +
   geom_point() 
@@ -1242,7 +1336,7 @@ ggplot(data = my_dataframe) +
 
 Example for line graph:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 ggplot(data = my_dataframe) +
   aes(x = my_xaxis_variable, y = my_yaxis_variable) +
   geom_line() 
@@ -1250,13 +1344,13 @@ ggplot(data = my_dataframe) +
 
 Example for bar graph:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 ggplot(data = my_dataframe) +
   aes(x = my_xaxis_variable, y = my_yaxis_variable) +
   geom_col() 
 ```
 
-`r faa("arrow-circle-right", animate="horizontal", speed="slow", color="blue")` Note: Not all data is suitable for all types of geometries. It is to you to find the one that corresponds to your data
+`r faa("arrow-circle-right", animate="horizontal", speed="slow", color="blue")` Note: Not all data is suitable for all types of geometries. You have to find the geometry that corresponds to your data.
 
 ---
 
@@ -1264,7 +1358,7 @@ ggplot(data = my_dataframe) +
 
 Example for scatter plots:
 
-```{r fig.height=4}
+```{r echo=TRUE, fig.height=5, fig.width=10}
 ggplot(data = gapminder) +
   aes(x = gdpPercap, y = lifeExp, color = continent) +
   geom_point() 
@@ -1276,11 +1370,11 @@ ggplot(data = gapminder) +
 
 Example for line graph:
 
-```{r fig.height=4}
+```{r echo=TRUE, fig.height=5, fig.width=10}
 ggplot(data = gapminder) +
   aes(x = year, y = lifeExp, color = country) +
   geom_line() +
-  guides(color = "none") # removes legend because too many countries
+  guides(color ="none") # removes legend because too many countries
 ```
 
 ---
@@ -1289,11 +1383,11 @@ ggplot(data = gapminder) +
 
 Example for bar graph:
 
-```{r fig.height=4}
+```{r echo=TRUE, fig.height=4, fig.width=12}
 gapminder_avg_continent_2007 <- gapminder %>% 
   filter(year == 2007) %>% 
   group_by(continent) %>% 
-  summarise(m_lifeExp = mean(lifeExp, na.rm = TRUE))
+  summarise(m_lifeExp = mean(lifeExp))
 
 ggplot(data = gapminder_avg_continent_2007) +
   aes(x = continent, y = m_lifeExp, fill = continent) +
@@ -1306,7 +1400,7 @@ ggplot(data = gapminder_avg_continent_2007) +
 
 `geom_smooth()` has one important extra argument called `method`. If method has the value "lm", a linear regression will be shown. If method has the value "loess" or "gam", a non-linear regression will be shown.
 
-```{r fig.height=4, fig.width=12}
+```{r echo=TRUE, fig.height=4, fig.width=12}
 ggplot(gapminder) +
   aes(x = year, y = lifeExp, color = continent) +
   geom_point() +
@@ -1318,13 +1412,24 @@ ggplot(gapminder) +
 
 # Inherited Propriety of Geometries
 
-You can add as many geometry layers as you want, however repeating the mapping for each geometry layer is very redundant. Thankfully, if all your geometry layers are using the same aesthetics mapping, it is possible to include this mapping inside the `ggplot()`, then all the geometry layers will have the same mapping:
+You can add as many geometry layers as you want, however repeating the mapping for each geometry layer is very redundant. 
 
-```{r fig.height=4, fig.width=12}
+Thankfully, if all your geometry layers are using the same aesthetics mapping, __it is possible to include this mapping inside the `ggplot()`__, then all the geometry layers will have the same mapping:
+
+```{r echo=TRUE, eval=FALSE}
 ggplot(gapminder, aes(x = year, y = lifeExp, color = country)) +
   geom_point() +
-  geom_line() +
-  guides(color = "none")
+  geom_line()
+```
+
+--
+
+If aesthetics are different for several geometry layers, it is also __possible to declare the aesthetics in the geometry__:
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(gapminder) +
+  geom_point(aes(x = year, y = lifeExp, shape = continent)) +
+  geom_line(aes(x = year, y = lifeExp, color = country))
 ```
 
 ---
@@ -1335,9 +1440,10 @@ Now, to make the plot more professional, let's remove that standard grey backgro
 
 Many themes come built into the {ggplot2} package. My preference is `theme_bw()` but once you start typing `theme_` a list of options will pop up.
 
-```{r fig.height=4}
+```{r echo=TRUE, fig.height=4, fig.width=12}
 ggplot(gapminder) +
-  geom_point(aes(x = gdpPercap, y = lifeExp, color = continent)) +
+  aes(x = gdpPercap, y = lifeExp, color = continent) +
+  geom_point() +
   theme_bw()
 ```
 
@@ -1354,7 +1460,9 @@ Built-in ggplot2 themes includes:
 - `theme_light()`
 - ... 
 
-Try them in the following exercises.
+```{r echo=FALSE, out.width='80%'}
+include_graphics("https://thinkr.fr/wp-content/uploads/2019/07/ggplot-meme.jpg")
+```
 
 ---
 
@@ -1368,24 +1476,58 @@ Take a look at the ggplot2 [cheat sheet](https://www.rstudio.com/wp-content/uplo
 
 # Include ggplot in pipes
 
-A very powerful way to create figures in R is to use a ggplot at the end of a data transformation pipe.
+A very powerful way to create figures in R is to use a __ggplot at the end of a data transformation pipe__.
 
 Indeed, having a data frame object as first argument of the `ggplot()` function is similar to using a pipe operator and chaining it to the `ggplot()` function:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 # this classic representation:
-ggplot(gapminder, aes(gdpPercap, lifeExp, color = continent)) +
+ggplot(data = gapminder) +
+  aes(x = gdpPercap, y = lifeExp, color = continent)
   geom_point()
 
 # is the same as:
 gapminder %>% 
-  ggplot(aes(gdpPercap, lifeExp, color = continent)) +
+  ggplot() +
+  aes(x = gdpPercap, y = lifeExp, color = continent) +
+  geom_point()
+
+# is the same as:
+gapminder %>% 
+  ggplot(aes(x = gdpPercap, y = lifeExp, color = continent)) +
   geom_point()
 ```
 
 The layers are still added with the `+` symbol.
 
-In this last code, it is also possible to modify the data frame using `filter()`, `select()`, `mutate()`, and `summarise()`.
+---
+
+# Include ggplot in pipes
+
+By using the pipe with the data argument of `ggplot()`, it is also possible to modify the data frame using `filter()`, `select()`, `mutate()`, and `summarise()`.
+
+Examples:
+
+- `mutate()` and `filter()` to `ggplot()`:
+
+```{r echo=TRUE, eval=FALSE}
+gapminder %>% 
+  mutate(gdpPercountry = gdpPercap*pop) %>% 
+  filter(country == "Ireland") %>% 
+  ggplot(aes(gdpPercountry, lifeExp, color = country)) +
+  geom_line()
+```
+
+- `filter()` and `summarise()` to `ggplot()`:
+
+```{r echo=TRUE, eval=FALSE}
+gapminder %>% 
+  filter(year == 2007) %>% 
+  group_by(continent) %>% 
+  summarise(s_pop = sum(pop)) %>% 
+  ggplot(aes(continent, s_pop, fill = continent)) +
+  geom_col()
+```
 
 ---
 class: title-slide, middle
@@ -1401,7 +1543,7 @@ Build a ggplot with the `gapminder` dataset and one `geom_boxplot()` layer
 which contains the x as `continent`, y as `lifeExp` and color as `continent` 
 in its `aes()`. Use a theme of your choice as well:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 _ _ _(_ _ _) +
   aes(x = _ _ _, y = _ _ _, color = _ _ _) +
   _ _ _() +
@@ -1410,7 +1552,7 @@ _ _ _(_ _ _) +
 
 Build a ggplot with the `gapminder` dataset and one `geom_col()` layer which contains the x as `year`, y as `pop` and fill as `continent` in its `aes()`. Use a theme of your choice as well:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 _ _ _(_ _ _) +
   aes(x = _ _ _, y = _ _ _, fill = _ _ _)
   _ _ _() +
@@ -1456,13 +1598,13 @@ The `lm()` function calculate each estimate and test them against 0 for you.
 
 Here is a generic example:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 lm(formula = Outcome ~ Pred1 + Pred2, data = my_data_object)
 ```
 
 Here is an example with {gapminder}:
 
-```{r}
+```{r echo=TRUE, eval=FALSE}
 lm(formula = lifeExp ~ gdpPercap + year, data = gapminder)
 ```
 
@@ -1472,27 +1614,29 @@ lm(formula = lifeExp ~ gdpPercap + year, data = gapminder)
 
 `lm()` has only one difficulty, the `formula`. The `formula` is the direct translation of the equation tested but with its own representation:
 
-1. The = sign is replaced by `~` (read according to)
+1. The = sign is replaced by `~` (read "according to" or "by")
 2. Each predictor is added with the `+` sign
 3. An interaction effect uses the symbol `:` instead of *
+
+--
 
 Here are some generic equations and their conversion in `formula`:
 
 $$Outcome = b_0 + b_1 Pred1 + b_2 Pred2 + e$$
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 lm(formula = Outcome ~ Pred1 + Pred2, data = my_data_object)
 ```
 
 $$Outcome = b_0 + b_1 Pred1 + b_2 Pred2 + b_3 Pred3 + e$$
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 lm(formula = Outcome ~ Pred1 + Pred2 + Pred3, data = my_data_object)
 ```
 
 $$Outcome = b_0 + b_1 Pred1 + b_2 Pred2 + b_3 Pred1*Pred2 + e$$
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 lm(formula = Outcome ~ Pred1 + Pred2 + Pred1 : Pred2, data = my_data_object)
 ```
 
@@ -1506,7 +1650,7 @@ Here are some equations from the gapminder dataset and their conversion in `form
 
 $$lifeExp = b_0 + b_1 gdpPercap + b_2 year + e$$
 
-```{r}
+```{r echo=TRUE, eval=FALSE}
 lm(formula = lifeExp ~ gdpPercap + year, data = gapminder)
 ```
 
@@ -1514,7 +1658,7 @@ lm(formula = lifeExp ~ gdpPercap + year, data = gapminder)
 
 $$lifeExp = b_0 + b_1 gdpPercap + b_2 year + b_3 gdpPercap * year + e$$
 
-```{r}
+```{r echo=TRUE, eval=FALSE}
 lm(formula = lifeExp ~ gdpPercap + year + gdpPercap : year , data = gapminder)
 ```
 
@@ -1549,7 +1693,7 @@ class: title-slide, middle
 
 Exactly as in Jamovi, `lm()` by default investigates continuous predictors or categorical predictors having 2 categories:
 
-```{r}
+```{r echo=TRUE, eval=FALSE}
 model_gapminder <- lm(formula = lifeExp ~ gdpPercap + year, data = gapminder)
 ```
 
@@ -1557,7 +1701,7 @@ However, to test the hypothesis of a categorical predictor having 3 or more cate
 
 It can be obtained by using the `aov()` function with the lm model as input:
 
-```{r}
+```{r echo=TRUE, eval=FALSE}
 model_gapminder <- lm(formula = lifeExp ~ country + year, data = gapminder)
 
 aov(model_gapminder)
@@ -1565,7 +1709,7 @@ aov(model_gapminder)
 
 To make the code shorter, it is possible to pipe this `aov()`
 
-```{r}
+```{r echo=TRUE}
 model_gapminder <- lm(formula = lifeExp ~ country + year, data = gapminder) %>% aov()
 ```
 
@@ -1575,7 +1719,7 @@ model_gapminder <- lm(formula = lifeExp ~ country + year, data = gapminder) %>% 
 
 While the function `lm()` computes the model, the function `summary()` display the results
 
-```{r}
+```{r echo=TRUE}
 model_gapminder <- lm(formula = lifeExp ~ gdpPercap + year, data = gapminder)
 
 summary(model_gapminder)
@@ -1667,7 +1811,7 @@ include_graphics("https://memegenerator.net/img/instances/73408711/whoa-i-know-l
 
 To install {report} use the usual `install.packages()` function:
 
-```{r eval=FALSE}
+```{r echo=TRUE, eval=FALSE}
 install.packages("report")
 ```
 
@@ -1685,7 +1829,7 @@ To print the statistical analyses:
 
 # Automatic Results with {report}
 
-```{r results='asis'}
+```{r echo=TRUE, warning = FALSE, results='asis'}
 library(report)
 
 model_gapminder <- lm(formula = lifeExp ~ gdpPercap + year, data = gapminder)
@@ -1722,10 +1866,7 @@ class: inverse, mline, center, middle
 
 # Objectives
 
-In this tutorial, with RStudio Cloud, we will see how to create:
-
-- **Markdown:** a simple text-only format for writing documents
-- **Rmarkdown:** a tool for mixing R code with markdown 
+In this lecture, with RStudio Cloud, we will see how to create **R Markdown** files (.Rmd) to embed text and code output and generate professional outputs.
 
 --
 
@@ -1736,9 +1877,12 @@ In this tutorial, with RStudio Cloud, we will see how to create:
 
 --
 
-#### Where can I find the resources?
+#### Where can I find more resources?
 
-- These slides: [slides.djnavarro.net/starting-rmarkdown](https://slides.djnavarro.net/starting-rmarkdown)
+- More slides: 
+  - [slides.djnavarro.net/starting-rmarkdown](https://slides.djnavarro.net/starting-rmarkdown)
+  - [rmd4pharma.netlify.app/rmd-anatomy](https://rmd4pharma.netlify.app/static/slides/01-rmd-anatomy.html)
+  - [rmd4pharma.netlify.app/graphics](https://rmd4pharma.netlify.app/static/slides/03-graphics.html)
 - YouTube videos: [youtube.djnavarro.net/starting-rmarkdown](https://youtube.djnavarro.net/starting-rmarkdown)
 
 ---
@@ -1746,17 +1890,14 @@ In this tutorial, with RStudio Cloud, we will see how to create:
 # Two Sides of R Markdown Files
 
 .pull-left[
-<br>
-### On the input side...
+### On the editor side...
 
 - Write text in markdown
 - Insert code using R
 - Write "metadata" with YAML
-- Insert equation with LaTeX
 ]
 
 .pull-right[
-<br>
 ### On the output side...
 
 - Output to HTML
@@ -1765,114 +1906,144 @@ In this tutorial, with RStudio Cloud, we will see how to create:
 - Many other variations too
 ]
 
----
-class: title-slide, middle
+--
 
-## Lots of little things to learn!<br>We'll start with markdown...
+Try it by yourself:
 
----
-
-# What do we want?
-
-- Something that... you can write in **plain text**
-- Something that... is **human readable**
-- Something that... allows **formatting**
-- Something that... can **build** to something pretty 
-
----
-
-# Markdown
-
-.pull-left[
-
-**Here's an example of a markdown document...**
-
-```
-## Introduction
-
-
-Welcome to my **awesome** class. You 
-will learn all kinds of useful things 
-about R Markdown.
-
-- Markdown is simple
-- You can add R code
-```
-]
+1. Create a new R Markdown document: `File > New File > R Markdown`
+2. A popup will appear, leave everything as default and click `Yes`
+3. A new popup will appear, leave everything as default and click `OK`
 
 --
 
+## Let's dissect the document obtained!
+
+---
+
+# R Markdown Structure
+
+R Markdown files have 3 different types of content:
+
+#### 1. The YAML
+
+Displayed between two series of `---` signs, it corresponds to the metadata shown in the header of the output file (e.g., title, author, date, ...) and the type of output (e.g., pdf, html, doc, ...)
+
+#### 2. The Text
+
+Written in Markdown style (i.e., text without formatting), it is used as core description in the output document
+
+#### 3. The Code
+
+Inserted in the R Markdown inside "chunks", the code is processed when creating the output and can display figures and tables
+
+---
+
+# The part inside --- is the "YAML"
+
+```{r out.width='80%'}
+include_graphics("img/my_first_rmd_html_yaml.png")
+```
+
+---
+
+# The text is Markdown 
+
+```{r out.width='80%'}
+include_graphics("img/my_first_rmd_html_markdown.png")
+```
+
+---
+
+# The part in grey is R code
+
+```{r out.width='80%'}
+include_graphics("img/my_first_rmd_html_r.png")
+```
+
+---
+
+# Create the Output File
+
+.pull-left[
+To generate the output file:
+
+1. Go to `File > Knit Document` (a `Knit` shortcut icon is also displayed in the menu bar)
+2. Give a name to your document and click `OK`
+
+```{r out.width='80%'}
+include_graphics("https://tech.me.holycross.edu/files/2016/12/knit.png")
+```
+]
+
 .pull-right[
+```{r out.width='100%'}
+include_graphics("img/html_output.png")
+```
+]
 
-**Here's what the output looks like...**
+---
 
-## Introduction
+# R Markdown Editor vs Output
 
-Welcome to my **awesome** class. You will learn 
-all kinds of useful things about R Markdown. 
+.pull-left[
+```{r out.width='100%'}
+include_graphics("img/my_first_rmd_html.png")
+```
+]
 
-- Markdown is simple
-- You can add R code
+.pull-right[
+```{r out.width='100%'}
+include_graphics("img/html_output.png")
+```
 ]
 
 ---
 class: title-slide, middle
 
-## Everyone: Okaaaay, but this seems really boring?<br>Me: ... hm, yeah, but let me show you where it takes you later!
+## The YAML
 
 ---
 
-# Professional websites
+# Output HTML
 
-```{r, echo=FALSE, out.height="70%", out.width="50%"}
-include_graphics("img/example_professional_site.png")
+### Simple
+
+```
+---
+output: html_document
+---
 ```
 
+--
+
+### Default
+
+```
 ---
-
-# Visual blogs
-
-```{r, echo=FALSE, out.height="70%", out.width="50%"}
-include_graphics("img/example_visual_blog.png")
+title: "My First R Markdown Document"
+output: html_document
+date: "99/99/9999"
+---
 ```
 
----
+--
 
-# Books
+### Elaborated
 
-```{r, echo=FALSE, out.height="70%", out.width="80%"}
-include_graphics("img/example_book.png")
 ```
-
-
 ---
-
-# Academic papers
-
-```{r, echo=FALSE, out.height="70%", out.width="60%"}
-include_graphics("img/example_papers.png")
-```
-
+title: "My First R Markdown Document"
+subtitle: "My Subtitle"
+author: "Damien Dupre"
+date: "99/99/9999"
+output: html_document
 ---
-
-# Slide decks
-
-```{r, echo=FALSE, out.height="70%", out.width="80%"}
-include_graphics("img/example_slides.png")
-```
-
----
-
-# CV
-
-```{r, echo=FALSE, out.height="70%", out.width="80%"}
-include_graphics("img/example_resume.png")
 ```
 
 ---
 class: title-slide, middle
 
-## Everyone: Okay, let's dive into the details...
+## Markdown Style
 
 ---
 
@@ -1892,9 +2063,7 @@ this is **bold**
 this is ***bold italics***
 ```
 ]
-
 --
-
 .pull-right[
 <br><br>
 ### What you get...
@@ -1953,9 +2122,7 @@ this is ***bold italics***
 
 ```
 ]
-
 --
-
 .pull-right[
 <br><br>
 ### What you get...
@@ -1967,9 +2134,43 @@ this is ***bold italics***
 ]
 
 ---
-class: middle, inverse
 
-# Demonstration:<br>Write a markdown document
+# Markdown Example
+
+.pull-left[
+
+**Example of a markdown document...**
+
+```
+## Introduction
+
+
+
+
+
+Welcome to my **awesome** class. You 
+will learn all kinds of useful things 
+about R Markdown.
+
+
+- Markdown is simple
+- You can add R code
+```
+]
+
+.pull-right[
+
+**Here's what the output looks like...**
+
+## Introduction
+<br>
+Welcome to my **awesome** class. You will learn 
+all kinds of useful things about R Markdown. 
+
+- Markdown is simple
+- You can add R code
+
+]
 
 ---
 class: title-slide, middle
@@ -1977,93 +2178,217 @@ class: title-slide, middle
 ## Exercise
 
 In RStudio Cloud:
-- Create a new plain Markdown file
-- Save it as "my_first_markdown.md"
-- Write some markdown about your emotions (positive and negative) triggered by R and RStudio
-- Click "Preview" once finished
+- Create a new R Markdown file
+- Remove all content except the YAML and save it as "my_first_rmarkdown.rmd"
+- Write a sentence about your emotions (positive and negative) triggered by R
+- Click "Knit" once finished
 
----
-class: middle
-
-## What do we want?
-
-- Something that... lets you write text in **Markdown**
-- Something that... lets you include **R code** (e.g. for data vis)
-- Something that... can **build** to HTML, PDF, Word, etc
-
----
-class: title-slide, middle
-
-## Demonstration:<br>Write an R Markdown document
-
----
-
-# Let's dissect the document obtained!
-
-```{r, echo=FALSE}
-include_graphics("img/my_first_rmd_plain.png", dpi = 200)
-```
-
----
-
-# The part inside --- is the "YAML"
-
-```{r, echo=FALSE}
-include_graphics("img/my_first_rmd_yaml.png", dpi = 200)
-```
-
----
-
-# The part in grey is R code
-
-```{r, echo=FALSE}
-include_graphics("img/my_first_rmd_r.png", dpi = 200)
-```
-
----
-
-# The rest is Markdown 
-
-```{r, echo=FALSE}
-include_graphics("img/my_first_rmd_markdown.png", dpi = 200)
-```
-
----
-
-# Wait... what's the YAML acronym?
-
-- Originally: "Yet Another Markup Language"
-- Later: "YAML Ain't Markup Language"
-- ... it really doesn't matter `r emo::ji("face_with_rolling_eyes")`
-
----
-
-# Output HTML
-
-### Simple
-
-```
----
-title: "My First R Markdown Document"
-output: html_document
----
-```
-
-### Complex
-
-```
----
-title: "My First R Markdown Document"
-author: "Damien Dupre"
-date: "99/99/9999"
-output: html_document
----
+```{r echo=FALSE}
+countdown(minutes = 5, warn_when = 60)
 ```
 
 ---
 class: title-slide, middle
 
-## Demonstration:<br>R Markdown presenting the Titanic Data 
+## The R Code Chunks 
+
+---
+
+# First Code Chunk
+
+In the first code chunk, will be added all the __actions that will be applied to the following chunks__ (e.g., code option, library used, data downloaded, ...).
+
+````markdown
+
+`r ''````{r setup, include=FALSE}
+# libraries
+library(gapminder)
+library(knitr)
+library(tidyverse)
+  
+# data
+organisation_beta <- read.csv("/cloud/project/organisation_beta.csv")
+```
+
+````
+
+Every code chunk starts with 3 back ticks and finishes with 3 back ticks.
+
+The starting back ticks are always followed by a set of {} including the code chunk options
+
+---
+
+# Code Chunk Options
+
+Chunk output can be customized with knitr options (i.e., arguments set in the {} of a chunk header). Above, we use 1 argument:
+
+- `include = FALSE` prevents code and results from appearing in the finished file. R Markdown still runs the code in the chunk, and the results can be used by other chunks.
+
+
+Additional argument will be essential to use as well:
+
+- `echo = FALSE` prevents code, but not the results from appearing in the finished file. This is a useful way to embed figures.
+- `message = FALSE` prevents messages that are generated by code from appearing in the finished file.
+- `warning = FALSE` prevents warnings that are generated by code from appearing in the finished.
+
+See the **[R Markdown Reference Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)** for a complete list of knitr chunk options.
+
+---
+
+# Figures in the Output Document
+
+As long as the package {tidyverse} is loaded and the data object created in the first setup chunk, then a __ggplot visualisation can be used in a separated chunk__:
+
+````markdown
+---
+title: "Untitled"
+output: html_document
+---
+
+`r ''````{r setup, include=FALSE}
+library(tidyverse)
+
+organisation_beta <- read.csv("/cloud/project/organisation_beta.csv")
+```
+
+# My Section Title
+
+My text followed by my figure.
+
+`r ''````{r}
+ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point()
+```
+````
+
+---
+
+# Figures in the Output Document
+
+Warning, if the code results in the creation of an object, then the output will not be displayed:
+
+```{r echo=TRUE, eval=FALSE}
+plot_organisation_beta <- ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point()
+```
+
+To be displayed there are 2 solutions:
+
+#### 1. The content has to be printed by ending the code with the object name
+
+```{r echo=TRUE, eval=FALSE}
+plot_organisation_beta <- ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point()
+
+plot_organisation_beta
+```
+
+#### 2. The code is ran without creating an object
+
+```{r echo=TRUE, eval=FALSE}
+ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point()
+```
+
+---
+
+# Chunk Options for Visualisations
+
+In this following example, when the output document is created:
+
+- `echo = TRUE` indicates that not only the output of the code is shown but also the code itself
+- `warning = FALSE` indicates that no R warning will be displayed
+- `message = FALSE` indicates that no R message will be displayed
+
+````markdown
+
+`r ''````{r, echo = TRUE, warning = FALSE, message = FALSE}
+ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point()
+```
+
+````
+
+---
+
+# Visualisation Specific Options
+
+Some chunk options are specific to visualisations outputs:
+
+- fig.cap="caption of the figure"
+- fig.height=5
+- fig.width=5
+
+Note, the default unit for height and width is inches.
+
+````markdown
+`r ''````{r, fig.cap="Example Caption", fig.height=2, fig.width=12, message=FALSE}
+ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point()
+```
+````
+
+```{r, fig.cap="Example Caption", fig.height=2, fig.width=12, echo=FALSE, message=FALSE}
+ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point()
+```
+
+---
+class: title-slide, middle
+
+## Live Demo
+
+---
+class: inverse, mline, center, middle
+
+# 4. Gallery
+
+---
+
+# Professional websites
+
+```{r, echo=FALSE, out.width='70%'}
+include_graphics("img/example_professional_site.png")
+```
+
+---
+
+# Books
+
+```{r, echo=FALSE, out.width='100%'}
+include_graphics("img/example_book.png")
+```
+
+---
+
+# Academic papers
+
+```{r, echo=FALSE, out.width='60%'}
+include_graphics("img/example_papers.png")
+```
+
+---
+
+# Slide decks
+
+```{r, echo=FALSE, out.width='100%'}
+include_graphics("https://raw.githubusercontent.com/katiejolly/blog/master/assets/slide-design/twitter_img_march.png")
+```
+
+---
+
+# CV
+
+```{r, echo=FALSE, out.width='80%'}
+include_graphics("https://kevinrue.github.io/post/writing-my-cv-using-pagedown/featured_hu415bb52acda44839a73c9c4234bb7d44_345471_720x0_resize_lanczos_2.png")
+```
 
 ---
 class: inverse, mline, left, middle
