@@ -1554,7 +1554,7 @@ Build a ggplot with the `gapminder` dataset and one `geom_col()` layer which con
 
 ```{r echo=TRUE, eval=FALSE}
 _ _ _(_ _ _) +
-  aes(x = _ _ _, y = _ _ _, fill = _ _ _)
+  aes(x = _ _ _, y = _ _ _, fill = _ _ _) +
   _ _ _() +
   _ _ _()
 ```
