@@ -1,6 +1,6 @@
 ---
 title: "MT611 - Quantitative Research Methods"
-subtitle: "Introduction: Statistics, Research Papers and Me"
+subtitle: "Lecture 1: Statistics, Research Papers and Me"
 author: "Damien Dupré"
 date: "Dublin City University"
 output:
@@ -15,9 +15,18 @@ output:
 ---
 
 ```{r setup, include = FALSE}
+# libraries --------------------------------------------------------------------
+library(countdown)
+library(emo)
+library(fontawesome)
+library(nomnoml)
+library(tidyverse)
+library(VennDiagram)
+
 # general options --------------------------------------------------------------
 options(scipen = 999)
 set.seed(123)
+
 # chunk options ----------------------------------------------------------------
 knitr::opts_chunk$set(
   cache.extra = knitr::rand_seed, 
@@ -30,15 +39,14 @@ knitr::opts_chunk$set(
   fig.align = "center", 
   fig.retina = 3
   )
-# libraries --------------------------------------------------------------------
 
-library(countdown)
-library(emo)
-library(fontawesome)
-library(nomnoml)
-library(tidyverse)
-library(VennDiagram)
 ```
+
+class: inverse, mline, center, middle
+
+# 1. General Information
+
+---
 
 # Who am I?
 
@@ -136,7 +144,7 @@ countdown(minutes = 10, warn_when = 60)
 ---
 class: inverse, mline, center, middle
 
-# Statistics and Research Papers
+# 2. Statistics and Research Papers
 
 ---
 
@@ -215,7 +223,7 @@ Thus, to understand Statistics, it is essential to master the concepts of **Vari
 ---
 class: inverse, mline, center, middle
 
-# Declare your Variables in the Introduction
+# 3. Introduction: Declare your Variables
 
 ---
 
@@ -420,7 +428,7 @@ Send me the table by email at damien.dupre@dcu.ie **before the next lecture.**
 ---
 class: inverse, mline, center, middle
 
-# 2. Formulate your Hypotheses from your Literature Review
+# 4. Literature Review: Formulate your Hypotheses
 
 ---
 
