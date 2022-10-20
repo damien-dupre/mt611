@@ -120,6 +120,8 @@ include_graphics("https://psyteachr.github.io/msc-data-skills/images/memes/glm_m
 ```
 ]
 
+---
+
 # Analysis of the Estimate
 
 Once the best line is found, each estimate of the tested equation is calculated by a software (i.e., $b_0, b_1, ..., b_n$).

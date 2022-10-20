@@ -16,6 +16,7 @@ output:
 
 ```{r setup, include = FALSE}
 # libraries --------------------------------------------------------------------
+library(anicon)
 library(countdown)
 library(emo)
 library(fontawesome)
@@ -71,14 +72,15 @@ class: inverse, mline, center, middle
 * Big Data treatment (> 1 million users with activities recorded in the past 5 years)
 
 ---
+class: title-slide, middle
 
-# Who are you?
+## Who are you?
 
 Please introduce yourself:
 
-- Where do you come from?
+- What is you first name?
 - Which school are you in?
-- What are you expecting from this lecture?
+- What is your PhD about (in few words)?
 
 ---
 class: inverse, mline, center, middle
@@ -126,43 +128,21 @@ Appendices are possible, specially if they includes codes to reproduce the resul
 ---
 class: title-slide, middle
 
-## Exercise
+## Homework Exercise
 
 If you haven't done it already, can you look for the quantitative academic journal paper which is the closest to your PhD. 
 
 You need to download the pdf version of this paper and to send it to my email damien.dupre@dcu.ie . 
 
-Notes: 
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**:
 
 - This paper should not be one of yours if you already have published some
 - This paper should include a statistical analysis (i.e., Regression analysis, ANOVA, t-test) and if possible their corresponding $p-values$
-
-```{r}
-countdown(minutes = 10, warn_when = 60)
-```
 
 ---
 class: inverse, mline, center, middle
 
 # 2. Statistics and Research Papers
-
----
-
-# Why Statistics?
-
-Statistics usually triggers negative emotions to those who do not know anything about it, as well as to those who are experienced but:
-
-- Simple methods to summarise data
-- Essential for writing the result section of scientific communications/papers
-- Replaced by data analytics/ data science
-
---
-
-## Tell us about your the quantitative research paper you choose:
-
-- What do you like vs. dislike?
-- What do you understand vs. don't understand?
-- Any other interesting information?
 
 ---
 
@@ -261,7 +241,7 @@ The **bold part is "the thing that varies"** and the *italicised part is "the va
 
 --
 
-### Important!
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**:
 
 - The variable **variability** corresponds to how numbers or characters according each observation.
 - Each variable has a **Role** and a **Type**, it is essential to learn how to identify them.
@@ -285,7 +265,7 @@ Variables can have different types:
   
 - **Continuous**: If the variable's possibilities are numbers (*e.g.*, $age$, $temperature$, ...) 
 
-> Warning: Variables can be converted to either Categorical and Continuous but it is always better to keep them in their correct scale.
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**: Variables can be converted to either Categorical and Continuous but it is always better to keep them in their correct scale.
 
 ```{r out.width='30%'}
 knitr::include_graphics("img/jamovi_icons.png")
@@ -446,7 +426,9 @@ Hypotheses include:
 - Outcome / Dependent Variable (DV)
 - Direction of the outcome if the predictor increases
 
-**Warning:** Hypothesis cannot test equality between groups or modalities, they can only test differences or effects
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**: 
+
+Hypothesis cannot test equality between groups or modalities, they can only test differences or effects
 
 ---
 
@@ -484,9 +466,9 @@ DiagrammeR::grViz("
   }", height = 200)
 ```
 
-- Warning: 
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**:
 
-> The direction of the arrow does not involve causality, only correlation.
+The direction of the arrow does not involve causality, only correlation.
 
 ---
 
@@ -595,7 +577,7 @@ Main Effect Hypothesis:
 
 **It predicts the influence of a second predictor on the relationship between a first predictor and an outcome variable**
 
-Notes:
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**:
 
 - The second predictor is also called moderator.
 - The main effect of each predictor must be hypothesised as well
@@ -731,7 +713,8 @@ In the following formulation templates, **replace the variable names with yours*
 
 --
 
-#### Notes:
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**:
+
 1. An interaction effect hypothesis is also called moderation effect
 2. By default, an interaction effect involves the test of the main effect hypotheses of all Predictors involved
 3. Predictor 1 and 2 are commutable (can be inverted and produce the same hypothesis)
@@ -771,7 +754,7 @@ DiagrammeR::grViz("
 Interaction Effect Hypothesis: 
 - $H_a$: The effect of **sleep deprivation** on **exam results** is *higher* for **Males students** than it is for **Females students**
 
-Note: The main effect hypotheses of the two predictors also have to be formulated
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**: The main effect hypotheses of the two predictors also have to be formulated
 
 ---
 
@@ -807,7 +790,7 @@ DiagrammeR::grViz("
 Interaction Effect Hypothesis: 
 - $H_a$: The effect of **alcohol consumption** on **road accidents** is *lower* for **experienced drivers** than it is for **inexperienced drivers**
 
-Note: The main effect hypotheses of the two predictors also have to be formulated
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**: The main effect hypotheses of the two predictors also have to be formulated
 
 ---
 
