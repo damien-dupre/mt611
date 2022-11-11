@@ -293,14 +293,14 @@ Technically, $b$ is a weight or multiplier applied to the Predictor's values to 
 - If $b_1, ..., b_n > 0$, then:
   - The regression line is positive (slope up)
   - When the Predictor increases by 1 unit, the Outcome variable increases by $b$
-  - **The null alternative hypothesis is rejected and the alternative hypothesis considered as plausible**
+  - **The null hypothesis is rejected and the alternative hypothesis considered as plausible**
 
 --
 
 - If $b_1, ..., b_n < 0$, then:
   - The regression line is negative (slope down)
   - When the Predictor increases by 1 unit, the Outcome variable decreases by $b$
-  - **The null alternative hypothesis is rejected and the alternative hypothesis considered as plausible**
+  - **The null hypothesis is rejected and the alternative hypothesis considered as plausible**
 
 ---
 

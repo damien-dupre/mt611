@@ -107,6 +107,20 @@ In the end, I want you to become a Data Scientist with enough knowledge and skil
 
 ---
 
+# Helpful Readings
+
+- **Teacups, giraffes, and statistics** by Hasse Walum and Desirée De Leon (2021) https://tinystats.github.io/teacups-giraffes-and-statistics/index.html
+
+- **Introduction to Modern Statistics** by Mine Çetinkaya-Rundel and Johanna Hardin (2021) https://openintro-ims.netlify.app/
+
+- **Learning statistics with jamovi: A tutorial for psychology students and other beginners** by Danielle Navarro and David Foxcroft (2019) https://www.learnstatswithjamovi.com/
+
+- **Learning statistics with R: A tutorial for psychology students and other beginners** by Danielle Navarro (2018) https://learningstatisticswithr-bookdown.netlify.app/
+
+- **Statistical Thinking for the 21st Century** by Russell A. Poldrack (2022) https://statsthinking21.github.io/statsthinking21-core-site/
+
+---
+
 # Details on the Assignment
 
 Based on your research topic, I will give you some data (in January). Your task will be **to write a ready to be published research paper** that includes:
