@@ -379,18 +379,13 @@ snake_case is preferable but any would do
 Better format and keeps only the current sheet
 
 ---
-
-class: title-slide, mline, center, middle
+class: title-slide, middle
 
 ## Exercise: Clean unicef.xlsx
 
----
+On the module Loop page, got to "Lecture Data" and download the document called "unicef.xlsx"
 
-# Exercise: Clean unicef.xlsx
-
-### On the module Loop page, got to "Data Analytics Supplementary Documents" and download the document called "unicef.xlsx"
-
-### Open and clean the 1st sheet of this file
+**Open and clean the 1st sheet of this file but only until column P, remove all other columns**
 
 ```{r}
 countdown(minutes = 15, warn_when = 60)
@@ -561,16 +556,11 @@ knitr::include_graphics("img/combination_img.png")
 - range_lookup: TRUE = approximate match / FALSE = exact match
 
 ---
+class: title-slide, middle
 
-class: title-slide, mline, center, middle
+## xercise: Transformations
 
-## Exercise: Transformations
-
----
-
-# Exercise: Transformations
-
-On the module Loop page, got to "Data Analytics Supplementary Documents" and download the document called "organisation_alpha.xls"
+On the module Loop page, got to "Lecture Data" and download the document called "organisation_alpha.xls"
 
 1. **Extension**: Create a new variable/column which is the average response to all the questions from the survey for each employee (q1 to q9)
 2. **Reduction**: Filter employee’s 2019 salary to keep only employees with a salary higher than 30k
