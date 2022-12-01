@@ -16,12 +16,15 @@ output:
 
 ```{r setup, include = FALSE}
 # libraries --------------------------------------------------------------------
+library(anicon)
 library(countdown)
+library(DiagrammeR)
 library(emo)
 library(fontawesome)
 library(gapminder)
 library(ggrepel)
 library(kableExtra)
+library(knitr)
 library(nomnoml)
 library(patchwork)
 library(tidyverse)
@@ -440,6 +443,166 @@ Is it bad?
 ![](https://d3i71xaburhd42.cloudfront.net/2a3e4a3024bfc4df27db07a1d48f77a6f371b0c3/8-Figure1-1.png)
 
 ---
+
+# Representing a Model
+
+.pull-left[
+The representation of a model can easily be done directly in a manuscript written with Microsoft Words
+
+For more details, is it also possible to draw the model in Microsoft PowerPoint and to copy-paste it in Microsoft Words
+
+`r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**:
+
+- Do NOT fill boxes with any color, use only black and white colors.
+- Use line arrow, no thick arrows allowed.
+]
+
+.pull-right[
+```{r}
+include_graphics('https://www.myofficetricks.com/wp-content/uploads/2020/09/myofficetricks.com_2020-09-23_01-58-57.gif')
+```
+]
+
+
+---
+
+# Representing a Model
+
+Beside MS Words and PowerPoint, there are some ways to draw models in a nicer way.
+
+`r faa("arrow-circle-right", animate="horizontal", speed="slow", color="blue")` **Flowchart Software/Websites**
+
+There are many of them and google would find them very quickly but to my knowledge, https://www.diagrams.net/ is free, easy to use and very efficient.
+
+`r faa("arrow-circle-right", animate="horizontal", speed="slow", color="blue")` **Flowchart Coding Languages**
+
+Going further into details of how to design academic models, flowchart coding languages are the ultimate steps.
+
+Instead of using a GUI, it is possible to draw models from a couple of lines of code which is faster after practising a lot.
+
+To my knowledge, the main flowchart coding language tool implementing the [DOT style](https://en.wikipedia.org/wiki/DOT_(graph_description_language)) are:
+- [mermaid-js](http://mermaid-js.github.io/mermaid/#/)
+- [viz-js](http://viz-js.com/)
+- [nomnoml](https://www.nomnoml.com/)
+
+[But many more alternative can be used](https://modeling-languages.com/text-uml-tools-complete-list/)
+
+---
+
+# DOT Language
+
+It is easy to start by following these rules:
+- Variable names must not include space between words
+- Arrows are represented by the characters - and >
+
+.pull-left[
+```{r echo=TRUE, eval=FALSE}
+Predictor1 -> Outcome
+Predictor2 -> Outcome
+```
+]
+
+.pull-right[
+```{r}
+grViz("
+  digraph {
+    Predictor1 -> Outcome
+    Predictor2 -> Outcome
+  }", height = 200, width = 400)
+```
+]
+
+--
+
+To modify the orientation and the shape of the box, add the following options:
+
+.pull-left[
+```{r echo=TRUE, eval=FALSE}
+graph [rankdir = LR]
+node [shape = box]
+
+Predictor1 -> Outcome
+Predictor2 -> Outcome
+```
+]
+
+.pull-right[
+```{r}
+grViz("
+  digraph {
+    graph [rankdir = LR]
+    node [shape = box]
+    
+    Predictor1 -> Outcome
+    Predictor2 -> Outcome
+  }", height = 200, width = 400)
+```
+]
+
+---
+
+# DOT Language
+
+Unfortunately the way to plot an internaction is much trickier. You have to include an invisible box to design the arrow crossing the main arrow:
+
+.pull-left[
+```{r echo=TRUE, eval=FALSE}
+graph [rankdir=LR]
+
+node [shape=box]
+Predictor1; Predictor2; Outcome
+
+node [shape=point, width=0, height=0]
+''
+
+Predictor1 -> '' [arrowhead=none]    
+Predictor2 -> ''
+
+''-> Outcome
+```
+]
+
+.pull-right[
+```{r}
+grViz("
+  digraph {
+    graph [rankdir = LR]
+  
+    node [shape = box]
+    Predictor1; Predictor2; Outcome
+    node [shape = point, width = 0, height = 0]
+    ''
+    
+    Predictor2 -> ''
+    Predictor1 -> '' [arrowhead = none]
+    ''-> Outcome
+    
+    subgraph {
+      rank = same; Predictor2; '';
+    }
+  }", height = 200, width = 400)
+```
+]
+
+There are many more rules to make more complicated models, see for more details https://graphviz.org/doc/info/lang.html
+
+---
+
+# DotUML Extension for Google Docs
+
+This DOT language can easily be implemented with the DotUML extension in Google Docs.
+
+DotUML is developed by a company called BML Solutions but as far as I know it is a free plug-in (at least free of money).
+
+See https://dotuml.com for more details.
+
+After installed the extension, use GraphViz and remove the code corresponding to the default example.
+
+```{r}
+include_graphics("https://lh3.googleusercontent.com/-Z9ItvyBfmkU/Xrd4cCsLmlI/AAAAAAAABfI/8voEH5bxHYktwF6pM3onNwG2X9JZd9jWwCNcBGAsYHQ/s640-w640-h400/Capture%2Bd%25E2%2580%2599%25C3%25A9cran%2B-%2B2020-05-09%2B%25C3%25A0%2B21.38.49.png")
+```
+
+---
 class: title-slide, middle
 
 ## Homework Exercise
@@ -676,6 +839,58 @@ $$Y = b_{0} + b_{1}.X_{1} + b_{2}*X_{2} + b_{3}\,X_{3} + e$$
 
 .center[ $$\hat{Y}\; or\; \hat{y}\; vs.\; Y\; or\; y$$ ]
 
+---
+
+# Representing an Equation
+
+Exactly like with models, there are different ways to communicate an equation in Academic research outputs.
+
+The least sophisticated approach would be to type the equation in Microsoft Words and to apply some italics and subscript style a posteriori.
+
+While there is nothing wrong with this approach, note that Microsoft Words has a tool to insert equations (Insert -> Equations), then a GUI will help you to design special characters in equations.
+
+```{r}
+include_graphics("https://i.ytimg.com/vi/SRGaW3maK38/maxresdefault.jpg")
+```
+
+---
+
+# Representing an Equation
+
+Now there is a better way, which is also more complicated called $\LaTeX$
+
+LaTex is used for entire manuscripts with all the specific design requirements imposed by ths style of academic journals. LaTex is the hell and we will see a specific approach to avoid it but the LaTex style for equations is the best.
+
+Here are the most basic rules:
+- A latex equation starts with `\begin{equation}` and ends with `\end{equation}`
+- There is no white space between words, a space can be added with `\,`
+- To subscript a number use the underscore sign `_`
+
+For example:
+```{r echo=TRUE, eval=FALSE}
+\begin{equation}
+  Outcome = b_0 + b_1\,Predictor1 + b_2\,Predictor2 + e
+\end{equation}
+```
+
+Is translated as:
+$$Outcome = b_0 + b_1\,Predictor1 + b_2\,Predictor2 +e$$
+
+---
+
+# Auto-LaTeX Equations for Google Docs
+
+Another fantastic extension is available for Google Docs called Auto-LaTeX Equations 
+
+Instead of using `\begin{equation}` and `\end{equation}`, use `$$` to open and close the equation
+
+Then click on "Render Equation", for the equation to be transformed in LaTex style
+
+Note that some website can help to create the latex code, see for example https://latex.codecogs.com/eqneditor/editor.php
+
+```{r}
+include_graphics("https://lh3.googleusercontent.com/1UoEk_1Ej273-jmXBFNJV2GPyyWenrFtwm2jgoq0FxIs5WZeaRnij_3tfW8z6s73wh-q7mjdgA=w1280-h800")
+```
 
 ---
 class: title-slide, middle
