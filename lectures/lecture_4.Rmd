@@ -763,6 +763,15 @@ countdown(minutes = 10, warn_when = 60)
 ```
 
 ---
+class: title-slide, middle
+
+## Homework Exercise
+
+With the simulated data which uses the variables of your reference paper, **test the model and the hypotheses that you have formulated in the previous homework exercises**.
+
+Communicate the results in the google document **before the next lecture**.
+
+---
 class: inverse, mline, left, middle
 
 <img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
