@@ -286,7 +286,7 @@ Technically, $b$ is a weight or multiplier applied to the Predictor's values to 
 - If $b_1, ..., b_n = 0$, then:
   - The regression line is horizontal (no slope)
   - When the Predictor increases by 1 unit, the Outcome variable does not change
-  - **The null alternative hypothesis is not rejected**
+  - **The null hypothesis is not rejected**
 
 --
 
