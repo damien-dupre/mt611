@@ -78,11 +78,11 @@ organisation_beta <- readr::read_csv(here::here("data/organisation_beta.csv"))
 
 class: inverse, mline, center, middle
 
-# 1. Assumptions of General Linear Regression Models
+# 1. Assumptions of General Linear Models
 
 ---
 
-# Assumptions of General Linear Regression Models
+# Assumptions of GLMs
 
 Statistical tests are widely used to test hypotheses, exactly how we just did but all statistical tests have requirements to meet before being applied.
 
@@ -100,7 +100,7 @@ While the assumption of a Linear Model are never perfectly met in reality, we mu
 
 ---
 
-# Assumptions of General Linear Regression Models
+# Assumptions of GLMs
 
 All assumptions can be checked with Jamovi, except the Independence of observations which is more about self-assessment.
 
@@ -207,7 +207,7 @@ Note that **it's actually okay if the predictor and the outcome variables are no
 
 - **Standardised residuals**: Normalised residuals used for comparison between variables having different scales.
  
-- **Studentised residuals**: Normalised residuals for even more standardised comparisons between variables having different scales.
+- **Studentised residuals**: Measure of the residuals taking into account the variability of the residuals (calculated by dividing the residual by an estimate of its standard deviation that is adjusted for the leverage of the data point in question).
 
 ---
 
@@ -216,16 +216,14 @@ Note that **it's actually okay if the predictor and the outcome variables are no
 To check it in Jamovi, **use a Q-Q plot**
 
 ```{r fig.height=4, fig.width=10}
-df <- data.frame(
-  normal = rnorm(1000)
-  ) |> 
-  dplyr::mutate(
+df <- data.frame(normal = rnorm(1000)) |> 
+  mutate(
     skew_right = ifelse(normal > 0, normal * 2.5, normal),
     skew_left = ifelse(normal < 0, normal * 2.5, normal),
     fat_tails = normal * 2.5
   ) |> 
-  tidyr::pivot_longer(everything(), names_to = "type", values_to = "value") |> 
-  dplyr::mutate(type = factor(type, levels = c("normal", "skew_right", "skew_left", "fat_tails")))
+  pivot_longer(everything(), names_to = "type", values_to = "value") |> 
+  mutate(type = factor(type, levels = c("normal", "skew_right", "skew_left", "fat_tails")))
   
 distribution_plot <- df |> 
   ggplot(aes(x = value, y = ..density..)) +
@@ -272,6 +270,18 @@ include_graphics("img/lm_jamovi_residual.png")
 ]
 
 ---
+
+# Explicit Assumptions
+
+3 of these assumptions are actually included in the ideal reporting of an equation such as:
+
+$$Y_{i} = b_{0} + b_{1}\,X_{i} + e_{i}$$
+
+$$e_{i} \overset{iid}{\sim} \mathcal{N}(0, \sigma^2_{i})$$
+
+where for each observation $i$, $\mathcal{N}$ indicates that residuals are Normally distributed and $iid$ indicates that these residuals are independent and identically distributed (equal variance). 
+
+---
 class: title-slide, middle
 
 ## Live Demo
@@ -300,7 +310,7 @@ countdown(minutes = 10, warn_when = 60)
 ---
 class: inverse, mline, center, middle
 
-# 2. More Assumptions of General Linear Regression Models
+# 2. More Assumptions of General Linear Models
 
 ---
 
@@ -520,7 +530,7 @@ Here we are using the term **Model Selection** for **Hierarchical Linear Regress
 
 ---
 
-# Default Model Testing in Multiple Regression
+# Default Model Testing
 
 Imagine you are **testing the model** that includes the variables $X$ and $Z$ have an effect on the variable $Y$ such as:
 
@@ -540,7 +550,7 @@ This is a Model Comparison!
 
 ---
 
-# Default Model Testing in Multiple Regression
+# Default Model Testing
 
 Example, imagine a model predicting $js\_score$ with $salary$ and $perf$:
 
@@ -685,7 +695,7 @@ The minimum level of statistical power to achieve is usually set at least 0.8 or
 ---
 class: title-slide, middle
 
-## Sample Size Estimation with Prospective Power Analysis
+## Sample Size with Prospective Power Analysis
 
 ---
 
@@ -723,7 +733,7 @@ tribble(
   "$f$",   .10, .25, .40,
   "$f^2$ ", .02, .15, .35
 ) |> 
-  kable()
+  kable(escape = FALSE)
 ```
 
 ---
@@ -902,7 +912,7 @@ include_graphics("img/gpower_exemple_3.png")
 ---
 class: title-slide, middle
 
-## Effect Size Estimation with Retrospective Power Analysis
+## Effect Size with Retrospective Power Analysis
 
 ---
 
