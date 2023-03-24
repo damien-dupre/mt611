@@ -19,7 +19,6 @@ output:
 library(anicon)
 library(countdown)
 library(fontawesome)
-library(gapminder)
 library(here)
 library(knitr)
 library(tidyverse)
@@ -709,7 +708,7 @@ Here is a generic example:
 lm(formula = Outcome ~ Pred1 + Pred2, data = my_data_object)
 ```
 
-Here is an example with {gapminder}:
+Here is an example with `organisation_beta.csv`:
 
 ```{r echo=TRUE, eval=FALSE}
 lm(formula = js_score ~ salary + perf, data = organisation_beta)
@@ -751,7 +750,7 @@ lm(formula = Outcome ~ Pred1 + Pred2 + Pred1 : Pred2, data = my_data_object)
 
 # Mastering the Formula
 
-Here are some equations from the gapminder dataset and their conversion in `formula`:
+Here are some equations from the `organisation_beta.csv` dataset and their conversion in `formula`:
 
 --
 
@@ -902,10 +901,40 @@ When we look back up at the t-tests for each of the individual coefficients, we 
 
 To communicate about your statistical analyses in an academic report, the simplest method is to find the values in the `summary()` output and to copy-paste them in the text according to the format expected that we have seen in the previous lectures.
 
-However, this task can be long, difficult and lead to human errors. Thankfully, R has additional packages that are providing alternative functions to read linear regression models and communicate results. Because there are too many packages, I will focus only on one additional packages: {report}.
+However, this task can be long, difficult and lead to human errors. Thankfully, R has additional packages that are providing alternative functions to read linear regression models and communicate results. Because there are too many packages, I will focus only on two additional packages: {performance} and {report}.
 
 ```{r echo=FALSE}
 include_graphics("https://pbs.twimg.com/media/En_y198W8AAT97N?format=jpg&name=small")
+```
+
+---
+
+# Assumption Check with {performance}
+
+To install {performance} use the usual `install.packages()` function:
+
+```{r echo=TRUE, eval=FALSE}
+install.packages("performance")
+```
+
+The package {performance} will print visualisations allowing to check the model's assumptions (see https://easystats.github.io/performance/).
+
+To print the performance diagnosis:
+
+1. Load the package {performance}
+2. Create an object containing the output of the function `lm()`
+3. Use this object as input of the function `check_model()` from the {performance} package
+
+---
+
+# Assumption Check with {performance}
+
+```{r echo=TRUE, fig.height=5}
+library(performance)
+
+lm_js <- lm(formula = js_score ~ salary + perf, data = organisation_beta)
+
+check_model(lm_js)
 ```
 
 ---
@@ -950,7 +979,7 @@ class: title-slide, middle
 
 ## Exercise
 
-In RStudio Cloud, check the `report()` output from the `lm()` function testing the following models:
+In RStudio Cloud, check the `check_model()` and `report()` output from the `lm()` function testing the following models:
 
 $$js\_score = b_0 + b_1 salary + b_2 gender + e$$
 
