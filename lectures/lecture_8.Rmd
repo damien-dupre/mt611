@@ -1,8 +1,7 @@
 ---
 title: "MT611 - Quantitative Research Methods"
-subtitle: "Lecture 8: Reporting your Results with Rmarkdown"
-author: "Damien Dupré"
-date: "Dublin City University"
+subtitle: "Lecture 11: Introduction to Quarto"
+author: "Damien Dupré - Dublin City University"
 output:
   xaringan::moon_reader:
     css: ["default", "metropolis", "metropolis-fonts", "css/custom_design.css"]
@@ -14,7 +13,7 @@ output:
       countIncrementalSlides: false
 ---
 
-```{r setup, include = FALSE}
+```{r include = FALSE}
 # libraries --------------------------------------------------------------------
 library(countdown)
 library(fontawesome)
@@ -23,52 +22,67 @@ library(here)
 library(knitr)
 library(tidyverse)
 
-# options ----------------------------------------------------------------------
-options(scipen = 999, htmltools.preserve.raw = FALSE)
-opts_chunk$set(echo = FALSE, fig.align = "center", fig.retina = 3)
-theme_update(text = element_text(size = 24))
-
-# data -------------------------------------------------------------------------
-organisation_beta <- read_csv(here("data/organisation_beta.csv"))
+# chunk options ----------------------------------------------------------------
+opts_chunk$set(echo = FALSE)
 ```
 
 ```{r xaringan-extra-styles, echo=FALSE}
 xaringanExtra::use_extra_styles(
-  hover_code_line = TRUE, 
-  mute_unhighlighted_code = TRUE
+  hover_code_line = FALSE, 
+  mute_unhighlighted_code = FALSE
 )
 ```
 
 # Objectives
 
-In this lecture, with RStudio Cloud, we will see how to create **R Markdown** files (.Rmd) to embed text and code output and generate professional outputs.
+In this lecture, with Posit Cloud, we will see how to create **Quarto** files (.qmd) to embed text and code output and generate professional outputs.
 
 --
 
 #### What do I need to do before starting?
 
-- Sign up for a free RStudio cloud account
-- https://rstudio.cloud/
+- Sign up for a free Posit cloud account
+- https://posit.cloud/
 
 --
 
 #### Where can I find more resources?
 
-- More slides: 
-  - [slides.djnavarro.net/starting-rmarkdown](https://slides.djnavarro.net/starting-rmarkdown)
-  - [rmd4pharma.netlify.app/rmd-anatomy](https://rmd4pharma.netlify.app/static/slides/01-rmd-anatomy.html)
-  - [rmd4pharma.netlify.app/graphics](https://rmd4pharma.netlify.app/static/slides/03-graphics.html)
-- YouTube videos: [youtube.djnavarro.net/starting-rmarkdown](https://youtube.djnavarro.net/starting-rmarkdown)
+- [Official Quarto Website](https://quarto.org/)
+- [R for Data Science](https://r4ds.hadley.nz/quarto.html)
+- [Appsilon](https://appsilon.com/r-quarto-tutorial/)
+- [Making shareable documents with Quarto](https://openscapes.github.io/quarto-website-tutorial/)
+- [Quarto 2hr webinar](https://jthomasmock.github.io/quarto-2hr-webinar/materials/01-intro-quarto.html)
 
 ---
 
-# Two Sides of R Markdown Files
+# What is Quarto?
+
+Quarto is an open-source scientific and technical publishing system that builds on standard markdown with features essential for scientific communication.
+
+- Computations: Python, R, Julia, Observable JS
+- Markdown: Pandoc flavored markdown with many enhancements
+- Output: Documents, presentations, websites, books, blogs
+
+See https://quarto.org for more details
+
+--
+
+The Goal is to create a document that is all-in-one
+
+- Documents that include source code for their production
+- Notebook AND plain-text flavors
+- Programmatic automation and reproducibility
+
+---
+
+# Two Sides of Quarto Files
 
 .pull-left[
 ### On the editor side...
 
 - Write text in markdown
-- Insert code using R
+- Insert code using R or Python
 - Write "metadata" with YAML
 ]
 
@@ -83,21 +97,93 @@ In this lecture, with RStudio Cloud, we will see how to create **R Markdown** fi
 
 --
 
-Try it by yourself:
+Try it by yourself!
 
-1. Create a new R Markdown document: `File > New File > R Markdown`
-2. A popup will appear, leave everything as default and click `Yes`
-3. A new popup will appear, leave everything as default and click `OK`
+---
+class: title-slide, middle
 
---
+## Exercise
 
-## Let's dissect the document obtained!
+In your Posit Cloud:
+
+1/ Create a new Quarto document: `File > New File > Quarto Document`
+
+2/ A popup will appear, untick **"Use visual markdown editor"**
+
+3/ Leave everything else as default and click `Create`
+
+4/ If a warning appears, click `Install` on the message to install the {rmarkdown} package
+
+```{r}
+include_graphics("img/rmarkdown_warning.png")
+```
+
+5/ Click the blue arrow `Render` and save the document
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
 
 ---
 
-# R Markdown Structure
+# Simple Example
 
-R Markdown files have 3 different types of content:
+```{r out.width='80%'}
+include_graphics("https://quarto.org/docs/tools/images/new-quarto-doc.png")
+```
+
+---
+
+# Simple Example
+
+.pull-left.verysmall[
+````markdown
+---
+title: "Untitled"
+format: html
+---
+
+## Quarto
+
+Quarto enables you to weave together content and 
+executable code into a finished document. To learn 
+more about Quarto see <https://quarto.org>.
+
+## Running Code
+
+When you click the **Render** button a document 
+will be generated that includes both content and 
+the output of embedded code. You can embed code 
+like this:
+
+```{r}
+1 + 1
+```
+
+You can add options to executable code like this 
+
+```{r}
+#| echo: false
+2 * 2
+```
+
+The `echo: false` option disables the printing of 
+code (only output is displayed).
+
+````
+]
+
+.pull-right[
+```{r}
+include_graphics("img/quarto_create.png")
+```
+]
+
+---
+
+# Quarto Structure
+
+Quarto files have 3 different types of content:
 
 #### 1. The YAML
 
@@ -109,30 +195,30 @@ Written in Markdown style (i.e., text without formatting), it is used as core de
 
 #### 3. The Code
 
-Inserted in the R Markdown inside "chunks", the code is processed when creating the output and can display figures and tables
+Inserted in the Quarto inside "chunks", the code is processed when creating the output and can display figures and tables
 
 ---
 
-# The part inside --- is the "YAML"
+# The "YAML"
 
 ```{r out.width='80%'}
-include_graphics("img/my_first_rmd_html_yaml.png")
+include_graphics("img/quarto_default_yaml.png")
 ```
 
 ---
 
-# The text is Markdown 
+# The Markdown Text
 
 ```{r out.width='80%'}
-include_graphics("img/my_first_rmd_html_markdown.png")
+include_graphics("img/quarto_default_markdown.png")
 ```
 
 ---
 
-# The part in grey is R code
+# The R Code
 
 ```{r out.width='80%'}
-include_graphics("img/my_first_rmd_html_r.png")
+include_graphics("img/quarto_default_code.png")
 ```
 
 ---
@@ -142,40 +228,43 @@ include_graphics("img/my_first_rmd_html_r.png")
 .pull-left[
 To generate the output file:
 
-1. Go to `File > Knit Document` (a `Knit` shortcut icon is also displayed in the menu bar)
-2. Give a name to your document and click `OK`
+1/ Go to `File > Render Document` (a  Use the `Render` shortcut icon is also displayed in the menu bar)
 
-```{r out.width='80%'}
-include_graphics("https://tech.me.holycross.edu/files/2016/12/knit.png")
+<kbd>![](https://quarto.org/docs/get-started/hello/images/rstudio-render-button.png)</kbd>
+
+```{r}
+include_graphics("https://quarto.org/docs/get-started/hello/images/rstudio-render.png")
 ```
+
+2/ Give a name to your document, click `OK`, and voila!
 ]
 
 .pull-right[
 ```{r out.width='100%'}
-include_graphics("img/html_output.png")
+include_graphics("img/quarto_create.png")
 ```
 ]
 
 ---
 
-# R Markdown Editor vs Output
+# Quarto Editor vs Output
 
 .pull-left[
 ```{r out.width='100%'}
-include_graphics("img/my_first_rmd_html.png")
+include_graphics("img/quarto_default.png")
 ```
 ]
 
 .pull-right[
 ```{r out.width='100%'}
-include_graphics("img/html_output.png")
+include_graphics("img/quarto_create.png")
 ```
 ]
 
 ---
-class: title-slide, middle
+class: inverse, mline, center, middle
 
-## The YAML
+# 1. The YAML
 
 ---
 
@@ -185,7 +274,7 @@ class: title-slide, middle
 
 ```
 ---
-output: html_document
+format: html
 ---
 ```
 
@@ -195,8 +284,8 @@ output: html_document
 
 ```
 ---
-title: "My First R Markdown Document"
-output: html_document
+title: "My First Quarto Document"
+format: html
 date: "99/99/9999"
 ---
 ```
@@ -207,22 +296,88 @@ date: "99/99/9999"
 
 ```
 ---
-title: "My First R Markdown Document"
+title: "My First Quarto Document"
 subtitle: "My Subtitle"
 author: "Damien Dupre"
 date: "99/99/9999"
-output: html_document
+format: html
 ---
 ```
 
 ---
-class: title-slide, middle
 
-## Markdown Style
+# Execute Code
+
+Quarto can use R or Python to execute code:
+
+- R code is executed natively with the `{knitr}` engine
+- Quarto can _also_ use the `Jupyter` engine to execute Julia, Python, or other languages that Jupyter supports
+
+--
+
+.pull-left[
+If R code is found first will default to `knitr`
+
+```yaml
+---
+format: html
+---
+```
+
+Or can force using `knitr` if you're mixing R/Python content or if your first code chunk is not R.
+
+```yaml
+---
+format: html
+engine: knitr
+---
+```
+]
+
+--
+
+.pull-right[
+You can specify Jupyter to use defaults:
+
+```yaml
+---
+engine: jupyter
+---
+```
+
+Or a specific Python version
+
+```yaml
+---
+engine: python3
+---
+```
+]
 
 ---
 
-# Emphasising text
+# Execute Code
+
+Quarto also introduces some of these as options for `execute:` in YAML, for similar concepts in other languages.
+
+```yaml
+---
+format: html
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+```
+
+---
+class: inverse, mline, center, middle
+
+# 2. Markdown Style
+
+---
+
+# Emphasising Text
 
 --
 .pull-left[
@@ -253,7 +408,7 @@ this is ***bold italics***
 
 ---
 
-# Creating lists
+# Creating Lists
 
 --
 .pull-left[
@@ -283,7 +438,7 @@ this is ***bold italics***
 
 ---
 
-# Creating headings
+# Creating Headings
 
 --
 .pull-left[
@@ -325,7 +480,7 @@ this is ***bold italics***
 
 Welcome to my **awesome** class. You 
 will learn all kinds of useful things 
-about R Markdown.
+about Quarto.
 
 
 - Markdown is simple
@@ -340,7 +495,7 @@ about R Markdown.
 ## Introduction
 <br>
 Welcome to my **awesome** class. You will learn 
-all kinds of useful things about R Markdown. 
+all kinds of useful things about Quarto. 
 
 - Markdown is simple
 - You can add R code
@@ -352,20 +507,54 @@ class: title-slide, middle
 
 ## Exercise
 
-In RStudio Cloud:
-- Create a new R Markdown file
-- Remove all content except the YAML and save it as "my_first_rmarkdown.rmd"
-- Write a sentence about your emotions (positive and negative) triggered by R
-- Click "Knit" once finished
+In Posit Cloud, with the file that you have previously created:
+
+1/ Remove all content except the YAML and save it as "my_first_quarto.qmd"
+
+2/ Modify the YAML to include:
+
+```yaml
+---
+format: html
+execute:
+  echo: false
+  warning: false
+  message: false
+---
+```
+
+3/ Write a sentence about your emotions (positive and negative) triggered by R, use `*` and `**` to highlight some part of your text in italic and bold
+
+4/ Add a section title with `##` and a subsection title with `###`
+
+5/ Click "Render" once finished
 
 ```{r echo=FALSE}
 countdown(minutes = 5, warn_when = 60)
 ```
 
 ---
-class: title-slide, middle
 
-## The R Code Chunks 
+class: inverse, mline, center, middle
+
+# 3. The R Code Chunks 
+
+---
+
+# Anatomy of a Code Chunk
+
+````markdown
+`r ''````{r}
+#| label: gapminder-pop
+#| echo: false
+gapminder %>% 
+  select(pop)
+```
+```` 
+
+- Has 3x backticks on each end ` ``` ` 
+- Place engine (`r`) between curly braces `{r}`  
+- Place options underneath, behind the `#|` (hashpipe): `#| option1: value`  
 
 ---
 
@@ -374,39 +563,33 @@ class: title-slide, middle
 In the first code chunk, will be added all the __actions that will be applied to the following chunks__ (e.g., code option, library used, data downloaded, ...).
 
 ````markdown
+`r ''````{r}
+#| label: setup
+#| include: false
 
-`r ''````{r setup, include=FALSE}
 # libraries
 library(gapminder)
-library(knitr)
 library(tidyverse)
   
 # data
-organisation_beta <- read.csv("/cloud/project/organisation_beta.csv")
+titanic <- read.csv("/cloud/project/titanic.csv")
 ```
 
 ````
-
-Every code chunk starts with 3 back ticks and finishes with 3 back ticks.
-
-The starting back ticks are always followed by a set of {} including the code chunk options
 
 ---
 
 # Code Chunk Options
 
-Chunk output can be customized with knitr options (i.e., arguments set in the {} of a chunk header). Above, we use 1 argument:
+Chunk output can be customized with hashpipe options (i.e., arguments set after the `#|`). Above, we use 1 argument:
 
-- `include = FALSE` prevents code and results from appearing in the finished file. R Markdown still runs the code in the chunk, and the results can be used by other chunks.
+- `#| include: false` prevents code and results from appearing in the finished file. Quarto still runs the code in the chunk, and the results can be used by other chunks.
 
+Additional options can be turned on only for one chunk:
 
-Additional argument will be essential to use as well:
+- `#| echo: true` will display the code and the results in the finished file (it overwrite `echo: false` set in the YAML for this chunk only)
 
-- `echo = FALSE` prevents code, but not the results from appearing in the finished file. This is a useful way to embed figures.
-- `message = FALSE` prevents messages that are generated by code from appearing in the finished file.
-- `warning = FALSE` prevents warnings that are generated by code from appearing in the finished.
-
-See the **[R Markdown Reference Guide](https://www.rstudio.com/wp-content/uploads/2015/03/rmarkdown-reference.pdf)** for a complete list of knitr chunk options.
+See the **[Quarto Reference Guide](https://quarto.org/docs/reference/cells/cells-knitr.html)** for a complete list of chunk options.
 
 ---
 
@@ -414,16 +597,24 @@ See the **[R Markdown Reference Guide](https://www.rstudio.com/wp-content/upload
 
 As long as the package {tidyverse} is loaded and the data object created in the first setup chunk, then a __ggplot visualisation can be used in a separated chunk__:
 
+.small[
 ````markdown
 ---
 title: "Untitled"
-output: html_document
+output: html
+execute:
+  echo: false
+  warning: false
+  message: false
 ---
 
-`r ''````{r setup, include=FALSE}
+`r ''````{r}
+#| label: setup
+#| include: false
+
 library(tidyverse)
 
-organisation_beta <- read.csv("/cloud/project/organisation_beta.csv")
+titanic <- read_csv("/cloud/project/titanic.csv")
 ```
 
 # My Section Title
@@ -431,63 +622,101 @@ organisation_beta <- read.csv("/cloud/project/organisation_beta.csv")
 My text followed by my figure.
 
 `r ''````{r}
-ggplot(organisation_beta) +
-  aes(salary, js_score) +
+ggplot(titanic, aes(Fare, Age)) +
   geom_point()
 ```
 ````
+]
+
+---
+
+# Working with Code
+
+To display the output of your code in the final document, just include your code in a chunk:
+
+````markdown
+`r ''````{r}
+gapminder %>% 
+  select(pop)
+```
+```` 
+
+```{r echo=FALSE}
+gapminder %>% 
+  select(pop)
+```
+
+---
+
+# Working with Code
+
+Remember, when the code results in creating an object, while the object is created, no output is printed in the final document:
+
+````markdown
+`r ''````{r}
+data_pop <- gapminder %>% 
+  select(pop)
+```
+```` 
+
+---
+
+# Working with Code
+
+To create an object and print your code in the same chunk, the name of the object has to be included in the chunk. This will print the content of the object:
+
+````markdown
+`r ''````{r}
+data_pop <- gapminder %>% 
+  select(pop)
+  
+data_pop
+```
+```` 
+
+```{r echo=FALSE}
+gapminder %>% 
+  select(pop)
+```
 
 ---
 
 # Figures in the Output Document
 
-Warning, if the code results in the creation of an object, then the output will not be displayed:
-
-```{r echo=TRUE, eval=FALSE}
-plot_organisation_beta <- ggplot(organisation_beta) +
-  aes(salary, js_score) +
-  geom_point()
-```
-
-To be displayed there are 2 solutions:
-
-#### 1. The content has to be printed by ending the code with the object name
-
-```{r echo=TRUE, eval=FALSE}
-plot_organisation_beta <- ggplot(organisation_beta) +
-  aes(salary, js_score) +
-  geom_point()
-
-plot_organisation_beta
-```
-
-#### 2. The code is ran without creating an object
-
-```{r echo=TRUE, eval=FALSE}
-ggplot(organisation_beta) +
-  aes(salary, js_score) +
-  geom_point()
-```
-
----
-
-# Chunk Options for Visualisations
-
-In this following example, when the output document is created:
-
-- `echo = TRUE` indicates that not only the output of the code is shown but also the code itself
-- `warning = FALSE` indicates that no R warning will be displayed
-- `message = FALSE` indicates that no R message will be displayed
+Same for ggplot, if the code creates an object, the output will not be displayed:
 
 ````markdown
-
-`r ''````{r, echo = TRUE, warning = FALSE, message = FALSE}
-ggplot(organisation_beta) +
-  aes(salary, js_score) +
+`r ''````{r}
+plot_gapminder <- ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   geom_point()
 ```
+```` 
 
+To display the output of the code, there are 2 solutions:
+
+1/ The content has to be printed by ending the code with the object name
+
+.small[
+````markdown
+`r ''````{r}
+plot_gapminder <- ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  geom_point()
+
+plot_gapminder
+```
 ````
+]
+
+2/ The code is ran without creating an object
+
+.small[
+````markdown
+`r ''````{r}
+ggplot(gapminder, aes(gdpPercap, lifeExp)) +
+  geom_point()
+```
+```` 
+]
 
 ---
 
@@ -495,23 +724,25 @@ ggplot(organisation_beta) +
 
 Some chunk options are specific to visualisations outputs:
 
-- fig.cap="caption of the figure"
-- fig.height=5
-- fig.width=5
+- fig-cap: "caption of the figure"
+- fig-height: 5
+- fig-width: 5
 
 Note, the default unit for height and width is inches.
 
 ````markdown
-`r ''````{r, fig.cap="Example Caption", fig.height=2, fig.width=12, message=FALSE}
-ggplot(organisation_beta) +
-  aes(salary, js_score) +
+`r ''````{r}
+#| fig-cap: "caption of the figure"
+#| fig-height: 5
+#| fig-width: 5
+
+ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   geom_point()
 ```
 ````
 
 ```{r, fig.cap="Example Caption", fig.height=2, fig.width=12, echo=FALSE, message=FALSE}
-ggplot(organisation_beta) +
-  aes(salary, js_score) +
+ggplot(gapminder, aes(gdpPercap, lifeExp)) +
   geom_point()
 ```
 
@@ -527,7 +758,7 @@ class: inverse, mline, center, middle
 
 ---
 
-# Professional websites
+# Professional Websites
 
 ```{r, echo=FALSE, out.width='70%'}
 include_graphics("img/example_professional_site.png")
@@ -543,7 +774,7 @@ include_graphics("img/example_book.png")
 
 ---
 
-# Academic papers
+# Academic Papers
 
 ```{r, echo=FALSE, out.width='60%'}
 include_graphics("img/example_papers.png")
@@ -551,7 +782,7 @@ include_graphics("img/example_papers.png")
 
 ---
 
-# Slide decks
+# Slide Decks
 
 ```{r, echo=FALSE, out.width='100%'}
 include_graphics("https://raw.githubusercontent.com/katiejolly/blog/master/assets/slide-design/twitter_img_march.png")
