@@ -233,8 +233,8 @@ For example:
 - "What is the relationship between Job Satisfaction, Salary and Gender?"
 - "How does sales experience influence the performance of sales managers and sales representatives?"
 
-```{r out.width='25%'}
-knitr::include_graphics("https://memegenerator.net/img/instances/65219961/there-will-come-a-day-i-easily-write-an-introduction-to-a-paper-but-it-is-not-this-day.jpg")
+```{r out.width='50%'}
+knitr::include_graphics("https://i.pinimg.com/originals/d5/fd/e4/d5fde43f1d5389f3b586fdb7b100d59d.jpg")
 ```
 
 ---
