@@ -340,7 +340,7 @@ Now, imagine each predictor is a guest having a slice of the cake:
 
 An effect between a predictor variable and an outcome variable corresponds to the following model:
 
-```{nomnoml, fig.width=12, fig.height=3}
+```{nomnoml, fig.width=10, fig.height=3}
 #stroke: black
 #direction: right
 #align: center
