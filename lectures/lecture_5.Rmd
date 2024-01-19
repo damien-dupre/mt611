@@ -79,7 +79,8 @@ organisation_beta <- readr::read_csv(here::here("data/organisation_beta.csv"))
 m_js_high <- mean(organisation_beta$js_score[organisation_beta$salary_c == "high"])
 m_js_low <- mean(organisation_beta$js_score[organisation_beta$salary_c == "low"])
 lm_c <- lm(js_score ~ salary_c, data = organisation_beta) |> apa_print()
-lm_c2 <- lm(js_score ~ salary_c, data = organisation_beta) |> apa_print()
+lm_c2 <- lm(js_score ~ salary_c, data = mutate(organisation_beta, salary_c = if_else(salary_c == "low", 1, 2))
+) |> apa_print()
 lm_c3 <- lm(js_score ~ location, data = organisation_beta) |> aov() |> apa_print()
 
 ```
