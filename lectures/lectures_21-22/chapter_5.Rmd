@@ -94,14 +94,14 @@ R is usually used via RStudio and First time users often confuse the two. At its
 .pull-left[
 .center[R: The engine]
 ```{r out.width='100%'}
-include_graphics("img/car_motor.jpeg")
+include_img("car_motor.jpeg")
 ```
 ]
 
 .pull-right[
 .center[RStudio: The dashboard]
 ```{r out.width='100%'}
-include_graphics("img/car_dashboard.jpeg")
+include_img("car_dashboard.jpeg")
 ```
 ]
 
@@ -113,7 +113,7 @@ class: clear
 --
 
 ```{r out.width='150%'}
-include_graphics("img/the_matrix.gif")
+include_img("the_matrix.gif")
 ```
 
 ---
@@ -159,7 +159,7 @@ When you open RStudio, you’ll see the following 3 windows (also called panes):
 * **Files, Plots, Package, Help and Viewer**: where data science materials are
 
 ```{r out.width='70%'}
-include_graphics("img/rstudio_panes.png")
+include_img("rstudio_panes.png")
 ```
 
 The last window **Code Editor** opens when creating a new R Script or R Markdown file
@@ -180,7 +180,7 @@ The Status of R is indicated by the symbol in the console prompt:
 
 .pull-right[
 ```{r out.width = '100%'}
-include_graphics("img/r_console.png")
+include_img("r_console.png")
 ```
 ]
 
@@ -310,14 +310,14 @@ A good analogy for **R packages are like apps you can download onto a mobile pho
 .pull-left[
 .center[R: A new phone]
 ```{r out.width='100%'}
-include_graphics("img/phone_design.jpeg")
+include_img("phone_design.jpeg")
 ```
 ]
 
 .pull-right[
 .center[R Packages: Apps you can download]
 ```{r out.width='100%'}
-include_graphics("img/phone_apps.jpeg")
+include_img("phone_apps.jpeg")
 ```
 ]
 
@@ -493,7 +493,7 @@ include_graphics("https://community-cdn.rstudio.com/uploads/default/original/2X/
 .pull-right[
 .center[Step 2: Import your Data]
 ```{r out.width='100%'}
-include_graphics("img/rstudio_import.png")
+include_img("rstudio_import.png")
 ```
 ]
 
@@ -1941,7 +1941,7 @@ Inserted in the R Markdown inside "chunks", the code is processed when creating 
 # The part inside --- is the "YAML"
 
 ```{r out.width='80%'}
-include_graphics("img/my_first_rmd_html_yaml.png")
+include_img("my_first_rmd_html_yaml.png")
 ```
 
 ---
@@ -1949,7 +1949,7 @@ include_graphics("img/my_first_rmd_html_yaml.png")
 # The text is Markdown 
 
 ```{r out.width='80%'}
-include_graphics("img/my_first_rmd_html_markdown.png")
+include_img("my_first_rmd_html_markdown.png")
 ```
 
 ---
@@ -1957,7 +1957,7 @@ include_graphics("img/my_first_rmd_html_markdown.png")
 # The part in grey is R code
 
 ```{r out.width='80%'}
-include_graphics("img/my_first_rmd_html_r.png")
+include_img("my_first_rmd_html_r.png")
 ```
 
 ---
@@ -1977,7 +1977,7 @@ include_graphics("https://tech.me.holycross.edu/files/2016/12/knit.png")
 
 .pull-right[
 ```{r out.width='100%'}
-include_graphics("img/html_output.png")
+include_img("html_output.png")
 ```
 ]
 
@@ -1987,13 +1987,13 @@ include_graphics("img/html_output.png")
 
 .pull-left[
 ```{r out.width='100%'}
-include_graphics("img/my_first_rmd_html.png")
+include_img("my_first_rmd_html.png")
 ```
 ]
 
 .pull-right[
 ```{r out.width='100%'}
-include_graphics("img/html_output.png")
+include_img("html_output.png")
 ```
 ]
 
@@ -2355,7 +2355,7 @@ class: inverse, mline, center, middle
 # Professional websites
 
 ```{r, echo=FALSE, out.width='70%'}
-include_graphics("img/example_professional_site.png")
+include_img("example_professional_site.png")
 ```
 
 ---
@@ -2363,7 +2363,7 @@ include_graphics("img/example_professional_site.png")
 # Books
 
 ```{r, echo=FALSE, out.width='100%'}
-include_graphics("img/example_book.png")
+include_img("example_book.png")
 ```
 
 ---
@@ -2371,7 +2371,7 @@ include_graphics("img/example_book.png")
 # Academic papers
 
 ```{r, echo=FALSE, out.width='60%'}
-include_graphics("img/example_papers.png")
+include_img("example_papers.png")
 ```
 
 ---

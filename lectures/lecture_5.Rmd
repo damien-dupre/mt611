@@ -453,7 +453,7 @@ class: title-slide, middle
 4. Set $js\_score$ as DV (i.e., Outcome) and $salary\_c$ as Factors (i.e., Categorical Predictor)
 
 ```{r out.width = "100%"}
-include_graphics("img/jamovi_lm_main_c2.png")
+include_img("jamovi_lm_main_c2.png")
 ```
 
 ---
@@ -661,7 +661,7 @@ Note: The test of the interaction effect corresponds to the test of a variable r
 # Interaction with Categorical Predictors
 
 ```{r out.width = "100%"}
-include_graphics("img/jamovi_lm_main_cint.png")
+include_img("jamovi_lm_main_cint.png")
 ```
 
 ---
@@ -699,7 +699,7 @@ class: inverse, mline, center, middle
 I would like to test the effect of the variable $location$ which has 3 categories: "Ireland", "France" and "Australia".
 
 ```{r}
-include_graphics("img/jamovi_lm_main_c31.png")
+include_img("jamovi_lm_main_c31.png")
 ```
 
 In the Model Coefficient Table, to test the estimate of $location$, there is not 1 result for $location$ but 2!
@@ -786,7 +786,7 @@ I won't go too much in the details but to check if at least one group is differe
 **If the Between−group variation is the same as the Within−group variation, all the groups are the same.**
 
 ```{r out.width = '100%'}
-include_graphics("img/one_way_anova_basics.png")
+include_img("one_way_anova_basics.png")
 ```
 
 ---
@@ -836,7 +836,7 @@ organisation_beta |>
   - Select **Omnibus Test ANOVA test**
 
 ```{r out.width = "40%"}
-include_graphics("img/jamovi_lm_main_c32.png")
+include_img("jamovi_lm_main_c32.png")
 ```
 
 ### Results

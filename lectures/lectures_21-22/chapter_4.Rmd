@@ -185,7 +185,7 @@ include_graphics("https://jamovi-amm.github.io/pics/logosm.png")
 ## Is X → Y significant?
 
 ```{r out.width='100%'}
-include_graphics("img/med_1.png")
+include_img("med_1.png")
 ```
 
 $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $Y$.
@@ -197,7 +197,7 @@ $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $Y$.
 ## Is X → M significant?
 
 ```{r out.width='100%'}
-include_graphics("img/med_2.png")
+include_img("med_2.png")
 ```
 
 $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $M$.
@@ -211,7 +211,7 @@ $p < 0.001$ i.e. lower than 0.05 so $X$ has a significant effect on $M$.
 Module medmod > GLM Mediation Model
 
 ```{r out.width="70%"}
-include_graphics("img/med_3.png")
+include_img("med_3.png")
 ```
 
 $p = 0.714$ for $b_{4}$ while $b_{1}$ was significant, therefore M (self-esteem) mediate the relationship between X (grades) and Y (happiness).
@@ -357,7 +357,7 @@ Because this outcome variable is Categorical (even if coded with numbers), we ca
 In JAMOVI, a Generalized Linear Model with logistic distribution can be computed using the **GAMLj** Module as follow:
 
 ```{r out.width = '70%'}
-include_graphics("img/logistic_regression.png")
+include_img("logistic_regression.png")
 ```
 
 ---
@@ -428,7 +428,7 @@ Let's use the titanic dataset example. We want to test that Age has an effect on
 In our linear mixed model, `Age` will be a Fixed Effect and `Embarked` the Random Effect. In JAMOVI, linear mixed model can be computed using the **GAMLj** Module as follow:
 
 ```{r out.width='70%'}
-include_graphics("img/linear_mixed_model.png")
+include_img("linear_mixed_model.png")
 ```
 
 ---

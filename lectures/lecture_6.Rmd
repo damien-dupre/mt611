@@ -114,7 +114,7 @@ Some boxes will be used for the additional assumptions (following chapter), but 
 
 .pull-right[
 ```{r}
-include_graphics("img/lm_assumption_jamovi.png")
+include_img("lm_assumption_jamovi.png")
 ```
 ]
 
@@ -265,7 +265,7 @@ With other software, a line is drawn in this residual vs. fitted plot. A flat li
 
 .pull-right[
 ```{r out.width="60%"}
-include_graphics("img/lm_jamovi_residual.png")
+include_img("lm_jamovi_residual.png")
 ```
 ]
 
@@ -572,7 +572,7 @@ Comparing the full model with a simple model consist in evaluating the added val
 
 A model comparison can:
 
-- Compare Full Model with a more complicated model (called Simple Model)
+- Compare Full Model with a shorter model (called Simple Model)
 - Indicates if a variable is useful in a model
 
 This principle is often referred to as Ockham's razor and is often summarised in terms of the following pithy saying: do not multiply entities beyond necessity. In this context, it means don't chuck in a bunch of largely irrelevant predictors just to boost your $R^2$.
@@ -822,7 +822,7 @@ This tells us that we need an absolute minimum of 128 individuals in our sample 
 # Applied Example 1
 
 ```{r out.width='100%'}
-include_graphics("img/gpower_exemple_1.png")
+include_img("gpower_exemple_1.png")
 ```
 
 ---
@@ -830,7 +830,7 @@ include_graphics("img/gpower_exemple_1.png")
 # Applied Example 1
 
 ```{r out.width='100%'}
-include_graphics("img/gpower_exemple_1_bis.png")
+include_img("gpower_exemple_1_bis.png")
 ```
 
 ---
@@ -862,7 +862,7 @@ This tells us that we need an absolute minimum of 158 individuals in our sample 
 # Applied Example 2
 
 ```{r out.width='100%'}
-include_graphics("img/gpower_exemple_2.png")
+include_img("gpower_exemple_2.png")
 ```
 
 ---
@@ -906,7 +906,7 @@ This tells us that we need an absolute minimum of 211 individuals in our sample 
 # Applied Example 3
 
 ```{r out.width='100%'}
-include_graphics("img/gpower_exemple_3.png")
+include_img("gpower_exemple_3.png")
 ```
 
 ---

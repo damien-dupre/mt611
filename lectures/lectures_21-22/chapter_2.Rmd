@@ -326,7 +326,7 @@ knitr::include_graphics("https://miro.medium.com/max/624/1*FAzumPnvzKUDolMG7SNcH
 # Question from Kareem
 
 ```{r out.width = "100%"}
-knitr::include_graphics("img/clean_tweet.png")
+knitr::include_img("clean_tweet.png")
 ```
 
 ---
@@ -336,7 +336,7 @@ knitr::include_graphics("img/clean_tweet.png")
 ## Find what is going wrong with this table
 
 ```{r out.width = "100%"}
-knitr::include_graphics("img/clean_zoom.jpg")
+knitr::include_img("clean_zoom.jpg")
 ```
 
 ---
@@ -344,7 +344,7 @@ knitr::include_graphics("img/clean_zoom.jpg")
 # Answer from Michael
 
 ```{r out.width = "100%"}
-knitr::include_graphics("img/clean_answer.png")
+knitr::include_img("clean_answer.png")
 ```
 
 ---
@@ -356,7 +356,7 @@ An addition to Michael's list would be to transform headers with a proper naming
 My suggestion is **snake_case**: all small letter and words separated by "_"
 
 ```{r out.width = "70%"}
-knitr::include_graphics("img/name_convention.jpg")
+knitr::include_img("name_convention.jpg")
 ```
 
 ---
@@ -424,7 +424,7 @@ Most important work is to tidy your data:
 
 .pull-right[
 ```{r out.width = "70%"}
-knitr::include_graphics("img/key_movements.png")
+knitr::include_img("key_movements.png")
 ```
 ]
 
@@ -435,7 +435,7 @@ knitr::include_graphics("img/key_movements.png")
 .center[**Extension = Create a new column**]
 
 ```{r out.width = "50%"}
-knitr::include_graphics("img/extension_img.png")
+knitr::include_img("extension_img.png")
 ```
 
 In MS Excel:
@@ -466,7 +466,7 @@ In MS Excel:
 .center[**Reduction = Keep only certain values**]
 
 ```{r out.width = "50%"}
-knitr::include_graphics("img/reduction_img.png")
+knitr::include_img("reduction_img.png")
 ```
 
 In MS Excel:
@@ -501,7 +501,7 @@ knitr::include_graphics("https://www.excel-easy.com/data-analysis/images/filter/
   - Choose column to sort and how to sort
 
 ```{r out.width = "40%"}
-knitr::include_graphics("img/direction_img.png")
+knitr::include_img("direction_img.png")
 ```
 
 Be careful of taking into account all the table (all rows & all columns)
@@ -519,7 +519,7 @@ Double check if all columns changed!
   - Complex = use pivot table
   
 ```{r out.width = "50%"}
-knitr::include_graphics("img/aggregation_img.png")
+knitr::include_img("aggregation_img.png")
 ```
 
 ---
@@ -548,7 +548,7 @@ If you want to use the Pivot Table for further analysis:
   - Multiple Columns = Power Query (Windows only)
   
 ```{r out.width = "50%"}
-knitr::include_graphics("img/combination_img.png")
+knitr::include_img("combination_img.png")
 ```
 
 --
@@ -596,7 +596,7 @@ class: inverse, mline, center, middle
 - Each value is placed in its own cell
 
 ```{r out.width = "100%"}
-knitr::include_graphics("img/tidy_full.png")
+knitr::include_img("tidy_full.png")
 ```
 
 ---
@@ -606,13 +606,13 @@ knitr::include_graphics("img/tidy_full.png")
 ## Long Format
 
 ```{r out.width = "80%"}
-knitr::include_graphics("img/long_table.png")
+knitr::include_img("long_table.png")
 ```
 
 ## Wide Format
 
 ```{r out.width = "80%"}
-knitr::include_graphics("img/wide_table.png")
+knitr::include_img("wide_table.png")
 ```
 
 ---
@@ -620,13 +620,13 @@ knitr::include_graphics("img/wide_table.png")
 # Long or Wide?
 
 ```{r out.width = "100%"}
-knitr::include_graphics("img/long_or_wide.png")
+knitr::include_img("long_or_wide.png")
 ```
 
 --
 
 ```{r out.width = "100%"}
-knitr::include_graphics("img/long_and_wide.png")
+knitr::include_img("long_and_wide.png")
 ```
 
 ---
@@ -643,7 +643,7 @@ In Data tab:
   - Unpivot Columns: from wide to long table
   
 ```{r out.width = "50%"}
-knitr::include_graphics("img/reshape_excel.gif")
+knitr::include_img("reshape_excel.gif")
 ```
 
 ---

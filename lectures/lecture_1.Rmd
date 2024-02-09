@@ -282,7 +282,7 @@ Variables can have different types:
 `r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**: Variables can be converted to either Categorical and Continuous but it is always better to keep them in their correct scale.
 
 ```{r out.width='30%'}
-knitr::include_graphics("img/jamovi_icons.png")
+knitr::include_img("jamovi_icons.png")
 ```
 
 ---
@@ -801,11 +801,11 @@ Interaction Effect Hypothesis:
 # Example of Hypotheses in Research Papers
 
 ```{r out.width = "50%"}
-knitr::include_graphics("img/ex1_title.png")
+knitr::include_img("ex1_title.png")
 ```
 
 ```{r out.width = "50%"}
-knitr::include_graphics("img/ex1_hyp.png")
+knitr::include_img("ex1_hyp.png")
 ```
 
 ---
@@ -813,15 +813,15 @@ knitr::include_graphics("img/ex1_hyp.png")
 # Example of Hypotheses in Research Papers
 
 ```{r out.width = "50%"}
-knitr::include_graphics("img/ex2_title.png")
+knitr::include_img("ex2_title.png")
 ```
 
 ```{r out.width = "50%"}
-knitr::include_graphics("img/ex2_hyp1.png")
+knitr::include_img("ex2_hyp1.png")
 ```
 
 ```{r out.width = "50%"}
-knitr::include_graphics("img/ex2_hyp2.png")
+knitr::include_img("ex2_hyp2.png")
 ```
 
 ---

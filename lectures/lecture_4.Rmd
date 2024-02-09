@@ -334,7 +334,7 @@ As previously indicated, you will not have to calculate all the possible lines i
 - R, Python or Julia are language based and have no interface
 
 ```{r out.width = "60%"}
-include_graphics("img/lm_example.png")
+include_img("lm_example.png")
 ```
 
 ---
@@ -371,7 +371,7 @@ include_graphics("https://www.jamovi.org/assets/header-logo.svg")
 # JAMOVI GUI
 
 ```{r out.width = "100%"}
-include_graphics("img/jamovi_gui.png")
+include_img("jamovi_gui.png")
 ```
 
 ---
@@ -381,7 +381,7 @@ include_graphics("img/jamovi_gui.png")
 ### 1. Different symbols for **variable types**
 
 ```{r out.width = "15%"}
-include_graphics("img/jamovi_icons.png")
+include_img("jamovi_icons.png")
 ```
 
 ### 2. Distinction between **Factors** and **Covariates**:
@@ -486,7 +486,7 @@ organisation_beta |>
 4. Set $js\_score$ as DV (i.e., Outcome) and $salary$ as Covariates (i.e., Continuous Predictor)
 
 ```{r out.width = "100%"}
-include_graphics("img/jamovi_lm_main.png")
+include_img("jamovi_lm_main.png")
 ```
 
 ---
@@ -508,7 +508,7 @@ The **Model Fit Measure** table tests the prediction **accuracy of your overall 
 $Model_{a}: js\_score = b_{0} + b_{1}\;salary + e\;vs.\; Model_{0}: js\_score = b_{0} + e$
 
 ```{r out.width = "25%"}
-include_graphics("img/jamovi_mfm.png")
+include_img("jamovi_mfm.png")
 ```
 
 --
@@ -524,7 +524,7 @@ Default Columns:
 # More Model Fit Measures
 
 ```{r}
-include_graphics("img/jamovi_mfm_full.png")
+include_img("jamovi_mfm_full.png")
 ```
 
 --
@@ -550,7 +550,7 @@ $$R^2 = value_{R^2}, F(value_{df1},value_{df2}) = value_{F}, p = value_{p}$$
 Model Fit Measure table with all options from our example and corresponding sentence to include in the result section:
 
 ```{r}
-include_graphics("img/jamovi_mfm_full.png")
+include_img("jamovi_mfm_full.png")
 ```
 
 > The predictions from the alternative model (i.e., with our predictors) are significantly better than the predictions from a null model ( `r lm_1$full_result$modelfit$r2`).
@@ -574,7 +574,7 @@ class: title-slide, middle
 The **Model Coefficients** table provide an estimate to each predictor $b_1, ..., b_n$ (as well as the intercept $b_0$). the value of the estimate is statistically tested with a $p$-value to see if it is statistically different from 0 (null hypothesis).
 
 ```{r}
-include_graphics("img/jamovi_mc.png")
+include_img("jamovi_mc.png")
 ```
 
 --
@@ -592,7 +592,7 @@ Default Columns:
 # More Model Coefficients
 
 ```{r}
-include_graphics("img/jamovi_mc_full.png")
+include_img("jamovi_mc_full.png")
 ```
 
 --
@@ -622,7 +622,7 @@ $$b = value_b, 95\% CI [value_{lower\,CI}, value_{upper\,CI}], t(df_2) = value_t
 Model Coefficients table with all options from our example and corresponding sentence to include in the result section:
 
 ```{r}
-include_graphics("img/jamovi_mc_full.png")
+include_img("jamovi_mc_full.png")
 ```
 
 > The effect of $salary$ on $js\_score$ is statistically significant, therefore $H_0$ can be rejected (** `r lm_1$full_result$salary`**).
@@ -676,7 +676,7 @@ $$js\_score = b_{0} + b_{1}\,salary + b_{2}\,perf + b_{3}\,salary*perf + e$$
 Note: The test of the interaction $b_{3}\,salary*perf$ corresponds to the test of a new variable for which values of $salary$ and values of $perf$ are multiplied
 
 ```{r out.width = "40%"}
-include_graphics("img/meme_interaction_1.jpg")
+include_img("meme_interaction_1.jpg")
 ```
 
 ---
@@ -693,7 +693,7 @@ include_graphics("img/meme_interaction_1.jpg")
   - Select both $salary$ and $perf$ to bring them in the covariates at once and to obtain a third term called $salary*perf$
 
 ```{r}
-include_graphics("img/jamovi_lm_int.png")
+include_img("jamovi_lm_int.png")
 ```
 
 ---
@@ -727,7 +727,7 @@ include_graphics("img/jamovi_lm_int.png")
 - Select both predictor and bring them in Marginal Mean box at once
 
 ```{r out.width = "70%"}
-include_graphics("img/jamovi_lm_int_plot.png")
+include_img("jamovi_lm_int_plot.png")
 ```
 
 To plot the interaction between 2 continuous predictors, one of them has to be **transform into categorical ordinal variable** of 3 groups: **+1SD**, **Mean**, **-1SD**.
