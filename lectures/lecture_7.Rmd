@@ -22,7 +22,6 @@ library(fontawesome)
 library(here)
 library(knitr)
 library(tidyverse)
-library(tweetrmd)
 
 # options ----------------------------------------------------------------------
 options(scipen = 999, htmltools.preserve.raw = FALSE)
@@ -49,25 +48,12 @@ Modern data science uses free and open-source computer languages:
 
 While Python is the most used language by computer engineers for web and app development, R has some advantages:
 
-.pull-left[
 1. **Easy to write**, to read and to use
 2. Focused on **reports and journal papers** with reproducibility
 3. Advanced **statistical packages**
 4. **Friendly and open** community
 
 ### So let's useR!
-]
-
-.pull-right[
-```{r out.width='100%'}
-tweet_screenshot(
-  tweet_url("Pop_Watson", "1280351422953840640"),
-  maxwidth = 300,
-  hide_media = TRUE,
-  theme = "dark"
-  )
-```
-]
 
 ---
 
