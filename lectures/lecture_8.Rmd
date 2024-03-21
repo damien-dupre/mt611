@@ -105,7 +105,7 @@ Try it by yourself!
 ---
 class: title-slide, middle
 
-## Exercise
+## Your turn!
 
 In your Posit Cloud:
 
@@ -121,7 +121,7 @@ In your Posit Cloud:
 include_img("rmarkdown_warning.png")
 ```
 
-5/ Click the blue arrow `Render` and save the document
+5/ Click the blue arrow `Render` and save the document as `report.qmd`
 
 ```{r}
 countdown(minutes = 5, warn_when = 60)
@@ -518,7 +518,7 @@ $$y=ax+b$$
 ---
 class: title-slide, middle
 
-## Exercise
+## Your turn!
 
 In Posit Cloud, with the file that you have previously created:
 
@@ -583,7 +583,7 @@ In the first code chunk, will be added all the __actions that will be applied to
 library(tidyverse)
   
 # data
-organisation_beta <- read.csv("/cloud/project/organisation_beta.csv")
+organisation_beta <- read_csv("/cloud/project/organisation_beta.csv")
 ```
 
 ````
@@ -625,7 +625,7 @@ execute:
 
 library(tidyverse)
 
-organisation_beta <- read.csv("/cloud/project/organisation_beta.csv")
+organisation_beta <- read_csv("/cloud/project/organisation_beta.csv")
 ```
 
 # My Section Title
@@ -722,6 +722,58 @@ class: title-slide, middle
 ## Live Demo
 
 ---
+class: title-slide, middle
+
+## Your turn!
+
+In your default .qmd document:
+
+1/ Remove everything except the YAML
+
+2/ Create a first `setup` chunk. In this chunk, load the `{tidyverse}` and `{report}` packages and create your data object with the following code:
+
+```markdown
+organisation_beta <- read_csv("/cloud/project/organisation_beta.csv")
+```
+
+3/ Create a second code chunk. In this chunk, run the following linear regression and add `#| results: asis` in its options:
+
+```markdown
+lm_js <- lm(formula = js_score ~ salary + perf, data = organisation_beta)
+
+report(lm_js)
+```
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## Your turn!
+
+4/ Create a third code chunk. In this chunk, include the following visualisation:
+
+```markdown
+ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_bw() +
+  labs(
+    x = "Employee Salary (Eur)",
+    y = "Employee's Job Satisfaction"
+  )
+```
+
+5/ Render the default document obtained to observe its structure
+
+```{r}
+countdown(minutes = 3, warn_when = 60)
+```
+
+---
 class: inverse, mline, center, middle
 
 # 4. Gallery
@@ -744,14 +796,6 @@ include_img("example_book.png")
 
 ---
 
-# Academic Papers
-
-```{r, echo=FALSE, out.width='60%'}
-include_img("example_papers.png")
-```
-
----
-
 # Slide Decks
 
 ```{r, echo=FALSE, out.width='100%'}
@@ -767,6 +811,14 @@ include_graphics("https://kevinrue.github.io/post/writing-my-cv-using-pagedown/f
 ```
 
 ---
+
+# Academic Papers
+
+```{r, echo=FALSE, out.width='60%'}
+include_img("example_papers.png")
+```
+
+---
 class: inverse, mline, center, middle
 
 # 5. Quarto Journal Templates
@@ -775,15 +827,15 @@ class: inverse, mline, center, middle
 
 # Quarto Journal Templates
 
-The Quarto team has developed several Journal formats and made them available within the [quarto-journals GitHub organization](https://github.com/quarto-journals/). These formats include:
+The Quarto team has developed several Journal formats and made them available within the [quarto-journals GitHub organization](https://github.com/quarto-journals/). These formats include the following Journal/Publisher:
 
-- ACM
-- PLOS
-- ASA
-- Elsevier
-- Biophysical
-- ACS
-- JSS
+- Association of Computing Machinery
+- American Chemical Society
+- American Geophysical Union
+- Biophysical journal
+- Elsevier Journals
+- American Statistical Association
+- Journal of Statistical Software
 
 Many more formats will be added over time.
 
@@ -791,10 +843,13 @@ The quarto use template command can be used to create an article from one these 
 
 ```
 quarto use template quarto-journals/acm
-quarto use template quarto-journals/plos
-quarto use template quarto-journals/elsevier
 quarto use template quarto-journals/acs
+quarto use template quarto-journals/agu
+quarto use template quarto-journals/biophysical-journal
+quarto use template quarto-journals/elsevier
+quarto use template quarto-journals/jasa
 quarto use template quarto-journals/jss
+quarto use template quarto-journals/plos
 ```
 
 ---
@@ -805,7 +860,7 @@ class: title-slide, middle
 ---
 class: title-slide, middle
 
-## Exercise
+## Your turn!
 
 In your Posit Cloud:
 
@@ -813,16 +868,73 @@ In your Posit Cloud:
 
 ```
 quarto use template quarto-journals/acm
-quarto use template quarto-journals/plos
-quarto use template quarto-journals/elsevier
 quarto use template quarto-journals/acs
+quarto use template quarto-journals/agu
+quarto use template quarto-journals/biophysical-journal
+quarto use template quarto-journals/elsevier
+quarto use template quarto-journals/jasa
 quarto use template quarto-journals/jss
+quarto use template quarto-journals/plos
 ```
 
-2/ Render the default document obtained to observe its structure
+Say `Y` when asked if you trust the authors of this template and choose a directory name of your choice.
+
+2/ Render the default .qmd document obtained to observe its structure
 
 ```{r}
 countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## Your turn!
+
+In this new .qmd document:
+
+1/ Remove everything except the YAML
+
+2/ Create a first `setup` chunk. In this chunk, load the `{tidyverse}` and `{report}` packages and create your data object with the following code:
+
+```markdown
+organisation_beta <- read_csv("/cloud/project/organisation_beta.csv")
+```
+
+3/ Create a second code chunk. In this chunk, run the following linear regression and add `#| results: asis` in its options:
+
+```markdown
+lm_js <- lm(formula = js_score ~ salary + perf, data = organisation_beta)
+
+report(lm_js)
+```
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## Your turn!
+
+4/ Create a third code chunk. In this chunk, include the following visualisation:
+
+```markdown
+ggplot(organisation_beta) +
+  aes(salary, js_score) +
+  geom_point() +
+  geom_smooth(method = "lm") +
+  theme_bw() +
+  labs(
+    x = "Employee Salary (Eur)",
+    y = "Employee's Job Satisfaction"
+  )
+```
+
+5/ Render the default document obtained to observe its structure
+
+```{r}
+countdown(minutes = 3, warn_when = 60)
 ```
 
 ---
