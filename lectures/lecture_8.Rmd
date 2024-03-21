@@ -1,6 +1,6 @@
 ---
 title: "MT611 - Quantitative Research Methods"
-subtitle: "Lecture 8: Introduction to Quarto for Publication"
+subtitle: "Lecture 8: Introduction to Quarto for Research"
 author: "Damien Dupré - Dublin City University"
 output:
   xaringan::moon_reader:
@@ -935,6 +935,276 @@ ggplot(organisation_beta) +
 
 ```{r}
 countdown(minutes = 3, warn_when = 60)
+```
+
+---
+class: inverse, mline, center, middle
+
+# 6. Quarto Website Templates
+
+---
+
+# Quarto Websites
+
+Quarto Websites are a convenient way to publish groups of documents. Documents published as part of a website share navigational elements, rendering options, and visual style.
+
+Website navigation can be provided through a global navbar, a sidebar with links, or a combination of both for sites that have multiple levels of content. You can also enable full text search for websites.
+
+```{r}
+include_graphics("https://www.paulbarrs.com/wp-content/uploads/2017/09/painful.jpg")
+```
+
+---
+class: title-slide, middle
+
+## Your turn!
+
+1/ In the Terminal window, run the following instructions:
+
+```markdown
+quarto create project website mysite
+```
+
+.pull-left[
+*In Posit Cloud:*
+
+2/ Then, go to `Account`, then `Tokens` on the top menu and copy your **Token** and **Secret Token**
+
+3/ In the Terminal window, run the following instructions:
+
+```markdown
+quarto publish posit-cloud mysite
+```
+
+4/ Fill the **Token** and the **Secret Token**, and finally go to the URL provided (e.g., https://posit.cloud/content/7853011)
+
+]
+
+.pull-right[
+*On your Desktop:*
+
+2/ In the Terminal window, run the following instructions:
+
+```markdown
+quarto preview mysite
+```
+
+Note: you need to install quarto on your desktop first from here: https://quarto.org/
+]
+
+```{r}
+countdown(minutes = 3, warn_when = 60)
+```
+
+---
+
+# Quarto Websites
+
+```markdown
+quarto create project website mysite
+```
+
+Creates a new website project from the Terminal. This website project is initiated by a folder called `mysite` located on the root of your terminal.
+
+--
+
+The folder contains only 4 files:
+- `_quarto.yml` is a yaml file, it design the overall style and the navbar
+- `index.qmd` is a quarto file, it corresponds to the homepage
+- `about.qmd` is another quarto file which is displayed when about is clicked on the navbar
+- `styles.css` is for additional style not defined in `_quarto.yml`
+
+--
+
+Improve your Website:
+
+- Navigation instructions here: https://quarto.org/docs/websites/website-navigation.html
+- Option instructions here: https://quarto.org/docs/reference/projects/websites.html
+
+---
+
+# Quarto Websites
+
+.pull-left[
+```markdown
+quarto publish posit-cloud mysite
+```
+]
+
+.pull-right[
+```markdown
+quarto preview mysite
+```
+]
+
+These commands are used to render the website by converting all the `.qmd` files to `.html` files stored in a `_site` folder. 
+
+The website preview will open in a new web browser. As you edit and save `index.qmd` (or other files like `about.qmd`) the preview is automatically updated.
+
+```{r}
+include_graphics("https://ucsb-meds.github.io/creating-quarto-websites/media/rendered_site.png")
+```
+
+---
+class: title-slide, middle
+
+## Your turn!
+
+1/ Open the first file created `report.qmd`, change `format: pdf` to `format: html` and save it in the folder `mysite`
+
+2/ Open the file `_quarto.yml` and modify it as follow:
+
+```markdown
+website:
+  title: "Mysite"
+  navbar:
+    left:
+      - href: index.qmd
+        text: Home
+      - about.qmd
+      - report.qmd
+```
+
+4/ In the same Terminal window, run the following instructions:
+
+.pull-left[
+```markdown
+quarto publish posit-cloud mysite
+```
+]
+
+.pull-right[
+```markdown
+quarto preview mysite
+```
+]
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
+
+---
+class: inverse, mline, center, middle
+
+# 7. Publish this website on GitHub
+
+---
+
+# Render the Website docs Folder
+
+In the `_quarto.yml` file, simply **change the output directory folder** to a folder named `docs` as follow:
+
+```markdown
+project:
+  type: website
+  output-dir: docs
+```
+
+--
+
+Then preview or render the website:
+
+.pull-left[
+```markdown
+quarto publish posit-cloud mysite
+```
+]
+
+.pull-right[
+```markdown
+quarto preview mysite
+```
+]
+
+--
+
+.pull-left[
+Your website default folder should look like that → 
+
+Note: the old folder `_site` will not be used any more and is now useless.
+]
+
+.pull-right[
+```{r out.width='80%'}
+include_img("mysite_docs.png")
+```
+]
+
+---
+
+# Add a .nojekyll File
+
+Add a `.nojekyll` file to the root of your repository that tells GitHub Pages not to do additional processing of your published site using Jekyll (the GitHub default site generation tool):
+
+You can create an empty text file by yourself or you can download this `nojekyll` file here:
+```{r}
+downloadthis::download_file(
+  path = here::here("lectures/nojekyll"),
+  output_name = "nojekyll",
+  button_label = "Click here to download nojekyll",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+---
+
+# Upload your Files to GitHub
+
+Just drag and drop all the files in GitHub at once like this:
+
+```{r out.width='90%'}
+include_img("github_drop_mysite.gif")
+```
+
+---
+class: title-slide, middle
+
+## Your turn!
+
+.pull-left[
+1/ **Change the output directory folder** to a folder named `docs` in the `_quarto.yml` file:
+
+```markdown
+project:
+  type: website
+  output-dir: docs
+```
+
+Then, preview or render the website
+
+```markdown
+quarto render mysite
+```
+
+2/ **Upload and commit all the files contained in the website folder** on your GitHub repository, not the website folder itself.
+]
+
+.pull-right[
+3/ **Upload and commit a nojekyll file** that tells GitHub to not run its default html website processing
+
+You can download this `nojekyll` file here:
+
+```{r}
+downloadthis::download_file(
+  path = here::here("lectures/nojekyll"),
+  output_name = "nojekyll",
+  button_label = "Click here to download nojekyll",
+  has_icon = TRUE,
+  icon = "fa fa-save",
+  self_contained = FALSE
+)
+```
+
+4/ Finally, in **GitHub**, click **Settings** -> **Pages** choose:
+- `main` branch
+- `/docs` folder
+- and Save
+]
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
 ```
 
 ---
