@@ -522,7 +522,7 @@ class: title-slide, middle
 
 In Posit Cloud, with the file that you have previously created:
 
-1/ Remove all content except the YAML and save it as "my_first_quarto.qmd"
+1/ Remove all content except the YAML
 
 2/ Modify the YAML to include:
 
