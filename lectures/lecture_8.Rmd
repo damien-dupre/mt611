@@ -726,17 +726,15 @@ class: title-slide, middle
 
 ## Your turn!
 
-In your default .qmd document:
+In your **report.qmd** document:
 
-1/ Remove everything except the YAML
-
-2/ Create a first `setup` chunk. In this chunk, load the `{tidyverse}` and `{report}` packages and create your data object with the following code:
+1/ **Create a first code chunk** called `setup`. In this chunk, load the `{tidyverse}` and `{report}` packages and create your data object with the following code:
 
 ```markdown
 organisation_beta <- read_csv("/cloud/project/organisation_beta.csv")
 ```
 
-3/ Create a second code chunk. In this chunk, run the following linear regression and add `#| results: asis` in its options:
+3/ **Create a second code chunk**. In this chunk, run the following linear regression and add `#| results: asis` in its options:
 
 ```markdown
 lm_js <- lm(formula = js_score ~ salary + perf, data = organisation_beta)
