@@ -28,6 +28,96 @@ opts_chunk$set(echo = FALSE, fig.align = "center", fig.retina = 3)
 
 ```
 
+# Planning of the Session
+
+You have received by email some data generated from the paper you have selected (or random data if you haven't selected any paper).
+
+In addition to these data, you have received a list of variables as well as their role and the type of effect expected.
+
+Your tasks will be to:
+
+1. Formulate the corresponding hypotheses
+2. Represent the model that includes these hypotheses
+3. Convert this model in an equation
+4. Test this equation with Jamovi
+5. Report the analysis of the assumptions for a GLM with Jamovi
+6. Conclude on each hypothesis
+7. Test this equation and report the analysis of the assumptions for a GLM with R
+8. Include the results of the analysis in a quarto template
+
+
+---
+class: title-slide, middle
+
+## 1. Formulate the corresponding hypotheses
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## 2. Represent the model that includes these hypotheses
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## 3. Convert this model in an equation
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## 4. Test this equation with Jamovi
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## 5. Report the analysis of the assumptions for a GLM with Jamovi
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## 6. Conclude on each hypothesis
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## 7. Test this equation and report the analysis of the assumptions for a GLM with R
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
+---
+class: title-slide, middle
+
+## 8. Include the results of the analysis in a quarto template
+
+```{r}
+countdown(minutes = 5, warn_when = 60)
+```
+
 ---
 class: inverse, mline, center, middle
 
@@ -56,7 +146,7 @@ model__.
 
 # Assignment
 
-This research paper should nclude:
+This research paper should include:
   - a __short introduction__ presenting your variables and research question, 
   - a __short literature review__ with no more than 5 references to support your hypotheses clearly formulated at the end of this section (this literature review can be a short reformulation of the one published in the paper where the data have been taken from), 
   - a __method section__  with a representation of your model and its 
@@ -64,8 +154,7 @@ corresponding equation,
   - a __result section__ checking the conditions of application for your linear model as well as presenting descriptive and inferential statistics, 
   - and a __discussion/conclusion__ interpreting the results obtained in regards to the formulated hypotheses.
 
-There is no requirement to use statistical software to perform your 
-analyses.
+There is no requirement to use statistical software to perform your analyses.
 
 ---
 

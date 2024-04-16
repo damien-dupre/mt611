@@ -30,10 +30,10 @@ organisation_beta <- read_csv(here("data/organisation_beta.csv"))
 ```
 
 ```{r xaringan-extra-styles, echo=FALSE}
-xaringanExtra::use_extra_styles(
-  hover_code_line = FALSE, 
-  mute_unhighlighted_code = FALSE
-)
+# xaringanExtra::use_extra_styles(
+#   hover_code_line = FALSE, 
+#   mute_unhighlighted_code = FALSE
+# )
 ```
 
 # Objectives
