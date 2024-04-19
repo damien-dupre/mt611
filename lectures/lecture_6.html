@@ -10,10 +10,10 @@
     <link href="libs/remark-css-0.0.1/metropolis-fonts.css" rel="stylesheet" />
     <link href="libs/countdown-0.4.0/countdown.css" rel="stylesheet" />
     <script src="libs/countdown-0.4.0/countdown.js"></script>
-    <script src="libs/htmlwidgets-1.6.2/htmlwidgets.js"></script>
+    <script src="libs/htmlwidgets-1.6.4/htmlwidgets.js"></script>
     <script src="libs/viz-1.8.2/viz.js"></script>
     <link href="libs/DiagrammeR-styles-0.2/styles.css" rel="stylesheet" />
-    <script src="libs/grViz-binding-1.0.10/grViz.js"></script>
+    <script src="libs/grViz-binding-1.0.11/grViz.js"></script>
     <link rel="stylesheet" href="css/custom_design.css" type="text/css" />
   </head>
   <body>
@@ -201,7 +201,7 @@ Test the assumptions of the following linear regression:
 
 ### 4. **E**qual Variance (of the residuals) 
 
-<div class="countdown" id="timer_eec8f6cb" data-warn-when="60" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_598ae0fd" data-warn-when="60" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">10</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -341,7 +341,7 @@ Check if the the relationship between `\(js\_score\)` and `\(pref\)` have some:
 ### 2. High Leverage Observations
 ### 3. High Influence Observations
 
-<div class="countdown" id="timer_c2e289c0" data-warn-when="60" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_82a7292a" data-warn-when="60" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -461,7 +461,7 @@ With:
 
 **Is the addition of the Interaction effect improving the accuracy of the model?**
 
-<div class="countdown" id="timer_8f978cf0" data-warn-when="60" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
+<div class="countdown" id="timer_136cbe1f" data-warn-when="60" data-update-every="1" tabindex="0" style="right:0;bottom:0;">
 <div class="countdown-controls"><button class="countdown-bump-down">&minus;</button><button class="countdown-bump-up">&plus;</button></div>
 <code class="countdown-time"><span class="countdown-digits minutes">05</span><span class="countdown-digits colon">:</span><span class="countdown-digits seconds">00</span></code>
 </div>
@@ -614,7 +614,7 @@ G*power uses 3 characteristics to determine the type of power analysis:
 Model Characteristics with `\(js\_score\)` as Continuous Outcome:
 - 1 Main Effect of `\(gender\)` (Predictor with 2 categories: male and female employees)
 
-<div id="htmlwidget-9cee321f80a1ce094404" style="width:504px;height:100px;" class="grViz html-widget "></div>
+<div id="htmlwidget-9cee321f80a1ce094404" style="width:504px;height:100px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-9cee321f80a1ce094404">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = box]\n    \n    gender -> js_score\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 **Statistical Power**
@@ -643,7 +643,7 @@ This tells us that we need an absolute minimum of 128 individuals in our sample 
 Model Characteristics with `\(js\_score\)` as Continuous Outcome:
 - 1 Main Effect of `\(location\)` (Predictor with 3 categories: Irish, French, and Australian)
 
-<div id="htmlwidget-b6d0f07971819afe3d8a" style="width:504px;height:100px;" class="grViz html-widget "></div>
+<div id="htmlwidget-b6d0f07971819afe3d8a" style="width:504px;height:100px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-b6d0f07971819afe3d8a">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n    node [shape = box]\n    \n    location -> js_score\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 **Statistical Power**
@@ -668,7 +668,7 @@ Model Characteristics with `\(js\_score\)` as Continuous Outcome:
 - 1 Main Effect of `\(salary\)` (Continuous Predictor)
 - 1 Interaction Effect of `\(location\)` and `\(salary\)`
 
-<div id="htmlwidget-3f6450beed62a98cbfb8" style="width:504px;height:100px;" class="grViz html-widget "></div>
+<div id="htmlwidget-3f6450beed62a98cbfb8" style="width:504px;height:100px;" class="grViz html-widget"></div>
 <script type="application/json" data-for="htmlwidget-3f6450beed62a98cbfb8">{"x":{"diagram":"\n  digraph {\n    graph [rankdir = LR]\n  \n    node [shape = box]\n    location; salary; js_score\n    node [shape = point, width = 0, height = 0]\n    \"\"\n    \n    location -> \"\"\n    salary -> \"\" [arrowhead = none]\n    \"\"-> js_score\n    \n    subgraph {\n      rank = same; location; \"\";\n    }\n  }","config":{"engine":"dot","options":null}},"evals":[],"jsHooks":[]}</script>
 
 **Statistical Power**

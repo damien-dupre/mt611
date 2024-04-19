@@ -23,14 +23,15 @@ library(fontawesome)
 library(nomnoml)
 library(tidyverse)
 library(VennDiagram)
+library(knitr)
 
 # general options --------------------------------------------------------------
 options(scipen = 999)
 set.seed(123)
 
 # chunk options ----------------------------------------------------------------
-knitr::opts_chunk$set(
-  cache.extra = knitr::rand_seed, 
+opts_chunk$set(
+  cache.extra = rand_seed, 
   message = FALSE, 
   warning = FALSE, 
   error = FALSE, 
@@ -234,7 +235,7 @@ For example:
 - "How does sales experience influence the performance of sales managers and sales representatives?"
 
 ```{r out.width='50%'}
-knitr::include_graphics("https://i.pinimg.com/originals/d5/fd/e4/d5fde43f1d5389f3b586fdb7b100d59d.jpg")
+include_graphics("https://i.pinimg.com/originals/d5/fd/e4/d5fde43f1d5389f3b586fdb7b100d59d.jpg")
 ```
 
 ---
@@ -282,7 +283,7 @@ Variables can have different types:
 `r faa("exclamation-triangle", animate="flash", speed="slow", color="red")` **Warning**: Variables can be converted to either Categorical and Continuous but it is always better to keep them in their correct scale.
 
 ```{r out.width='30%'}
-knitr::include_img("jamovi_icons.png")
+include_img("jamovi_icons.png")
 ```
 
 ---
@@ -801,11 +802,11 @@ Interaction Effect Hypothesis:
 # Example of Hypotheses in Research Papers
 
 ```{r out.width = "50%"}
-knitr::include_img("ex1_title.png")
+include_img("ex1_title.png")
 ```
 
 ```{r out.width = "50%"}
-knitr::include_img("ex1_hyp.png")
+include_img("ex1_hyp.png")
 ```
 
 ---
@@ -813,15 +814,15 @@ knitr::include_img("ex1_hyp.png")
 # Example of Hypotheses in Research Papers
 
 ```{r out.width = "50%"}
-knitr::include_img("ex2_title.png")
+include_img("ex2_title.png")
 ```
 
 ```{r out.width = "50%"}
-knitr::include_img("ex2_hyp1.png")
+include_img("ex2_hyp1.png")
 ```
 
 ```{r out.width = "50%"}
-knitr::include_img("ex2_hyp2.png")
+include_img("ex2_hyp2.png")
 ```
 
 ---
