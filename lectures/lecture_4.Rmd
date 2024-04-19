@@ -692,7 +692,7 @@ include_img("meme_interaction_1.jpg")
 4. In **Model Builder** option: 
   - Select both $salary$ and $perf$ to bring them in the covariates at once and to obtain a third term called $salary*perf$
 
-```{r}
+```{r out.width = "60%"}
 include_img("jamovi_lm_int.png")
 ```
 
