@@ -650,6 +650,8 @@ class: inverse, mline, center, middle
 
 # 4. Power Analysis for Sample Size and Effect Size Estimations
 
+<!-- https://philippmasur.de/2024/05/28/what-is-statistical-power-and-how-can-i-conduct-power-analysis-in-r/ -->
+
 ---
 
 # Theoretical Principle
