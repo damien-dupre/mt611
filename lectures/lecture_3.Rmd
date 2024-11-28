@@ -654,6 +654,21 @@ Recording a Macro:
 5. Use the macro again to reproduce your actions
 
 ---
+class: title-slide, middle
+
+## Exercise: Reshape chess_llm.csv
+
+A researcher want to test the following hypotheses:
+
+> H1: The average number of move to win at a chess game is different for at least 1 of the LLM Algorithms
+
+**Reshape the datafile to have 1 predictor variable called "llm_algorithm" and 1 outcome variable called n_move_to_win"**
+
+```{r}
+countdown(minutes = 10, warn_when = 60)
+```
+
+---
 class: inverse, mline, left, middle
 
 <img class="circle" src="https://github.com/damien-dupre.png" width="250px"/>
