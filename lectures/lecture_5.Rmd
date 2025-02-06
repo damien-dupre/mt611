@@ -198,7 +198,7 @@ We will have a deep dive in the processing of Categorical predictor variables wi
 - How to analyse a Categorical predictor with more than 2 categories?
 
 ```{r out.width = "50%"}
-include_graphics("https://memegenerator.net/img/instances/82194202/what-if-we-enter-a-categorical-variable-in-a-regression-model.jpg")
+include_graphics("https://media.makeameme.org/created/what-if-i-8de3498d3a.jpg")
 ```
 
 ---
