@@ -388,7 +388,7 @@ Again, not actually a technical assumption of the model (or rather, it's sort of
 
 .pull-right[
 ```{r}
-include_graphics("https://memegenerator.net/img/instances/53809899/outliers-outliers-everywhere.jpg")
+include_graphics("https://media.licdn.com/dms/image/v2/C5612AQE6L8MqFc4hgA/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1520076885502?e=2147483647&v=beta&t=fLPR1TbFZpL42zrrxaHNppzN8iac9D4gQXb8L1jCdHs")
 ```
 ]
 
